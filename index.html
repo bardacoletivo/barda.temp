@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BARDA</title>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&display=swap');
@@ -31,20 +33,16 @@ h1.logo {
   color: var(--blue);
 }
 
-/* STATEMENT */
+/* CENTER TEXT */
 .statement {
   position: fixed;
-  top: 45%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: 'Space Grotesk', sans-serif;
   font-size: 22px;
   text-align: center;
   max-width: 600px;
-  line-height: 1.4;
-  pointer-events: none;
-  padding: 0 20px;
-  box-sizing: border-box;
 }
 
 /* LINKS */
@@ -63,17 +61,9 @@ h1.logo {
   margin-bottom:10px;
 }
 
-.text-links a:hover {
-  color: white;
-  background: var(--blue);
-}
-
 /* PROJECT LIST */
 .works-container {
-  margin-top:10px;
   display:none;
-  position:relative;
-  z-index:1000;
 }
 
 .projects {
@@ -84,12 +74,6 @@ h1.logo {
   text-decoration:none;
   color:black;
   background:white;
-}
-
-.projects:hover {
-  background: var(--blue);
-  color:white;
-  border-color: var(--blue);
 }
 
 /* OVERLAY */
@@ -103,16 +87,15 @@ h1.logo {
   justify-content:center;
 }
 
-/* CONTENT BOX */
 .overlay-content {
-  width:70vw;
+  width:80vw;
   height:85vh;
   border:2px solid var(--blue);
   overflow:auto;
-  padding:60px;
-  box-sizing:border-box;
   background:white;
   position:relative;
+  padding:40px;
+  box-sizing:border-box;
 }
 
 /* CLOSE */
@@ -120,54 +103,47 @@ h1.logo {
   position:absolute;
   top:0;
   right:0;
+  width:40px;
+  height:40px;
   background:var(--blue);
   color:white;
   border:none;
-  font-size:28px;
+  font-size:24px;
   cursor:pointer;
-  width:40px;
-  height:40px;
 }
 
-/* =========================
-   MOBILE FIX (MARGEM EXTRA)
-========================= */
+/* SLIDESHOW */
+.swiper {
+  width: 100%;
+  height: 60vh;
+  margin-bottom: 40px;
+}
 
+.swiper-slide img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: var(--blue);
+}
+
+.swiper-pagination-bullet-active {
+  background: var(--blue);
+}
+
+/* MOBILE */
 @media (max-width: 768px) {
-
   .overlay-content {
-    width: 92vw;
-    height: 85vh;
-    padding: 25px;
-  }
-}
-
-@media (max-width: 480px) {
-
-  /* AQUI ESTÁ O FIX REAL */
-  .overlay-content {
-    width: calc(100vw - 32px);   /* margem lateral */
-    height: calc(100vh - 120px); /* margem topo/base */
-    padding: 20px;
-    border-width: 1px;
-  }
-
-  .overlay-container {
-    padding: 16px; /* cria “ar” à volta do modal */
+    width:92vw;
+    height:80vh;
+    padding:20px;
   }
 
   .statement {
-    font-size: 18px;
-  }
-
-  .text-links a {
     font-size:18px;
-  }
-
-  .close-button {
-    width:36px;
-    height:36px;
-    font-size:24px;
   }
 }
 </style>
@@ -182,7 +158,6 @@ h1.logo {
 </div>
 
 <div class="text-links">
-
   <a href="#" id="projectsBtn">Projects</a>
 
   <div class="works-container" id="worksList">
@@ -193,15 +168,16 @@ h1.logo {
   </div>
 
   <a href="#" id="aboutBtn">About</a>
-
 </div>
 
 <div class="overlay-container" id="overlay">
   <div class="overlay-content">
-    <button class="close-button" id="close">&times;</button>
+    <button class="close-button" id="close">×</button>
     <div id="content"></div>
   </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
 <script>
 const projectsBtn = document.getElementById("projectsBtn");
@@ -211,43 +187,115 @@ const overlay = document.getElementById("overlay");
 const closeBtn = document.getElementById("close");
 const content = document.getElementById("content");
 
+let swiperInstance = null;
+
+/* IMAGENS POR PROJETO */
+const projectImages = {
+  membrana: [
+    "images/membrana/01.jpg",
+    "images/membrana/02.jpg",
+    "images/membrana/03.jpg"
+  ],
+  porvir: [
+    "images/porvir/01.jpg",
+    "images/porvir/02.jpg",
+    "images/porvir/03.jpg"
+  ],
+  imagens: [
+    "images/imagensverdes/01.jpg",
+    "images/imagensverdes/02.jpg",
+    "images/imagensverdes/03.jpg"
+  ],
+  casa: [
+    "images/casafalarbaixinho/1.jpg",
+    "images/casafalarbaixinho/2.jpg",
+    "images/casafalarbaixinho/3.jpg"
+    "images/casafalarbaixinho/4.jpg"
+  "images/casafalarbaixinho/5.jpg"
+  "images/casafalarbaixinho/6.jpg"
+  "images/casafalarbaixinho/7.jpg"
+  "images/casafalarbaixinho/8.jpg"
+  "images/casafalarbaixinho/9.jpg"
+  "images/casafalarbaixinho/10.jpg"
+  "images/casafalarbaixinho/11.jpg"
+  ]
+};
+
+/* TEXTOS */
+const projectText = {
+  membrana: "Membrana explora estruturas coletivas e percepção.",
+  porvir: "Porvir investiga futuros possíveis e narrativas.",
+  imagens: "Imagens Verdes trabalha ecologias visuais.",
+  casa: "Casa de Falar Baixinho explora intimidade e espaço."
+};
+
+function buildSwiper(images) {
+  let slides = images.map(img =>
+    `<div class="swiper-slide"><img src="${img}"></div>`
+  ).join("");
+
+  return `
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        ${slides}
+      </div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-pagination"></div>
+    </div>
+  `;
+}
+
+function initSwiper() {
+  swiperInstance = new Swiper(".swiper", {
+    loop: true,
+    pagination: { el: ".swiper-pagination" },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev"
+    }
+  });
+}
+
+/* PROJECT OPEN */
+document.querySelectorAll(".projects").forEach(btn => {
+  btn.onclick = (e) => {
+    e.preventDefault();
+
+    const key = btn.dataset.project;
+
+    content.innerHTML = `
+      <h2 style="margin-bottom:20px;">${key}</h2>
+      <p style="margin-bottom:30px;">${projectText[key]}</p>
+      ${buildSwiper(projectImages[key])}
+    `;
+
+    overlay.style.display = "flex";
+
+    setTimeout(() => {
+      initSwiper();
+    }, 50);
+  };
+});
+
+/* TOGGLES */
 projectsBtn.onclick = (e) => {
   e.preventDefault();
-  const isOpen = worksList.style.display === "block";
-  worksList.style.display = isOpen ? "none" : "block";
-  projectsBtn.style.marginBottom = isOpen ? "0px" : "10px";
+  worksList.style.display =
+    worksList.style.display === "block" ? "none" : "block";
 };
 
 aboutBtn.onclick = (e) => {
   e.preventDefault();
-  content.innerHTML = `
-    <h2>About</h2>
-    <p>Barda is a collective rooted in collaborative practice.</p>
-    <p>It uses imagery as a tool for intervention and questioning.</p>
-    <p>Cepos, Serra do Açor — 2022</p>
-  `;
+  content.innerHTML = `<h2>About</h2><p>Texto about aqui.</p>`;
   overlay.style.display = "flex";
 };
 
 closeBtn.onclick = () => {
   overlay.style.display = "none";
+  content.innerHTML = "";
+  if (swiperInstance) swiperInstance.destroy();
 };
-
-document.querySelectorAll(".projects").forEach(el => {
-  el.onclick = (e) => {
-    e.preventDefault();
-
-    const data = {
-      membrana: `<h2>Membrana</h2><p>Collective exhibition exploring perception.</p>`,
-      porvir: `<h2>Porvir</h2><p>Participatory project imagining futures.</p>`,
-      imagens: `<h2>Imagens Verdes</h2><p>Workshops exploring memory.</p>`,
-      casa: `<h2>Casa de Falar Baixinho</h2><p>Exploration of intimacy.</p>`
-    };
-
-    content.innerHTML = data[el.dataset.project];
-    overlay.style.display = "flex";
-  };
-});
 </script>
 
 </body>
