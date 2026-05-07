@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<title>BARDA</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&display=swap');
+
+:root {
+  --blue: #1f4fff;
+}
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  margin:0;
+  background:white;
+  color:black;
+}
+
+/* LOGO */
+h1.logo {
+  position: fixed;
+  top: 20px;
+  right: 25px;
+  font-size: 21px;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+/* STATEMENT */
+.statement {
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px;
+  text-align: center;
+  max-width: 600px;
+  line-height: 1.4;
+  pointer-events: none;
+}
+
+/* LINKS */
+.text-links {
+  position: fixed;
+  bottom: 40px;
+  left: 40px;
+}
+
+.text-links a {
+  display:block;
+  font-family:'Space Grotesk';
+  font-size:22px;
+  text-decoration:none;
+  color:black;
+  margin-bottom:10px;
+}
+
+.text-links a:hover {
+  color: white;
+  background: var(--blue);
+}
+
+/* PROJECT LIST */
+.works-container {
+  margin-top:10px;
+  display:none;
+  position:relative;
+  z-index:1000;
+}
+
+.projects {
+  display:block;
+  border:1px solid black;
+  padding:8px 14px;
+  margin:5px 0;
+  text-decoration:none;
+  color:black;
+  background:white;
+  transition: all 0.2s ease;
+}
+
+.projects:hover {
+  background: var(--blue);
+  color:white;
+  border-color: var(--blue);
+}
+
+/* OVERLAY */
+.overlay-container {
+  display:none;
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:white;
+  z-index:999;
+}
+
+.overlay-content {
+  width:70vw;
+  height:85vh;
+  border:2px solid var(--blue);
+  overflow:auto;
+  padding:60px;
+  line-height:1.5;
+  scrollbar-color: var(--blue) transparent;
+}
+
+.overlay-content::-webkit-scrollbar {
+  width:6px;
+}
+
+.overlay-content::-webkit-scrollbar-thumb {
+  background: var(--blue);
+}
+
+.overlay-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.overlay-content h2 {
+  font-family:'Space Grotesk';
+  font-size:28px;
+  margin-bottom:20px;
+}
+
+.overlay-content p {
+  max-width:700px;
+}
+
+.close-button {
+  position:absolute;
+  top:0;
+  right:0;
+  background:var(--blue);
+  color:white;
+  border:none;
+  font-size:28px;
+  cursor:pointer;
+  width:40px;
+  height:40px;
+}
+</style>
+</head>
+
+<body>
+
+<h1 class="logo">BARDA</h1>
+
+<!-- STATEMENT -->
+<div class="statement">
+  Images as tools for collective transformation
+</div>
+
+<div class="text-links">
+
+  <a href="#" id="projectsBtn">Projects</a>
+  <div class="works-container" id="worksList">
+    <a href="#" class="projects" data-project="membrana">Membrana</a>
+    <a href="#" class="projects" data-project="porvir">Porvir</a>
+    <a href="#" class="projects" data-project="imagens">Imagens Verdes</a>
+    <a href="#" class="projects" data-project="casa">Casa de Falar Baixinho</a>
+  </div>
+
+  <a href="#" id="aboutBtn">About</a>
+
+</div>
+
+<div class="overlay-container" id="overlay">
+  <div class="overlay-content">
+    <button class="close-button" id="close">&times;</button>
+    <div id="content"></div>
+  </div>
+</div>
+
+<script>
+const projectsBtn = document.getElementById("projectsBtn");
+const worksList = document.getElementById("worksList");
+const aboutBtn = document.getElementById("aboutBtn");
+const overlay = document.getElementById("overlay");
+const closeBtn = document.getElementById("close");
+const content = document.getElementById("content");
+
+/* TOGGLE PROJECT LIST + move button */
+projectsBtn.onclick = (e) => {
+  e.preventDefault();
+
+  const isOpen = worksList.style.display === "block";
+
+  if (isOpen) {
+    worksList.style.display = "none";
+    projectsBtn.style.marginBottom = "0px";
+  } else {
+    worksList.style.display = "block";
+    projectsBtn.style.marginBottom = "10px";
+  }
+};
+
+/* ABOUT */
+aboutBtn.onclick = (e) => {
+  e.preventDefault();
+  content.innerHTML = `
+    <h2>About</h2>
+    <p>
+    Barda is a collective rooted in collaborative practice, emphasizing visual arts as a means of transformation and empowerment for peripheral communities.
+    </p>
+
+    <p>
+    It uses imagery as a tool for intervention and questioning, promoting synergies between community and territory through experimental dialogues.
+    </p>
+
+    <p>
+    Cepos, Serra do Açor — 2022<br>
+    Emancipação da Memória (Photography Residency)
+    </p>
+  `;
+  overlay.style.display = "block";
+};
+
+/* CLOSE */
+closeBtn.onclick = () => {
+  overlay.style.display = "none";
+};
+
+/* PROJECTS */
+document.querySelectorAll(".projects").forEach(el => {
+  el.onclick = (e) => {
+    e.preventDefault();
+
+    const p = el.dataset.project;
+
+    const data = {
+      membrana: `
+        <h2>Membrana</h2>
+        <p><strong>ACERT, Tondela (2023)</strong></p>
+        <p>Collective exhibition exploring sensory adaptation and perception.</p>
+      `,
+      porvir: `
+        <h2>Porvir</h2>
+        <p><strong>Serra do Açor (2024)</strong></p>
+        <p>Participatory project imagining collective futures.</p>
+      `,
+      imagens: `
+        <h2>Imagens Verdes</h2>
+        <p><strong>Porto (2023)</strong></p>
+        <p>Workshops exploring memory and storytelling.</p>
+      `,
+      casa: `
+        <h2>Casa de Falar Baixinho</h2>
+        <p>Exploration of intimacy and shared space.</p>
+      `
+    };
+
+    content.innerHTML = data[p];
+    overlay.style.display = "block";
+  };
+});
+</script>
+
+</body>
+</html>
