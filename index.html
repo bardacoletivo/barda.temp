@@ -198,7 +198,7 @@ const content = document.getElementById("content");
 
 let swiperInstance = null;
 
-/* IMAGENS POR PROJETO */
+/* IMAGENS */
 const projectImages = {
   membrana: [
     "images/membrana/01.jpg",
@@ -220,22 +220,83 @@ const projectImages = {
     "images/casafalarbaixinho/2.jpg",
     "images/casafalarbaixinho/3.jpg",
     "images/casafalarbaixinho/4.jpg",
-  "images/casafalarbaixinho/5.jpg",
-  "images/casafalarbaixinho/6.jpg",
-  "images/casafalarbaixinho/7.jpg",
-  "images/casafalarbaixinho/8.jpg",
-  "images/casafalarbaixinho/9.jpg",
-  "images/casafalarbaixinho/10.jpg",
-  "images/casafalarbaixinho/11.jpg",
+    "images/casafalarbaixinho/5.jpg",
+    "images/casafalarbaixinho/6.jpg",
+    "images/casafalarbaixinho/7.jpg",
+    "images/casafalarbaixinho/8.jpg",
+    "images/casafalarbaixinho/9.jpg",
+    "images/casafalarbaixinho/10.jpg",
+    "images/casafalarbaixinho/11.jpg"
   ]
 };
 
-/* TEXTOS */
+/* TEXTOS EDITADOS */
 const projectText = {
-  membrana: "Membrana explora estruturas coletivas e percepção.",
-  porvir: "Porvir investiga futuros possíveis e narrativas.",
-  imagens: "Imagens Verdes trabalha ecologias visuais.",
-  casa: "Casa de Falar Baixinho explora intimidade e espaço."
+  membrana: `
+    <p><strong>Membrana</strong><br>
+    Collective exhibition — ACERT, Tondela (2023)</p>
+
+    <p>
+    Membrana explores sensory adaptation as a way of thinking perception.
+    It investigates how bodies filter, adjust and negotiate stimuli in everyday life.
+    </p>
+
+    <p>
+    The exhibition operates as a threshold between public and private space,
+    revealing invisible layers that structure social experience and territory.
+    Through colour, movement and immersive devices, it invites reflection
+    on perception and collective presence.
+    </p>
+
+    <p>
+    Works:
+    Iridiscent paper · wet collodion · video projection · backlit acetate · prints
+    </p>
+  `,
+
+  porvir: `
+    <p><strong>Porvir</strong><br>
+    Participatory art project — Serra do Açor (2024)</p>
+
+    <p>
+    Porvir is a collaborative project that brings together local communities
+    and artists to imagine possible futures through collective artistic practice.
+    </p>
+
+    <p>
+    Developed across villages in Serra do Açor, it combines workshops,
+    residencies and public exhibitions in shared spaces, fostering dialogue
+    between participants, territory and institutions.
+    </p>
+  `,
+
+  imagens: `
+    <p><strong>Imagens Verdes</strong><br>
+    Workshops — Porto (2023)</p>
+
+    <p>
+    Imagens Verdes is an ongoing project focused on transformation through
+    artistic expression with participants aged 65 and above.
+    </p>
+
+    <p>
+    Through theatre, music, illustration and photography, participants explore
+    memory and collective storytelling in a supportive environment.
+    </p>
+
+    <p>
+    The project promotes cultural participation, conviviality and informal learning.
+    </p>
+  `,
+
+  casa: `
+    <p><strong>Casa de Falar Baixinho</strong></p>
+
+    <p>
+    An exploration of intimacy, shared space and quiet communication through
+    collective practice and situated experience.
+    </p>
+  `
 };
 
 function buildSwiper(images) {
@@ -266,7 +327,7 @@ function initSwiper() {
   });
 }
 
-/* PROJECT OPEN */
+/* OPEN PROJECT */
 document.querySelectorAll(".projects").forEach(btn => {
   btn.onclick = (e) => {
     e.preventDefault();
@@ -274,16 +335,13 @@ document.querySelectorAll(".projects").forEach(btn => {
     const key = btn.dataset.project;
 
     content.innerHTML = `
-      <h2 style="margin-bottom:20px;">${key}</h2>
-      <p style="margin-bottom:30px;">${projectText[key]}</p>
+      ${projectText[key]}
       ${buildSwiper(projectImages[key])}
     `;
 
     overlay.style.display = "flex";
 
-    setTimeout(() => {
-      initSwiper();
-    }, 50);
+    setTimeout(() => initSwiper(), 50);
   };
 });
 
@@ -296,7 +354,23 @@ projectsBtn.onclick = (e) => {
 
 aboutBtn.onclick = (e) => {
   e.preventDefault();
-  content.innerHTML = `<h2>About</h2><p>Texto about aqui.</p>`;
+  content.innerHTML = `
+    <p>
+    Barda is a collective practice rooted in visual arts as a tool for transformation
+    and empowerment in peripheral territories.
+    </p>
+
+    <p>
+    It works through collaborative processes that connect community, image and territory,
+    using experimental dialogues as a method of research and creation.
+    </p>
+
+    <p>
+    Cepos, Serra do Açor — Photography residency (2022)
+    <br>
+    Emancipação da Memória
+    </p>
+  `;
   overlay.style.display = "flex";
 };
 
