@@ -2,6 +2,7 @@
 <html lang="pt">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BARDA</title>
 
 <style>
@@ -17,6 +18,7 @@ body {
   margin:0;
   background:white;
   color:black;
+  overflow-x:hidden;
 }
 
 /* LOGO */
@@ -41,6 +43,8 @@ h1.logo {
   max-width: 600px;
   line-height: 1.4;
   pointer-events: none;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
 /* LINKS */
@@ -89,17 +93,21 @@ h1.logo {
   border-color: var(--blue);
 }
 
-/* OVERLAY */
+/* OVERLAY FIXED */
 .overlay-container {
   display:none;
   position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
+  inset:0;
   background:white;
   z-index:999;
+
+  /* CENTRADO CORRETO */
+  display:none;
+  align-items:center;
+  justify-content:center;
 }
 
+/* CONTENT BOX */
 .overlay-content {
   width:70vw;
   height:85vh;
@@ -107,9 +115,13 @@ h1.logo {
   overflow:auto;
   padding:60px;
   line-height:1.5;
-  scrollbar-color: var(--blue) transparent;
+  box-sizing:border-box;
+  background:white;
+
+  position:relative; /* IMPORTANTE para o botão */
 }
 
+/* SCROLLBAR */
 .overlay-content::-webkit-scrollbar {
   width:6px;
 }
@@ -132,6 +144,7 @@ h1.logo {
   max-width:700px;
 }
 
+/* CLOSE BUTTON FIX */
 .close-button {
   position:absolute;
   top:0;
@@ -144,6 +157,53 @@ h1.logo {
   width:40px;
   height:40px;
 }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+
+  h1.logo {
+    font-size: 18px;
+  }
+
+  .statement {
+    font-size: 20px;
+    max-width: 90vw;
+  }
+
+  .text-links a {
+    font-size:20px;
+  }
+
+  .overlay-content {
+    width:92vw;
+    height:85vh;
+    padding:25px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .statement {
+    font-size: 18px;
+  }
+
+  .text-links a {
+    font-size:18px;
+  }
+
+  .overlay-content {
+    width:95vw;
+    height:90vh;
+    padding:20px;
+    border-width:1px;
+  }
+
+  .close-button {
+    width:36px;
+    height:36px;
+    font-size:24px;
+  }
+}
 </style>
 </head>
 
@@ -151,7 +211,6 @@ h1.logo {
 
 <h1 class="logo">BARDA</h1>
 
-<!-- STATEMENT -->
 <div class="statement">
   Images as tools for collective transformation
 </div>
@@ -159,6 +218,7 @@ h1.logo {
 <div class="text-links">
 
   <a href="#" id="projectsBtn">Projects</a>
+
   <div class="works-container" id="worksList">
     <a href="#" class="projects" data-project="membrana">Membrana</a>
     <a href="#" class="projects" data-project="porvir">Porvir</a>
@@ -170,6 +230,7 @@ h1.logo {
 
 </div>
 
+<!-- OVERLAY -->
 <div class="overlay-container" id="overlay">
   <div class="overlay-content">
     <button class="close-button" id="close">&times;</button>
@@ -185,19 +246,12 @@ const overlay = document.getElementById("overlay");
 const closeBtn = document.getElementById("close");
 const content = document.getElementById("content");
 
-/* TOGGLE PROJECT LIST + move button */
+/* TOGGLE PROJECTS */
 projectsBtn.onclick = (e) => {
   e.preventDefault();
-
   const isOpen = worksList.style.display === "block";
-
-  if (isOpen) {
-    worksList.style.display = "none";
-    projectsBtn.style.marginBottom = "0px";
-  } else {
-    worksList.style.display = "block";
-    projectsBtn.style.marginBottom = "10px";
-  }
+  worksList.style.display = isOpen ? "none" : "block";
+  projectsBtn.style.marginBottom = isOpen ? "0px" : "10px";
 };
 
 /* ABOUT */
@@ -208,17 +262,15 @@ aboutBtn.onclick = (e) => {
     <p>
     Barda is a collective rooted in collaborative practice, emphasizing visual arts as a means of transformation and empowerment for peripheral communities.
     </p>
-
     <p>
     It uses imagery as a tool for intervention and questioning, promoting synergies between community and territory through experimental dialogues.
     </p>
-
     <p>
     Cepos, Serra do Açor — 2022<br>
     Emancipação da Memória (Photography Residency)
     </p>
   `;
-  overlay.style.display = "block";
+  overlay.style.display = "flex";
 };
 
 /* CLOSE */
@@ -256,7 +308,7 @@ document.querySelectorAll(".projects").forEach(el => {
     };
 
     content.innerHTML = data[p];
-    overlay.style.display = "block";
+    overlay.style.display = "flex";
   };
 });
 </script>
