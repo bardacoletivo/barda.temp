@@ -114,6 +114,102 @@ body{
   pointer-events:auto;
 }
 
+/* BILINGUAL */
+
+.bilingual{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0 40px;
+  margin-bottom:18px;
+}
+
+.bilingual p{
+  margin:0;
+}
+
+.lang-label{
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:.08em;
+  color:var(--blue);
+  text-transform:uppercase;
+  margin-bottom:6px !important;
+}
+
+/* BIOS */
+
+.bios{
+  margin-top:40px;
+  border-top:1px solid #e0e0e0;
+  padding-top:32px;
+}
+
+.bios h3{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:13px;
+  font-weight:500;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--blue);
+  margin:0 0 28px 0;
+}
+
+.bio{
+  margin-bottom:32px;
+  padding-bottom:32px;
+  border-bottom:1px solid #f0f0f0;
+}
+
+.bio:last-child{
+  border-bottom:none;
+  margin-bottom:0;
+  padding-bottom:0;
+}
+
+.bio-name{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:17px;
+  font-weight:500;
+  margin:0 0 10px 0;
+}
+
+.bio p{
+  font-size:14px;
+  line-height:1.65;
+  color:#333;
+  margin:0;
+}
+
+@media(max-width:600px){
+  .bilingual{
+    grid-template-columns:1fr;
+  }
+}
+
+/* SCROLLBAR */
+
+.overlay-content::-webkit-scrollbar{
+  width:4px;
+}
+
+.overlay-content::-webkit-scrollbar-track{
+  background:transparent;
+}
+
+.overlay-content::-webkit-scrollbar-thumb{
+  background:var(--blue);
+  border-radius:0;
+}
+
+.overlay-content::-webkit-scrollbar-button{
+  display:none;
+}
+
+.overlay-content{
+  scrollbar-width:thin;
+  scrollbar-color:var(--blue) transparent;
+}
+
 .close-button{
   position:absolute;
   top:0;
@@ -230,31 +326,151 @@ const worldElement = document.getElementById("world");
 let swiperInstance = null;
 
 const projectData = {
+
   membrana:{
     title:"Membrana",
-    text:`<div class="content-inner"><h2>Membrana</h2><p>Collective exhibition in ACERT, Tondela (2023)</p><p>Membrana explores sensory adaptation and collective perception through immersive devices, colour and movement.</p></div>`,
+    text:`<div class="content-inner">
+      <h2>Membrana</h2>
+      <p style="font-size:13px;color:var(--blue);letter-spacing:.06em;text-transform:uppercase;margin-bottom:20px;">Exposição coletiva · 2023–2025</p>
+      <div class="bilingual">
+        <div>
+          <p class="lang-label">PT</p>
+          <p>A exposição parte do conceito científico de adaptação sensorial — uma ferramenta que equilibra a sensibilidade dos estímulos que recebemos — e convoca os visitantes a reflectir sobre os sentidos, alargando os domínios da percepção. É na ligação entre o público e o privado que surge a concepção da "Membrana", expandindo as formas de ver para refletir sobre as conexões entre as pessoas. Através de dispositivos que exploram a cor, o movimento e a interface entre os sentidos e a realidade, a exposição apresenta uma abstração e desconstrução do quotidiano, expondo camadas mais profundas da compreensão da realidade.</p>
+        </div>
+        <div>
+          <p class="lang-label">EN</p>
+          <p>The exhibition departs from the scientific concept of sensory adaptation — a tool that balances the sensitivity of the stimuli we receive — calling visitors to reflect on the senses and expand the domains of perception. It is in the connection between the public and the private that the conception of the "Membrane" arises, expanding ways of seeing to reflect on the connections between people. Through devices that explore colour, movement, and the interface between senses and reality, the exhibition presents an abstraction and deconstruction of the everyday, exposing deeper layers of understanding reality.</p>
+        </div>
+      </div>
+    </div>`,
     images:["images/membrana/01.jpg","images/membrana/02.jpg","images/membrana/03.jpg"]
   },
+
   porvir:{
     title:"Porvir",
-    text:`<div class="content-inner"><h2>Porvir</h2><p>Participatory art project in Serra do Açor (2024)</p><p>Collaborative artistic practices connecting territory, community and future imaginaries.</p></div>`,
+    text:`<div class="content-inner">
+      <h2>Porvir</h2>
+      <p style="font-size:13px;color:var(--blue);letter-spacing:.06em;text-transform:uppercase;margin-bottom:20px;">Projeto de arte participativa · Serra do Açor · 2024</p>
+      <div class="bilingual">
+        <div>
+          <p class="lang-label">PT</p>
+          <p>Porvir é um projeto de intercâmbio multidisciplinar que envolve artistas locais, artistas externos e a comunidade, com o objetivo de imaginar o futuro através da arte participativa. Focado em quatro aldeias da Serra do Açor, o Porvir procura, através da expressão artística, construir um espaço de partilha, investigação, criação e exposição, estimulando o pensamento crítico das comunidades envolvidas. O projeto culmina em exposições coletivas no espaço público, promovendo discussões abertas e trocas de ideias entre participantes, público e instituições.</p>
+        </div>
+        <div>
+          <p class="lang-label">EN</p>
+          <p>Porvir is a multidisciplinary exchange project involving local artists, external artists, and the community, aimed at envisioning the future through participatory art. Focused on four villages in the Serra do Açor region, Porvir seeks, through artistic expression, to build a space for sharing, research, creation, and exhibition, while stimulating the critical thinking of the involved communities. The project culminates in collective exhibitions in the public space, promoting open discussions and idea exchanges among participants, the public, and institutions.</p>
+        </div>
+      </div>
+    </div>`,
     images:["images/porvir/01.jpg","images/porvir/02.jpg","images/porvir/03.jpg"]
   },
+
   imagens:{
     title:"Imagens Verdes",
-    text:`<div class="content-inner"><h2>Imagens Verdes</h2><p>Workshops in Porto (2023)</p><p>Artistic expression and collective memory workshops with participants aged 65 and above.</p></div>`,
+    text:`<div class="content-inner">
+      <h2>Imagens Verdes</h2>
+      <p style="font-size:13px;color:var(--blue);letter-spacing:.06em;text-transform:uppercase;margin-bottom:20px;">Oficinas de expressão artística · Porto · 2023–2025</p>
+      <div class="bilingual">
+        <div>
+          <p class="lang-label">PT</p>
+          <p>Imagens Verdes é um projeto contínuo de transformação que reúne pessoas com 65 ou mais anos para uma exploração única da autoexpressão. Através de oficinas dinâmicas que integram teatro, música, ilustração e fotografia, os participantes mergulham nas suas memórias, partilhando experiências entre si. Dedicado à promoção do intercâmbio entre artistas e a comunidade sénior do Bonfim no Porto, o projeto explora memórias afetivas através de práticas interdisciplinares, promovendo a democratização cultural e a expressão artística.</p>
+        </div>
+        <div>
+          <p class="lang-label">EN</p>
+          <p>Imagens Verdes is an ongoing project aimed at transformation, bringing together individuals aged 65 and above for a unique exploration of self-expression. Through dynamic workshops that integrate theatre, music, illustration, and photography, participants delve into the realms of their memories, sharing their experiences with one another. Dedicated to promoting exchange between artists and the senior community of Bonfim in Porto, we explore affective memories through interdisciplinary practices, fostering cultural democratisation and artistic expression.</p>
+        </div>
+      </div>
+    </div>`,
     images:["images/imagensverdes/01.jpg","images/imagensverdes/02.jpg","images/imagensverdes/03.jpg"]
   },
+
   casa:{
-    title:"Casa de Falar Baixinho",
-    text:`<div class="content-inner"><h2>Casa de Falar Baixinho</h2><p>Exploration of intimacy, silence and collective presence.</p></div>`,
+    title:"A Casa de Falar Baixinho",
+    text:`<div class="content-inner">
+      <h2>A Casa de Falar Baixinho</h2>
+      <p style="font-size:13px;color:var(--blue);letter-spacing:.06em;text-transform:uppercase;margin-bottom:20px;">Exposição · Encontros da Imagem · 2025</p>
+      <div class="bilingual">
+        <div>
+          <p class="lang-label">PT</p>
+          <p>Integrada no núcleo expositivo Argumentários, que celebra e revisita a história do festival, a intervenção do Colectivo Barda responde ao desafio de recuperar memórias e experiências que moldaram de forma sensível e contínua a identidade dos Encontros da Imagem. Partindo de eventos reais da Semana de Abertura de 2018, o coletivo explora encontros, trocas e gestos inscritos na memória da comunidade reunida em torno do festival. Cada imagem em A casa de falar baixinho evoca episódios específicos, convocando afetos, práticas e momentos que, embora ausentes da documentação formal, ficaram marcados nos corpos e na memória particular de cada edição.</p>
+        </div>
+        <div>
+          <p class="lang-label">EN</p>
+          <p>Integrated into the exhibition core Argumentários, which aims to celebrate and revisit the history of the festival, the intervention by Colectivo Barda responds to the challenge of recovering memories and experiences that have sensitively shaped the identity of Encontros da Imagem. Drawing from real events during the Opening Week of 2018, the collective explores encounters, exchanges and gestures inscribed in the memory of the community gathered around the festival. Each image in A casa de falar baixinho evokes specific episodes, calling forth affects, practices and moments that, although absent from formal documentation, left their mark on bodies and became embedded in the memory of each edition.</p>
+        </div>
+      </div>
+    </div>`,
     images:["images/casafalarbaixinho/1.jpg","images/casafalarbaixinho/2.jpg","images/casafalarbaixinho/3.jpg"]
   },
+
   about:{
     title:"About",
-    text:`<div class="content-inner"><h2>BARDA</h2><p>Barda is a collective rooted in visual arts as a tool for transformation and empowerment in peripheral territories.</p><p>The collective develops collaborative practices connecting image, memory and community.</p></div>`,
+    text:`<div class="content-inner">
+      <h2>BARDA</h2>
+      <div class="bilingual" style="margin-bottom:28px;">
+        <div>
+          <p class="lang-label">PT</p>
+          <p>O Colectivo Barda enfatiza as artes visuais como meio de transformação e capacitação de comunidades periféricas, usando a imagem como ferramenta de intervenção e questionamento, promovendo a criação de sinergias entre comunidade e território através de diálogos experimentais. Barda é uma manifestação de vontade colaborativa que tomou a forma de um coletivo.</p>
+        </div>
+        <div>
+          <p class="lang-label">EN</p>
+          <p>Barda Collective emphasises visual arts as a means of transformation and empowerment for peripheral communities, using imagery as a tool for intervention and questioning, promoting the creation of synergies between community and territory through experimental dialogues. Barda is a manifestation of collaborative will that has taken the form of a collective.</p>
+        </div>
+      </div>
+
+      <div class="bios">
+        <h3>Who is Barda?</h3>
+
+        <div class="bio">
+          <p class="bio-name">Ana Luísa Rego</p>
+          <p>Born in Cinfães (1974), lives in Porto. She began her journey in photography during the analog era, complementing her education with a Photography course at Oficina Da Imagem (2009), a documentary photography workshop at Instituto Português de Fotografia (2015), and a Master's in Artistic Photography at IPCI (2019). She was a founding member of cultural association Espaço Compasso and social association Moving Cause. In her practice, she documents themes inspired by social, cultural, and scientific issues through an interdisciplinary and collaborative approach. She exhibits individually and collectively in Portugal and abroad, with highlights at Fnac Galleries, Fundação Oriente Dili-Timor, Encontros de Imagem, PhotoAlicante, and HybridArt Space Gallery in Budapest.</p>
+        </div>
+
+        <div class="bio">
+          <p class="bio-name">Carlos Trancoso</p>
+          <p>Born in 1989, visual artist based in Porto. Trained in Architecture at FAUP and holding a Master's in Artistic Photography from IPCI, his practice explores the intersections between nature, technology and systems of observation, combining photographic thinking with spatial, sonic and computational processes. He works across photography, installation, video and experimental image-making devices. Since 2022 he has been a member of the European Futures Photography platform through Ci.Clo. In 2024 he won the Intergalactica Open Call, leading to the publication of his photobook <em>How to Build a Telescope</em> by XYZ Books in 2025.</p>
+        </div>
+
+        <div class="bio">
+          <p class="bio-name">Diana Sá</p>
+          <p>Born in Espinho in 1985. She attended the professional photography course at the Portuguese Institute of Photography and the Master's in Artistic Photography at IPCI. In 2020, she participated in an artistic residency in the Azores and received an honorable mention from FNAC in photography. She has participated in group exhibitions in Portugal and abroad. She is interested in long-term projects about territory, everyday life, and the ephemeral.</p>
+        </div>
+
+        <div class="bio">
+          <p class="bio-name">Guida Marques</p>
+          <p>Born in 1986, neo-rural, lives in Serra do Açor since 2017. Master's in Multimedia Art – Performance/Installation at Fine Arts of Lisbon (2019) and Master's in Architecture at the University of Coimbra (2011). She develops reconstructions of schist houses and performances/installations focused on the body/place/memory relationship. Activist in defense of the forest, organic agriculture, and traditional architecture. She participated in the Manifesta 12 Contemporary Art Biennial and is one of the invited architects for the Portuguese representation at the Venice Architecture Biennale 2023.</p>
+        </div>
+
+        <div class="bio">
+          <p class="bio-name">Hernâni Sousa</p>
+          <p>Born in Espinho in 1982. Holds a Master's in Information Science from the Faculty of Engineering at the University of Porto. Completed the Professional Photography Course at the Portuguese Institute of Photography (2018) and the Master's in Artistic Photography at IPCI (2019). He develops personal projects using the photographic medium around themes of intimacy and territory, with particular interest in semiotics and the politicisation of things.</p>
+        </div>
+
+        <div class="bio">
+          <p class="bio-name">Inês Fernandes</p>
+          <p>Born in Porto (1996). Graduated in New Communication Technologies from the University of Aveiro and attended the Master's in Artistic Photography at IPCI. In 2019, she interned at Jornal Público, and since then has worked simultaneously as a photographer and freelancer in graphic design and video editing. Her projects address contemporary themes focused on social and environmental issues, with a preference for rural and decentralised contexts. Her work has been featured in international publications including Musée Magazine (New York) and Gallery Photographs (Tokyo).</p>
+        </div>
+
+        <div class="bio">
+          <p class="bio-name">Ivan Da Silva</p>
+          <p>Born in the late 80s, finds the theme of his work in neighboring centuries, shifting digital images to analog processes. Through experimental image analysis systems, he deconstructs everyday images in an ecology of images. He has participated in exhibitions at Circulation(s), Encontros da Imagem, Museu da Vila Velha de Vila Real, and Museu do Douro. He works as a visual arts teacher and was coordinator of the Imagens Verdes project.</p>
+        </div>
+
+        <div class="bio">
+          <p class="bio-name">Juliana Maar</p>
+          <p>Born in 1981, began her journey in photography in 2013. She participated in group exhibitions in Lisbon and Paris, collaborated with publisher "do lado esquerdo" and launched the fanzine <em>underword</em>. She uses the body and self-portraiture as her main vehicles of expression. She attended the Master's in Artistic Photography at IPCI in 2019. Neo-rural in Serra do Açor for six years.</p>
+        </div>
+
+        <div class="bio">
+          <p class="bio-name">Marco Duarte</p>
+          <p>Born in 1978, freelance documentary photographer tackling social issues in his visual projects. In 2021 he joined the community participation project "Alquimia – Como vejo o meu bairro" in Guimarães. In 2022, he co-founded the Barda collective, participating in various collaborative projects since then.</p>
+        </div>
+
+      </div>
+    </div>`,
     images:[]
   }
+
 };
 
 function buildSwiper(images){
@@ -275,11 +491,13 @@ function openProject(key){
   const item = projectData[key];
   content.innerHTML = `${item.text}${buildSwiper(item.images)}`;
   overlay.style.display = "flex";
+  worldElement.style.zIndex = "0";
   if(item.images.length){ setTimeout(()=>{ initSwiper(); },50); }
 }
 
 closeBtn.onclick = () => {
   overlay.style.display = "none";
+  worldElement.style.zIndex = "10";
   content.innerHTML = "";
   if(swiperInstance){ swiperInstance.destroy(); swiperInstance = null; }
 };
