@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
 <title>BARDA</title>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
@@ -11,159 +12,244 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&display=swap');
 
-:root {
-  --blue: #1f4fff;
+:root{
+  --blue:#1f4fff;
 }
 
-body {
-  font-family: 'IBM Plex Sans', sans-serif;
-  margin:0;
-  background:white;
-  color:black;
-  overflow-x:hidden;
-}
-
-/* LOGO */
-h1.logo {
-  position: fixed;
-  top: 20px;
-  right: 25px;
-  font-size: 21px;
-  text-transform: uppercase;
-  color: var(--blue);
-}
-
-/* CENTER TEXT */
-.statement {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 22px;
-  text-align: center;
-  max-width: 600px;
-}
-
-/* LINKS */
-.text-links {
-  position: fixed;
-  bottom: 40px;
-  left: 40px;
-}
-
-.text-links a {
-  display:block;
-  font-family:'Space Grotesk';
-  font-size:22px;
-  text-decoration:none;
-  color:black;
-  margin-bottom:10px;
-}
-
-/* HOVER AZUL + LETRAS BRANCAS (SEM ANIMAÇÃO) */
-.text-links a:hover {
-  background: var(--blue);
-  color: white;
-}
-
-/* PROJECT LIST */
-.works-container {
-  display:none;
-}
-
-.projects {
-  display:block;
-  border:1px solid black;
-  padding:8px 14px;
-  margin:5px 0;
-  text-decoration:none;
-  color:black;
-  background:white;
-}
-
-.projects:hover {
-  background: var(--blue);
-  color:white;
-}
-
-/* OVERLAY AGORA É FLUTUANTE (NÃO ESCURECE FUNDO) */
-.overlay-container {
-  display:none;
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%, -50%);
-  z-index:999;
-}
-
-/* JANELA */
-.overlay-content {
-  width:80vw;
-  height:80vh;
-  border:2px solid var(--blue);
-  background:white;
-  overflow:auto;
-  padding:40px;
+*{
   box-sizing:border-box;
 }
 
-/* CLOSE */
-.close-button {
+html,
+body{
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:white;
+  font-family:'IBM Plex Sans',sans-serif;
+  color:black;
+}
+
+/* LOGO */
+
+.logo{
+  position:fixed;
+  top:20px;
+  right:24px;
+  z-index:50;
+
+  font-family:'Space Grotesk',sans-serif;
+  font-size:21px;
+  font-weight:500;
+  color:var(--blue);
+}
+
+/* CENTER TEXT */
+
+.statement{
+  position:fixed;
+
+  top:50%;
+  left:50%;
+
+  transform:translate(-50%,-50%);
+
+  width:min(640px,82vw);
+
+  text-align:center;
+
+  font-family:'Space Grotesk',sans-serif;
+  font-size:22px;
+  line-height:1.35;
+
+  z-index:1;
+
+  pointer-events:none;
+}
+
+/* PHYSICS WORLD */
+
+#world{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  z-index:10;
+}
+
+/* BUTTONS */
+
+.physics-button{
   position:absolute;
-  top:0;
-  right:0;
-  width:40px;
-  height:40px;
-  background:var(--blue);
-  color:white;
-  border:none;
-  font-size:24px;
-  cursor:pointer;
-}
 
-/* SLIDESHOW */
-.swiper {
-  width: 100%;
-  height: 60vh;
-  margin-bottom: 40px;
-}
-
-.swiper-slide {
   display:flex;
   align-items:center;
   justify-content:center;
+
+  padding:12px 18px;
+
+  border:1px solid black;
   background:white;
+  color:black;
+
+  font-family:'Space Grotesk',sans-serif;
+  font-size:20px;
+  text-decoration:none;
+
+  cursor:pointer;
+  user-select:none;
+
+  white-space:nowrap;
+
+  transition:
+    background .15s linear,
+    color .15s linear,
+    border-color .15s linear;
 }
 
-.swiper-slide img {
-  max-width:100%;
-  max-height:100%;
-  width:auto;
-  height:auto;
+.physics-button:hover{
+  background:var(--blue);
+  color:white;
+  border-color:var(--blue);
+}
+
+/* OVERLAY */
+
+.overlay-container{
+  display:none;
+
+  position:fixed;
+  inset:0;
+
+  align-items:center;
+  justify-content:center;
+
+  z-index:100;
+
+  pointer-events:none;
+}
+
+/* WINDOW */
+
+.overlay-content{
+  width:min(920px,88vw);
+  height:min(84vh,860px);
+
+  padding:46px;
+
+  overflow:auto;
+
+  position:relative;
+
+  border:2px solid var(--blue);
+
+  background:rgba(255,255,255,.95);
+
+  backdrop-filter:blur(10px);
+
+  pointer-events:auto;
+}
+
+/* CLOSE */
+
+.close-button{
+  position:absolute;
+
+  top:0;
+  right:0;
+
+  width:42px;
+  height:42px;
+
+  border:none;
+
+  background:var(--blue);
+  color:white;
+
+  font-size:24px;
+
+  cursor:pointer;
+}
+
+/* CONTENT */
+
+.content-inner{
+  max-width:760px;
+}
+
+.content-inner h2{
+  margin:0 0 18px 0;
+
+  font-family:'Space Grotesk',sans-serif;
+  font-size:34px;
+  font-weight:500;
+}
+
+.content-inner p{
+  margin:0 0 18px 0;
+
+  font-size:15px;
+  line-height:1.65;
+}
+
+/* SWIPER */
+
+.swiper{
+  width:100%;
+  height:58vh;
+
+  margin-top:34px;
+}
+
+.swiper-slide{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.swiper-slide img{
+  width:100%;
+  height:100%;
   object-fit:contain;
 }
 
 .swiper-button-next,
-.swiper-button-prev {
-  color: var(--blue);
+.swiper-button-prev{
+  color:var(--blue);
 }
 
-.swiper-pagination-bullet-active {
-  background: var(--blue);
+.swiper-pagination-bullet-active{
+  background:var(--blue);
 }
 
 /* MOBILE */
-@media (max-width: 768px) {
-  .overlay-content {
-    width:92vw;
-    height:80vh;
-    padding:20px;
-  }
 
-  .statement {
+@media(max-width:768px){
+
+  .statement{
+    width:84vw;
     font-size:18px;
   }
+
+  .physics-button{
+    font-size:17px;
+    padding:10px 14px;
+  }
+
+  .overlay-content{
+    width:94vw;
+    height:84vh;
+    padding:22px;
+  }
+
+  .content-inner h2{
+    font-size:26px;
+  }
+
+  .swiper{
+    height:42vh;
+  }
+
 }
 </style>
 </head>
@@ -176,88 +262,167 @@ h1.logo {
   Images as tools for collective transformation
 </div>
 
-<div class="text-links">
-  <a href="#" id="projectsBtn">Projects</a>
+<div id="world"></div>
 
-  <div class="works-container" id="worksList">
-    <a href="#" class="projects" data-project="membrana">Membrana</a>
-    <a href="#" class="projects" data-project="porvir">Porvir</a>
-    <a href="#" class="projects" data-project="imagens">Imagens Verdes</a>
-    <a href="#" class="projects" data-project="casa">Casa de Falar Baixinho</a>
-  </div>
-
-  <a href="#" id="aboutBtn">About</a>
-</div>
-
-<!-- JANELA FLUTUANTE -->
 <div class="overlay-container" id="overlay">
   <div class="overlay-content">
-    <button class="close-button" id="close">×</button>
+
+    <button class="close-button" id="close">
+      ×
+    </button>
+
     <div id="content"></div>
+
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 
 <script>
-const projectsBtn = document.getElementById("projectsBtn");
-const worksList = document.getElementById("worksList");
-const aboutBtn = document.getElementById("aboutBtn");
 const overlay = document.getElementById("overlay");
-const closeBtn = document.getElementById("close");
 const content = document.getElementById("content");
+const closeBtn = document.getElementById("close");
+const worldElement = document.getElementById("world");
 
 let swiperInstance = null;
 
-/* IMAGENS */
-const projectImages = {
-  membrana: [
-    "images/membrana/01.jpg",
-    "images/membrana/02.jpg",
-    "images/membrana/03.jpg"
-  ],
-  porvir: [
-    "images/porvir/01.jpg",
-    "images/porvir/02.jpg",
-    "images/porvir/03.jpg"
-  ],
-  imagens: [
-    "images/imagensverdes/01.jpg",
-    "images/imagensverdes/02.jpg",
-    "images/imagensverdes/03.jpg"
-  ],
-  casa: [
-    "images/casafalarbaixinho/1.jpg",
-    "images/casafalarbaixinho/2.jpg",
-    "images/casafalarbaixinho/3.jpg",
-    "images/casafalarbaixinho/4.jpg",
-    "images/casafalarbaixinho/5.jpg",
-    "images/casafalarbaixinho/6.jpg",
-    "images/casafalarbaixinho/7.jpg",
-    "images/casafalarbaixinho/8.jpg",
-    "images/casafalarbaixinho/9.jpg",
-    "images/casafalarbaixinho/10.jpg",
-    "images/casafalarbaixinho/11.jpg"
-  ]
+/* -----------------------------------
+PROJECT DATA
+----------------------------------- */
+
+const projectData = {
+
+  membrana:{
+    title:"Membrana",
+    text:`
+      <div class="content-inner">
+        <h2>Membrana</h2>
+
+        <p>
+        Collective exhibition in ACERT, Tondela (2023)
+        </p>
+
+        <p>
+        Membrana explores sensory adaptation and collective perception
+        through immersive devices, colour and movement.
+        </p>
+      </div>
+    `,
+    images:[
+      "images/membrana/01.jpg",
+      "images/membrana/02.jpg",
+      "images/membrana/03.jpg"
+    ]
+  },
+
+  porvir:{
+    title:"Porvir",
+    text:`
+      <div class="content-inner">
+        <h2>Porvir</h2>
+
+        <p>
+        Participatory art project in Serra do Açor (2024)
+        </p>
+
+        <p>
+        Collaborative artistic practices connecting territory,
+        community and future imaginaries.
+        </p>
+      </div>
+    `,
+    images:[
+      "images/porvir/01.jpg",
+      "images/porvir/02.jpg",
+      "images/porvir/03.jpg"
+    ]
+  },
+
+  imagens:{
+    title:"Imagens Verdes",
+    text:`
+      <div class="content-inner">
+        <h2>Imagens Verdes</h2>
+
+        <p>
+        Workshops in Porto (2023)
+        </p>
+
+        <p>
+        Artistic expression and collective memory workshops
+        with participants aged 65 and above.
+        </p>
+      </div>
+    `,
+    images:[
+      "images/imagensverdes/01.jpg",
+      "images/imagensverdes/02.jpg",
+      "images/imagensverdes/03.jpg"
+    ]
+  },
+
+  casa:{
+    title:"Casa de Falar Baixinho",
+    text:`
+      <div class="content-inner">
+        <h2>Casa de Falar Baixinho</h2>
+
+        <p>
+        Exploration of intimacy, silence and collective presence.
+        </p>
+      </div>
+    `,
+    images:[
+      "images/casafalarbaixinho/1.jpg",
+      "images/casafalarbaixinho/2.jpg",
+      "images/casafalarbaixinho/3.jpg"
+    ]
+  },
+
+  about:{
+    title:"About",
+    text:`
+      <div class="content-inner">
+        <h2>BARDA</h2>
+
+        <p>
+        Barda is a collective rooted in visual arts
+        as a tool for transformation and empowerment
+        in peripheral territories.
+        </p>
+
+        <p>
+        The collective develops collaborative practices
+        connecting image, memory and community.
+        </p>
+      </div>
+    `,
+    images:[]
+  }
+
 };
 
-const projectText = {
-  membrana: `<p><strong>Membrana</strong><br>Collective exhibition — ACERT, Tondela (2023)</p><p>Membrana explores sensory adaptation...</p>`,
-  porvir: `<p><strong>Porvir</strong><br>Participatory art project — Serra do Açor (2024)</p><p>Porvir is a collaborative project...</p>`,
-  imagens: `<p><strong>Imagens Verdes</strong><br>Workshops — Porto (2023)</p><p>Imagens Verdes is an ongoing project...</p>`,
-  casa: `<p><strong>Casa de Falar Baixinho</strong></p><p>An exploration of intimacy...</p>`
-};
+/* -----------------------------------
+SWIPER
+----------------------------------- */
 
-function buildSwiper(images) {
-  let slides = images.map(img =>
-    `<div class="swiper-slide"><img src="${img}"></div>`
-  ).join("");
+function buildSwiper(images){
+
+  if(!images.length) return "";
+
+  const slides = images.map(img => `
+    <div class="swiper-slide">
+      <img src="${img}">
+    </div>
+  `).join("");
 
   return `
     <div class="swiper">
       <div class="swiper-wrapper">
         ${slides}
       </div>
+
       <div class="swiper-button-next"></div>
       <div class="swiper-button-prev"></div>
       <div class="swiper-pagination"></div>
@@ -265,55 +430,255 @@ function buildSwiper(images) {
   `;
 }
 
-function initSwiper() {
-  swiperInstance = new Swiper(".swiper", {
-    loop: true,
-    pagination: { el: ".swiper-pagination" },
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev"
+function initSwiper(){
+
+  swiperInstance = new Swiper(".swiper",{
+    loop:true,
+
+    pagination:{
+      el:".swiper-pagination"
+    },
+
+    navigation:{
+      nextEl:".swiper-button-next",
+      prevEl:".swiper-button-prev"
     }
   });
+
 }
 
-/* OPEN PROJECT */
-document.querySelectorAll(".projects").forEach(btn => {
-  btn.onclick = (e) => {
-    e.preventDefault();
+/* -----------------------------------
+OPEN PROJECT
+----------------------------------- */
 
-    const key = btn.dataset.project;
+function openProject(key){
 
-    content.innerHTML = `
-      ${projectText[key]}
-      ${buildSwiper(projectImages[key])}
-    `;
+  const item = projectData[key];
 
-    overlay.style.display = "block";
-
-    setTimeout(() => initSwiper(), 50);
-  };
-});
-
-/* TOGGLES */
-projectsBtn.onclick = (e) => {
-  e.preventDefault();
-  worksList.style.display =
-    worksList.style.display === "block" ? "none" : "block";
-};
-
-aboutBtn.onclick = (e) => {
-  e.preventDefault();
   content.innerHTML = `
-    <p>Barda is a collective practice...</p>
+    ${item.text}
+    ${buildSwiper(item.images)}
   `;
-  overlay.style.display = "block";
-};
+
+  overlay.style.display = "flex";
+
+  if(item.images.length){
+
+    setTimeout(()=>{
+      initSwiper();
+    },50);
+
+  }
+
+}
 
 closeBtn.onclick = () => {
+
   overlay.style.display = "none";
+
   content.innerHTML = "";
-  if (swiperInstance) swiperInstance.destroy();
+
+  if(swiperInstance){
+    swiperInstance.destroy();
+    swiperInstance = null;
+  }
+
 };
+
+/* -----------------------------------
+MATTER JS
+----------------------------------- */
+
+const Engine = Matter.Engine;
+const Runner = Matter.Runner;
+const Bodies = Matter.Bodies;
+const Composite = Matter.Composite;
+const Mouse = Matter.Mouse;
+const MouseConstraint = Matter.MouseConstraint;
+
+const engine = Engine.create();
+
+engine.gravity.y = 1.2;
+
+const world = engine.world;
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+/* FLOOR + WALLS */
+
+const floor = Bodies.rectangle(
+  width / 2,
+  height + 30,
+  width,
+  60,
+  {
+    isStatic:true
+  }
+);
+
+const leftWall = Bodies.rectangle(
+  -30,
+  height / 2,
+  60,
+  height,
+  {
+    isStatic:true
+  }
+);
+
+const rightWall = Bodies.rectangle(
+  width + 30,
+  height / 2,
+  60,
+  height,
+  {
+    isStatic:true
+  }
+);
+
+Composite.add(world,[floor,leftWall,rightWall]);
+
+/* BUTTON DATA */
+
+const items = [
+
+  {
+    label:"Membrana",
+    key:"membrana",
+    x:200,
+    y:-100,
+    w:190,
+    h:54
+  },
+
+  {
+    label:"Porvir",
+    key:"porvir",
+    x:500,
+    y:-260,
+    w:140,
+    h:54
+  },
+
+  {
+    label:"Imagens Verdes",
+    key:"imagens",
+    x:740,
+    y:-180,
+    w:240,
+    h:54
+  },
+
+  {
+    label:"Casa de Falar Baixinho",
+    key:"casa",
+    x:400,
+    y:-420,
+    w:320,
+    h:54
+  },
+
+  {
+    label:"About",
+    key:"about",
+    x:860,
+    y:-340,
+    w:130,
+    h:54
+  }
+
+];
+
+/* CREATE BUTTONS */
+
+items.forEach(item => {
+
+  const body = Bodies.rectangle(
+    item.x,
+    item.y,
+    item.w,
+    item.h,
+    {
+      restitution:0.1,
+      friction:0.8,
+      frictionAir:0.02
+    }
+  );
+
+  Composite.add(world,body);
+
+  const el = document.createElement("div");
+
+  el.className = "physics-button";
+  el.innerHTML = item.label;
+
+  worldElement.appendChild(el);
+
+  el.addEventListener("click",()=>{
+    openProject(item.key);
+  });
+
+  item.body = body;
+  item.el = el;
+
+});
+
+/* MOUSE DRAG */
+
+const mouse = Mouse.create(document.body);
+
+const mouseConstraint = MouseConstraint.create(engine,{
+  mouse:mouse,
+  constraint:{
+    stiffness:0.2,
+    render:{
+      visible:false
+    }
+  }
+});
+
+Composite.add(world,mouseConstraint);
+
+/* RUN */
+
+const runner = Runner.create();
+
+Runner.run(runner,engine);
+
+/* RENDER HTML */
+
+function update(){
+
+  items.forEach(item => {
+
+    const body = item.body;
+
+    item.el.style.width = item.w + "px";
+    item.el.style.height = item.h + "px";
+
+    item.el.style.left =
+      (body.position.x - item.w / 2) + "px";
+
+    item.el.style.top =
+      (body.position.y - item.h / 2) + "px";
+
+    item.el.style.transform =
+      `rotate(${body.angle}rad)`;
+
+  });
+
+  requestAnimationFrame(update);
+
+}
+
+update();
+
+/* RESIZE */
+
+window.addEventListener("resize",()=>{
+  location.reload();
+});
 </script>
 
 </body>
