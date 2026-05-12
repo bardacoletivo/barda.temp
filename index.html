@@ -14,6 +14,7 @@
 
 :root{
   --blue:#1f4fff;
+  --footer-h:48px;
 }
 
 *{
@@ -103,9 +104,9 @@ body{
 }
 
 .overlay-content{
-  width:min(920px,88vw);
-  height:min(84vh,860px);
-  padding:46px;
+  width:min(980px,92vw);
+  height:min(90vh,940px);
+  padding:0 52px 52px 52px;
   overflow:auto;
   position:relative;
   border:2px solid var(--blue);
@@ -211,9 +212,113 @@ body{
 }
 
 .close-button{
+  position:sticky;
+  top:-56px;
+  float:right;
+  margin:0 -52px 0 0;
+  width:42px;
+  height:42px;
+  border:none;
+  background:var(--blue);
+  color:white;
+  font-size:24px;
+  cursor:pointer;
+  z-index:10;
+  flex-shrink:0;
+}
+
+/* LANG TOGGLE */
+
+.lang-toggle{
+  position:fixed;
+  top:20px;
+  left:24px;
+  z-index:50;
+
+  font-family:'Space Grotesk',sans-serif;
+  font-size:14px;
+  font-weight:500;
+  letter-spacing:.06em;
+
+  border:1px solid black;
+  background:white;
+  color:black;
+
+  padding:5px 12px;
+
+  cursor:pointer;
+
+  transition:
+    background .15s linear,
+    color .15s linear,
+    border-color .15s linear;
+}
+
+.lang-toggle:hover{
+  background:var(--blue);
+  color:white;
+  border-color:var(--blue);
+}
+
+/* HAMBURGER — now right side, below logo */
+
+.hamburger{
+  position:fixed;
+  top:54px;   /* just below the logo (logo top 20 + font ~21 + gap ~13) */
+  right:24px;
+  z-index:50;
+
+  width:32px;
+
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+
+  cursor:pointer;
+  padding:0;
+  background:none;
+  border:none;
+}
+
+.hamburger span{
+  display:block;
+  height:1.5px;
+  background:black;
+  transition:background .15s;
+}
+
+.hamburger:hover span{
+  background:var(--blue);
+}
+
+/* NAV MENU */
+
+.nav-menu{
+  display:none;
+  position:fixed;
+  top:0;
+  right:0;          /* opens from the right */
+  left:auto;
+  width:280px;
+  height:100%;
+  background:white;
+  border-left:1px solid #e0e0e0;   /* border on the left side now */
+  border-right:none;
+  z-index:200;
+  flex-direction:column;
+  padding:80px 32px 32px 32px;
+  overflow-y:auto;
+}
+
+.nav-menu.open{
+  display:flex;
+}
+
+.nav-menu-close{
   position:absolute;
   top:0;
-  right:0;
+  left:0;           /* close button on left edge of panel */
+  right:auto;
   width:42px;
   height:42px;
   border:none;
@@ -222,6 +327,108 @@ body{
   font-size:24px;
   cursor:pointer;
 }
+
+.nav-about-label{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:13px;
+  font-weight:500;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--blue);
+  margin:0 0 20px 0;
+  text-align:left;
+  cursor:pointer;
+  background:none;
+  border:none;
+  padding:0;
+}
+
+.nav-about-label:hover{
+  opacity:.7;
+}
+
+.nav-divider{
+  border:none;
+  border-top:1px solid #e0e0e0;
+  margin:20px 0;
+}
+
+.nav-project-btn{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:17px;
+  font-weight:400;
+  background:none;
+  border:none;
+  padding:10px 0;
+  cursor:pointer;
+  text-align:left;   /* left-aligned inside right panel */
+  width:100%;
+  color:black;
+  transition:color .15s;
+}
+
+.nav-project-btn:hover{
+  color:var(--blue);
+}
+
+.nav-overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:190;
+  background:transparent;
+}
+
+.nav-overlay.open{
+  display:block;
+}
+
+/* FOOTER — icon only */
+
+.site-footer{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  z-index:40;
+
+  background:var(--blue);
+  color:white;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:28px;
+
+  padding:0 24px;
+  height:var(--footer-h);
+}
+
+.footer-icon-link{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  opacity:.85;
+  transition:opacity .15s, transform .15s;
+  text-decoration:none;
+  width:32px;
+  height:32px;
+}
+
+.footer-icon-link:hover{
+  opacity:1;
+  transform:scale(1.15);
+}
+
+.footer-icon-link svg{
+  width:22px;
+  height:22px;
+  fill:white;
+  display:block;
+}
+
+/* CONTENT */
 
 .content-inner{
   max-width:760px;
@@ -279,10 +486,15 @@ body{
     padding:10px 14px;
   }
 
+  .close-button{
+    margin-right:-20px;
+    top:-20px;
+  }
+
   .overlay-content{
-    width:94vw;
-    height:84vh;
-    padding:22px;
+    width:96vw;
+    height:88vh;
+    padding:0 20px 20px 20px;
   }
 
   .content-inner h2{
@@ -299,7 +511,32 @@ body{
 
 <body>
 
-<h1 class="logo">BARDA</h1>
+<h1 class="logo" id="logoHome" style="cursor:pointer;">BARDA</h1>
+
+<button class="lang-toggle" id="langToggle">EN</button>
+
+<!-- Hamburger: right side, below logo -->
+<button class="hamburger" id="hamburger" aria-label="Menu">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
+
+<div class="nav-overlay" id="navOverlay"></div>
+
+<!-- Nav panel slides from the right -->
+<nav class="nav-menu" id="navMenu">
+  <button class="nav-menu-close" id="navClose">×</button>
+
+  <button class="nav-about-label" id="navAbout">About</button>
+
+  <hr class="nav-divider">
+
+  <button class="nav-project-btn" data-key="membrana">Membrana</button>
+  <button class="nav-project-btn" data-key="porvir">Porvir</button>
+  <button class="nav-project-btn" data-key="imagens">Imagens Verdes</button>
+  <button class="nav-project-btn" data-key="casa">A Casa de Falar Baixinho</button>
+</nav>
 
 <div class="statement">
   Images as tools for collective transformation
@@ -310,9 +547,25 @@ body{
 <div class="overlay-container" id="overlay">
   <div class="overlay-content">
     <button class="close-button" id="close">×</button>
-    <div id="content"></div>
+    <div id="content" style="clear:right;padding-top:42px;"></div>
   </div>
 </div>
+
+<!-- Footer: icon-only links -->
+<footer class="site-footer">
+  <!-- Gmail icon -->
+  <a href="mailto:bardacoletivo@gmail.com" class="footer-icon-link" title="bardacoletivo@gmail.com">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.910 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/>
+    </svg>
+  </a>
+  <!-- Instagram icon -->
+  <a href="https://instagram.com/bardacoletivo" target="_blank" class="footer-icon-link" title="@bardacoletivo">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+    </svg>
+  </a>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
@@ -322,8 +575,65 @@ const overlay = document.getElementById("overlay");
 const content = document.getElementById("content");
 const closeBtn = document.getElementById("close");
 const worldElement = document.getElementById("world");
+const langToggleBtn = document.getElementById("langToggle");
+
+// Logo → home
+document.getElementById("logoHome").addEventListener("click", () => {
+  overlay.style.display = "none";
+  worldElement.style.zIndex = "10";
+  content.innerHTML = "";
+  if(swiperInstance){ swiperInstance.destroy(); swiperInstance = null; }
+});
+
+// Hamburger nav
+const hamburger = document.getElementById("hamburger");
+const navMenu = document.getElementById("navMenu");
+const navOverlay = document.getElementById("navOverlay");
+const navClose = document.getElementById("navClose");
+
+function openNav(){
+  navMenu.classList.add("open");
+  navOverlay.classList.add("open");
+}
+function closeNav(){
+  navMenu.classList.remove("open");
+  navOverlay.classList.remove("open");
+}
+
+hamburger.addEventListener("click", openNav);
+navClose.addEventListener("click", closeNav);
+navOverlay.addEventListener("click", closeNav);
+
+document.getElementById("navAbout").addEventListener("click", () => {
+  closeNav();
+  openProject("about");
+});
+
+document.querySelectorAll(".nav-project-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    closeNav();
+    openProject(btn.dataset.key);
+  });
+});
 
 let swiperInstance = null;
+let currentLang = "pt";
+
+langToggleBtn.addEventListener("click", () => {
+  if(currentLang === "pt"){
+    currentLang = "en";
+    langToggleBtn.textContent = "PT";
+    document.querySelectorAll(".bilingual > div:nth-child(1)").forEach(el => el.style.display = "none");
+    document.querySelectorAll(".bilingual > div:nth-child(2)").forEach(el => el.style.display = "block");
+    document.querySelectorAll(".bilingual").forEach(el => el.style.gridTemplateColumns = "1fr");
+  } else {
+    currentLang = "pt";
+    langToggleBtn.textContent = "EN";
+    document.querySelectorAll(".bilingual > div:nth-child(1)").forEach(el => el.style.display = "block");
+    document.querySelectorAll(".bilingual > div:nth-child(2)").forEach(el => el.style.display = "none");
+    document.querySelectorAll(".bilingual").forEach(el => el.style.gridTemplateColumns = "1fr");
+  }
+});
 
 const projectData = {
 
@@ -492,6 +802,15 @@ function openProject(key){
   content.innerHTML = `${item.text}${buildSwiper(item.images)}`;
   overlay.style.display = "flex";
   worldElement.style.zIndex = "0";
+
+  if(currentLang === "en"){
+    document.querySelectorAll(".bilingual > div:nth-child(1)").forEach(el => el.style.display = "none");
+    document.querySelectorAll(".bilingual > div:nth-child(2)").forEach(el => { el.style.display = "block"; el.parentElement.style.gridTemplateColumns = "1fr"; });
+  } else {
+    document.querySelectorAll(".bilingual > div:nth-child(1)").forEach(el => el.style.display = "block");
+    document.querySelectorAll(".bilingual > div:nth-child(2)").forEach(el => { el.style.display = "none"; el.parentElement.style.gridTemplateColumns = "1fr"; });
+  }
+
   if(item.images.length){ setTimeout(()=>{ initSwiper(); },50); }
 }
 
@@ -501,6 +820,8 @@ closeBtn.onclick = () => {
   content.innerHTML = "";
   if(swiperInstance){ swiperInstance.destroy(); swiperInstance = null; }
 };
+
+// ── Physics ──────────────────────────────────────────────────────────────────
 
 const Engine = Matter.Engine;
 const Runner = Matter.Runner;
@@ -518,19 +839,23 @@ const H = window.innerHeight;
 const cx = W / 2;
 const cy = H / 2;
 
-const floor = Bodies.rectangle(W/2, H+30, W, 60, {isStatic:true});
-const leftWall = Bodies.rectangle(-30, H/2, 60, H, {isStatic:true});
-const rightWall = Bodies.rectangle(W+30, H/2, 60, H, {isStatic:true});
+// Footer height in px — buttons rest on top of the footer
+const FOOTER_H = 48;
+const floorY = H - FOOTER_H; // top edge of the footer
+
+const floor     = Bodies.rectangle(W/2, floorY + 30, W, 60,  {isStatic:true});
+const leftWall  = Bodies.rectangle(-30, H/2, 60, H,           {isStatic:true});
+const rightWall = Bodies.rectangle(W+30, H/2, 60, H,          {isStatic:true});
 Composite.add(world,[floor,leftWall,rightWall]);
 
 function clampW(w){ return Math.min(w, Math.floor(W * 0.78)); }
 
 const items = [
-  { label:"Membrana",             key:"membrana", x: cx - W*0.22, y: cy - H*0.55, w: clampW(190), h:54 },
-  { label:"Porvir",               key:"porvir",   x: cx + W*0.04, y: cy - H*0.70, w: clampW(140), h:54 },
-  { label:"Imagens Verdes",       key:"imagens",  x: cx + W*0.20, y: cy - H*0.62, w: clampW(240), h:54 },
-  { label:"Casa de Falar Baixinho",key:"casa",    x: cx - W*0.04, y: cy - H*0.85, w: clampW(320), h:54 },
-  { label:"About",                key:"about",    x: cx + W*0.28, y: cy - H*0.78, w: clampW(130), h:54 }
+  { label:"Membrana",              key:"membrana", x: cx - W*0.22, y: cy - H*0.55, w: clampW(190), h:54 },
+  { label:"Porvir",                key:"porvir",   x: cx + W*0.04, y: cy - H*0.70, w: clampW(140), h:54 },
+  { label:"Imagens Verdes",        key:"imagens",  x: cx + W*0.20, y: cy - H*0.62, w: clampW(240), h:54 },
+  { label:"Casa de Falar Baixinho",key:"casa",     x: cx - W*0.04, y: cy - H*0.85, w: clampW(320), h:54 },
+  { label:"About",                 key:"about",    x: cx + W*0.28, y: cy - H*0.78, w: clampW(130), h:54 }
 ];
 
 items.forEach(item => {
@@ -543,10 +868,9 @@ items.forEach(item => {
   el.className = "physics-button";
   el.innerHTML = item.label;
   worldElement.appendChild(el);
+
   let _px, _py;
-  el.addEventListener("pointerdown", e => {
-    _px = e.clientX; _py = e.clientY;
-  });
+  el.addEventListener("pointerdown", e => { _px = e.clientX; _py = e.clientY; });
   el.addEventListener("pointerup", e => {
     const dx = e.clientX - _px;
     const dy = e.clientY - _py;
