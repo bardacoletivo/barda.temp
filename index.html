@@ -74,7 +74,7 @@ body{
   background:white;
   color:black;
   font-family:'Space Grotesk',sans-serif;
-  font-size:20px;
+  font-size:25px;
   text-decoration:none;
   cursor:pointer;
   user-select:none;
@@ -264,11 +264,12 @@ body{
 
 .hamburger{
   position:fixed;
-  top:54px;   /* just below the logo (logo top 20 + font ~21 + gap ~13) */
+  top:80px;   /* just below the logo (logo top 20 + font ~21 + gap ~13) */
   right:24px;
   z-index:50;
+  color: var(--blue);
 
-  width:32px;
+  width:65px;
 
   display:flex;
   flex-direction:column;
@@ -283,7 +284,7 @@ body{
 .hamburger span{
   display:block;
   height:1.5px;
-  background:black;
+  background:var(--blue);
   transition:background .15s;
 }
 
@@ -330,13 +331,11 @@ body{
 
 .nav-about-label{
   font-family:'Space Grotesk',sans-serif;
-  font-size:13px;
+  font-size:17px;
   font-weight:500;
-  letter-spacing:.1em;
-  text-transform:uppercase;
   color:var(--blue);
   margin:0 0 20px 0;
-  text-align:left;
+  text-align:right;
   cursor:pointer;
   background:none;
   border:none;
@@ -350,7 +349,6 @@ body{
 .nav-divider{
   border:none;
   border-top:1px solid #e0e0e0;
-  margin:20px 0;
 }
 
 .nav-project-btn{
@@ -398,7 +396,7 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:28px;
+  gap:15px;
 
   padding:0 24px;
   height:var(--footer-h);
@@ -412,8 +410,8 @@ body{
   opacity:.85;
   transition:opacity .15s, transform .15s;
   text-decoration:none;
-  width:32px;
-  height:32px;
+  width:20px;
+  height:20px;
 }
 
 .footer-icon-link:hover{
