@@ -1,0 +1,37 @@
+backend:
+  name: github
+  repo: TEU_USERNAME/TEU_REPO
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "projects"
+    label: "Projetos"
+    folder: "content"
+    create: true
+    slug: "{{slug}}"
+
+    fields:
+      - { label: "Título", name: "title", widget: "string" }
+
+      - {
+          label: "Texto PT",
+          name: "body_pt",
+          widget: "markdown"
+        }
+
+      - {
+          label: "Texto EN",
+          name: "body_en",
+          widget: "markdown"
+        }
+
+      - label: "Galeria"
+        name: "images"
+        widget: "list"
+        field:
+          label: "Imagem"
+          name: "image"
+          widget: "image"
