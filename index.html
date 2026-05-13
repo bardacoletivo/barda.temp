@@ -98,6 +98,19 @@ html, body{
 #world{
   position:fixed; inset:0;
   overflow:hidden; z-index:10;
+  /* world catches drag only within itself */
+  touch-action:none;
+}
+
+/* ── UI LAYER — always above world ───────────── */
+.logo,
+.hamburger,
+.lang-toggle,
+.close-button,
+.nav-menu,
+.nav-overlay,
+.site-footer{
+  pointer-events:auto;
 }
 
 /* ── PHYSICS BUTTONS ──────────────────────────── */
@@ -183,7 +196,7 @@ html, body{
 .overlay-content{
   width:min(980px,92vw);
   /* leave room for footer + a gap */
-  height:calc(min(90vh,940px) - var(--footer-h) - 12px);
+  height:calc(min(80vh,940px) - var(--footer-h) - 12px);
   display:flex; flex-direction:column;
   position:relative;
   border:2px solid var(--blue);
@@ -279,8 +292,8 @@ html, body{
   .physics-button{ font-size:17px; padding:10px 14px; }
 
   .overlay-content{
-    width:90vw;
-    height:calc(80vh - var(--footer-h) - 8px);
+    width:96vw;
+    height:calc(75vh - var(--footer-h) - 8px);
     margin-bottom:calc(var(--footer-h) + 8px);
   }
 
@@ -318,10 +331,11 @@ html, body{
   </div>
 
   <footer class="site-footer">
-    <a href="mailto:bardacoletivo@gmail.com">bardacoletivo@gmail.com</a>
-    <a href="https://instagram.com/bardacoletivo" target="_blank" class="footer-ig">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-      @bardacoletivo
+    <a href="mailto:bardacoletivo@gmail.com" title="Email" style="display:flex;align-items:center;opacity:.85;transition:opacity .15s;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.144C21.69 2.28 24 3.434 24 5.457z"/></svg>
+    </a>
+    <a href="https://instagram.com/bardacoletivo" target="_blank" title="Instagram" style="display:flex;align-items:center;opacity:.85;transition:opacity .15s;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
     </a>
   </footer>
 
@@ -570,11 +584,21 @@ items.forEach(item => {
   item.el   = el;
 });
 
-// mouse / touch drag for physics
-const mouse = Mouse.create(document.body);
+// mouse / touch drag for physics — bind ONLY to #world, not the whole body
+// This lets all UI buttons (hamburger, lang, close, nav) receive touch events freely
+const mouse = Mouse.create(worldEl);
+// keep Matter's internal pixel ratio in sync
+mouse.pixelRatio = window.devicePixelRatio;
 const mc = MouseConstraint.create(engine, {
   mouse, constraint:{ stiffness:.2, render:{ visible:false } }
 });
+// prevent Matter from swallowing touch events that start outside #world
+mc.mouse.element.removeEventListener("touchstart", mc.mouse.mousedown);
+mc.mouse.element.removeEventListener("touchmove",  mc.mouse.mousemove);
+mc.mouse.element.removeEventListener("touchend",   mc.mouse.mouseup);
+mc.mouse.element.addEventListener("touchstart", mc.mouse.mousedown, { passive: true });
+mc.mouse.element.addEventListener("touchmove",  mc.mouse.mousemove, { passive: true });
+mc.mouse.element.addEventListener("touchend",   mc.mouse.mouseup,   { passive: true });
 Composite.add(world, mc);
 
 Runner.run(Runner.create(), engine);
