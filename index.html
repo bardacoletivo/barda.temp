@@ -26,7 +26,6 @@ html, body{
 }
 
 /* ── PUSH WRAPPER ─────────────────────────────── */
-/* Everything except the nav slides left when menu opens */
 #site-wrap{
   position:fixed;
   inset:0;
@@ -55,7 +54,7 @@ html, body{
   position:fixed;
   top:50px; right:24px;
   z-index:500;
-  width:32px;          /* sized by JS to match logo width */
+  width:32px;
   display:flex; flex-direction:column; gap:6px;
   cursor:pointer;
   padding:4px 0;
@@ -64,7 +63,7 @@ html, body{
 }
 .hamburger span{
   display:block; height:2px;
-  background:black;
+  background:var(--blue);
 }
 
 /* ── LANG TOGGLE ──────────────────────────────── */
@@ -98,18 +97,11 @@ html, body{
 #world{
   position:fixed; inset:0;
   overflow:hidden; z-index:10;
-  /* world catches drag only within itself */
   touch-action:none;
 }
 
-/* ── UI LAYER — always above world ───────────── */
-.logo,
-.hamburger,
-.lang-toggle,
-.close-button,
-.nav-menu,
-.nav-overlay,
-.site-footer{
+/* ── UI LAYER ─────────────────────────────────── */
+.logo, .hamburger, .lang-toggle, .close-button, .nav-menu, .nav-overlay, .site-footer{
   pointer-events:auto;
 }
 
@@ -122,12 +114,12 @@ html, body{
   font-family:'Space Grotesk',sans-serif; font-size:20px;
   cursor:pointer; user-select:none; white-space:nowrap;
   min-width:80px; max-width:min(340px,80vw);
-  touch-action:none;   /* lets Matter.js handle touch drag */
+  touch-action:none;
   transition:background .15s,color .15s,border-color .15s;
 }
 .physics-button:hover{ background:var(--blue); color:white; border-color:var(--blue); }
 
-/* ── NAV OVERLAY (dim) ────────────────────────── */
+/* ── NAV OVERLAY ──────────────────────────────── */
 .nav-overlay{
   display:none;
   position:fixed; inset:0;
@@ -139,7 +131,7 @@ html, body{
 /* ── NAV MENU ─────────────────────────────────── */
 .nav-menu{
   position:fixed;
-  top:0; right:calc(-1 * var(--nav-w));  /* starts off-screen right */
+  top:0; right:calc(-1 * var(--nav-w));
   width:var(--nav-w); height:100%;
   background:white;
   border-left:1px solid #e0e0e0;
@@ -153,11 +145,10 @@ html, body{
 
 .nav-menu-close{
   position:absolute; top:0; left:0;
-  width:48px; height:48px;
+  width:35px; height:35px;
   border:none; background:var(--blue); color:white;
   font-size:28px; cursor:pointer;
   display:flex; align-items:center; justify-content:center;
-  touch-action:manipulation;
 }
 
 .nav-about-label{
@@ -166,7 +157,6 @@ html, body{
   text-transform:uppercase; color:var(--blue);
   margin:0 0 20px 0; text-align:left;
   cursor:pointer; background:none; border:none; padding:0;
-  touch-action:manipulation;
 }
 .nav-about-label:hover{ opacity:.7; }
 
@@ -178,16 +168,15 @@ html, body{
   background:none; border:none;
   padding:12px 0;
   cursor:pointer; text-align:right; width:100%; color:black;
-  touch-action:manipulation;
   transition:color .15s;
 }
 .nav-project-btn:hover{ color:var(--blue); }
 
-/* ── OVERLAY (project windows) ────────────────── */
+/* ── OVERLAY (Project Windows) ────────────────── */
 .overlay-container{
   display:none;
   position:fixed; inset:0;
-  align-items:center; justify-content:center;
+  align-items:flex-start; justify-content:center;
   z-index:300;
   pointer-events:none;
 }
@@ -195,55 +184,61 @@ html, body{
 
 .overlay-content{
   width:min(980px,92vw);
-  /* leave room for footer + a gap */
-  height:calc(min(80vh,940px) - var(--footer-h) - 12px);
+  margin-top:90px;
+  height:calc(100vh - 90px - var(--footer-h) - 16px);
   display:flex; flex-direction:column;
   position:relative;
   border:2px solid var(--blue);
   background:rgba(255,255,255,.95);
   backdrop-filter:blur(10px);
   pointer-events:auto;
-  /* push window up so it clears the footer */
-  margin-bottom:calc(var(--footer-h) + 12px);
 }
 
-/* fixed close button inside the window, top-right corner */
 .close-button{
-  position:absolute;
-  top:0; right:0;
-  width:48px; height:48px;
+  position:absolute; top:0; right:0;
+  width:35px; height:35px;
   border:none; background:var(--blue); color:white;
   font-size:28px; line-height:1;
   cursor:pointer; z-index:10;
   display:flex; align-items:center; justify-content:center;
-  touch-action:manipulation;
-  flex-shrink:0;
 }
 
-/* scrollable content inside, padded to clear the close button */
 #content{
   flex:1; overflow-y:auto; overflow-x:hidden;
   padding:52px 52px 52px 52px;
   -webkit-overflow-scrolling:touch;
-  scrollbar-width:thin; scrollbar-color:var(--blue) transparent;
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: var(--blue) transparent;
 }
-#content::-webkit-scrollbar{ width:4px; }
-#content::-webkit-scrollbar-track{ background:transparent; }
-#content::-webkit-scrollbar-thumb{ background:var(--blue); border-radius:0; }
-#content::-webkit-scrollbar-button{ display:none; }
 
-/* ── BILINGUAL ────────────────────────────────── */
-.bilingual{
-  display:grid; grid-template-columns:1fr 1fr;
+/* ── SCROLLBAR STYLING (Webkit - Chrome, Safari, Edge) ── */
+#content::-webkit-scrollbar {
+  width: 6px;
+}
+#content::-webkit-scrollbar-track {
+  background: transparent;
+}
+#content::-webkit-scrollbar-thumb {
+  background-color: var(--blue);
+  border-radius: 0; /* flat/sem bisel */
+}
+#content::-webkit-scrollbar-button {
+  display: none; /* remove setas */
+}
+
+/* ── BILINGUAL SYSTEM ─────────────────────────── */
+.bilingual-block{
+  display:static; grid-template-columns:1fr 1fr;
   gap:0 40px; margin-bottom:18px;
 }
-.bilingual p{ margin:0; }
+@media(max-width:600px){ .bilingual-block{ grid-template-columns:1fr; } }
+
 .lang-label{
   font-size:11px; font-weight:500; letter-spacing:.08em;
   color:var(--blue); text-transform:uppercase;
   margin-bottom:6px !important;
 }
-@media(max-width:600px){ .bilingual{ grid-template-columns:1fr; } }
 
 /* ── BIOS ─────────────────────────────────────── */
 .bios{ margin-top:40px; border-top:1px solid #e0e0e0; padding-top:32px; }
@@ -253,18 +248,17 @@ html, body{
   text-transform:uppercase; color:var(--blue); margin:0 0 28px 0;
 }
 .bio{ margin-bottom:32px; padding-bottom:32px; border-bottom:1px solid #f0f0f0; }
-.bio:last-child{ border-bottom:none; margin-bottom:0; padding-bottom:0; }
+.bio:last-child{ border-bottom:none; }
 .bio-name{ font-family:'Space Grotesk',sans-serif; font-size:17px; font-weight:500; margin:0 0 10px 0; }
 .bio p{ font-size:14px; line-height:1.65; color:#333; margin:0; }
 
 /* ── CONTENT INNER ────────────────────────────── */
-.content-inner{ max-width:760px; }
+.content-inner{ max-width:800px; }
 .content-inner h2{ margin:0 0 18px 0; font-family:'Space Grotesk',sans-serif; font-size:34px; font-weight:500; }
 .content-inner p{ margin:0 0 18px 0; font-size:15px; line-height:1.65; }
 
 /* ── SWIPER ───────────────────────────────────── */
 .swiper{ width:100%; height:58vh; margin-top:34px; }
-.swiper-slide{ display:flex; align-items:center; justify-content:center; }
 .swiper-slide img{ width:100%; height:100%; object-fit:contain; }
 .swiper-button-next,.swiper-button-prev{ color:var(--blue); }
 .swiper-pagination-bullet-active{ background:var(--blue); }
@@ -272,43 +266,25 @@ html, body{
 /* ── FOOTER ───────────────────────────────────── */
 .site-footer{
   position:fixed; bottom:0; left:0; right:0;
-  z-index:40;
-  background:var(--blue); color:white;
+  z-index:40; background:var(--blue); color:white;
   display:flex; align-items:center; justify-content:center;
-  gap:28px;
-  height:var(--footer-h);
-  padding:0 24px;
+  gap:28px; height:var(--footer-h);
   font-family:'Space Grotesk',sans-serif; font-size:13px;
 }
-.site-footer a{ color:white; text-decoration:none; opacity:.85; transition:opacity .15s; }
-.site-footer a:hover{ opacity:1; }
-.footer-ig{ display:flex; align-items:center; gap:7px; }
-.footer-ig svg{ width:16px; height:16px; fill:white; }
+.site-footer a{ color:white; text-decoration:none; opacity:.85; }
 
-/* ── MOBILE ───────────────────────────────────── */
 @media(max-width:768px){
   .statement{ width:84vw; font-size:18px; }
-
   .physics-button{ font-size:17px; padding:10px 14px; }
-
-  .overlay-content{
-    width:96vw;
-    height:calc(75vh - var(--footer-h) - 8px);
-    margin-bottom:calc(var(--footer-h) + 8px);
-  }
-
+  .overlay-content{ width:96vw; margin-top:88px; height:calc(100vh - 88px - var(--footer-h) - 12px); }
   #content{ padding:52px 20px 20px 20px; }
-
   .content-inner h2{ font-size:26px; }
   .swiper{ height:40vh; }
-
-  .site-footer{ font-size:11px; gap:18px; }
 }
 </style>
 </head>
 <body>
 
-<!-- everything that slides left lives inside #site-wrap -->
 <div id="site-wrap">
 
   <h1 class="logo" id="logoHome">BARDA</h1>
@@ -319,7 +295,10 @@ html, body{
     <span></span><span></span><span></span>
   </button>
 
-  <div class="statement">Images as tools for collective transformation</div>
+  <div class="statement" id="mainStatement">
+    <div class="lang-pt">Imagens como ferramentas para a transformação coletiva</div>
+    <div class="lang-en">Images as tools for collective transformation</div>
+  </div>
 
   <div id="world"></div>
 
@@ -331,21 +310,23 @@ html, body{
   </div>
 
   <footer class="site-footer">
-    <a href="mailto:bardacoletivo@gmail.com" title="Email" style="display:flex;align-items:center;opacity:.85;transition:opacity .15s;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.144C21.69 2.28 24 3.434 24 5.457z"/></svg>
+    <a href="mailto:bardacoletivo@gmail.com" title="Email">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.144C21.69 2.28 24 3.434 24 5.457z"/></svg>
     </a>
-    <a href="https://instagram.com/bardacoletivo" target="_blank" title="Instagram" style="display:flex;align-items:center;opacity:.85;transition:opacity .15s;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    <a href="https://instagram.com/bardacoletivo" target="_blank" title="Instagram">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
     </a>
   </footer>
 
-</div><!-- /#site-wrap -->
+</div>
 
-<!-- nav lives OUTSIDE site-wrap so it slides in from the right edge -->
 <div class="nav-overlay" id="navOverlay"></div>
 <nav class="nav-menu" id="navMenu">
   <button class="nav-menu-close" id="navClose">×</button>
-  <button class="nav-about-label" id="navAbout">About</button>
+  <button class="nav-about-label" id="navAbout">
+    <span class="lang-pt">Sobre</span>
+    <span class="lang-en">About</span>
+  </button>
   <hr class="nav-divider">
   <button class="nav-project-btn" data-key="membrana">Membrana</button>
   <button class="nav-project-btn" data-key="porvir">Porvir</button>
@@ -356,7 +337,6 @@ html, body{
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 <script>
-/* ── REFS ─────────────────────────────────────── */
 const siteWrap   = document.getElementById("site-wrap");
 const overlay    = document.getElementById("overlay");
 const content    = document.getElementById("content");
@@ -371,47 +351,21 @@ const navClose   = document.getElementById("navClose");
 let swiperInst = null;
 let currentLang = "pt";
 
-/* ── LOGO → home ──────────────────────────────── */
-document.getElementById("logoHome").addEventListener("click", closeOverlay);
-
-/* ── HAMBURGER size = logo width ──────────────── */
-window.addEventListener("load", () => {
-  const logoW = document.getElementById("logoHome").offsetWidth;
-  if(logoW > 0) hamburger.style.width = logoW + "px";
-});
-
-/* ── NAV open / close ─────────────────────────── */
-function openNav(){
-  navMenu.classList.add("open");
-  navOverlay.classList.add("open");
-  siteWrap.classList.add("nav-open");
-}
-function closeNav(){
-  navMenu.classList.remove("open");
-  navOverlay.classList.remove("open");
-  siteWrap.classList.remove("nav-open");
-}
-
-hamburger.addEventListener("click", openNav);
-navClose.addEventListener("click", closeNav);
-navOverlay.addEventListener("click", closeNav);
-
-document.getElementById("navAbout").addEventListener("click", () => { closeNav(); openProject("about"); });
-document.querySelectorAll(".nav-project-btn").forEach(btn => {
-  btn.addEventListener("click", () => { closeNav(); openProject(btn.dataset.key); });
-});
-
-/* ── LANGUAGE TOGGLE ──────────────────────────── */
+/* ── LANGUAGE ENGINE ──────────────────────────── */
 function applyLang(lang){
   const isEN = lang === "en";
-  document.querySelectorAll(".bilingual").forEach(b => {
-    const pt = b.querySelector("div:nth-child(1)");
-    const en = b.querySelector("div:nth-child(2)");
+  document.querySelectorAll(".lang-pt").forEach(el => el.style.display = isEN ? "none" : "block");
+  document.querySelectorAll(".lang-en").forEach(el => el.style.display = isEN ? "block" : "none");
+  document.querySelectorAll(".bilingual-block").forEach(b => {
+    const pt = b.querySelector(".pt-col");
+    const en = b.querySelector(".en-col");
     if(pt && en){
       pt.style.display = isEN ? "none" : "block";
       en.style.display = isEN ? "block" : "none";
-      b.style.gridTemplateColumns = "1fr";
     }
+  });
+  items.forEach(item => {
+    if(item.key === "about") item.el.textContent = isEN ? "About" : "Sobre";
   });
 }
 
@@ -427,10 +381,27 @@ const projectData = {
     title:"Membrana",
     text:`<div class="content-inner">
       <h2>Membrana</h2>
-      <p style="font-size:13px;color:var(--blue);letter-spacing:.06em;text-transform:uppercase;margin-bottom:20px;">Exposição coletiva · 2023–2025</p>
-      <div class="bilingual">
-        <div><p class="lang-label">PT</p><p>A exposição parte do conceito científico de adaptação sensorial — uma ferramenta que equilibra a sensibilidade dos estímulos que recebemos — e convoca os visitantes a reflectir sobre os sentidos, alargando os domínios da percepção. É na ligação entre o público e o privado que surge a concepção da "Membrana", expandindo as formas de ver para refletir sobre as conexões entre as pessoas. Através de dispositivos que exploram a cor, o movimento e a interface entre os sentidos e a realidade, a exposição apresenta uma abstração e desconstrução do quotidiano, expondo camadas mais profundas da compreensão da realidade.</p></div>
-        <div><p class="lang-label">EN</p><p>The exhibition departs from the scientific concept of sensory adaptation — a tool that balances the sensitivity of the stimuli we receive — calling visitors to reflect on the senses and expand the domains of perception. It is in the connection between the public and the private that the conception of the "Membrane" arises, expanding ways of seeing to reflect on the connections between people. Through devices that explore colour, movement, and the interface between senses and reality, the exhibition presents an abstraction and deconstruction of the everyday, exposing deeper layers of understanding reality.</p></div>
+      <div class="lang-subheader" style="font-size:13px;color:var(--blue);letter-spacing:.06em;text-transform:uppercase;margin-bottom:20px;">
+        <span class="lang-pt">Exposição coletiva · ACERT, Tondela · 2023–2025</span>
+        <span class="lang-en">Collective exhibition · ACERT, Tondela · 2023–2025</span>
+      </div>
+      <div class="bilingual-block">
+        <div class="pt-col">
+          <p class="lang-label">PT</p>
+          <p>Todas as pessoas vivem vidas diferentes, mas há coisas que fazem parte da experiência coletiva que partilhamos como seres humanos: uma delas é a experiência de navegação no mundo exterior.</p>
+          <p>De manhã, quando trocamos de roupa para sair de casa, durante quanto tempo sentimos a roupa na nossa pele? Ao sair de casa, quanto tempo demoramos até deixarmos de sentir o desconforto da temperatura? E o ruído dos automóveis na calçada? Quanto desse ruído desaparece quando encontramos alguém conhecido na rua e ficamos a conversar?</p>
+          <p>O corpo e a mente humana estabelecem diversas ferramentas para nos podermos guiar nessa navegação. A exposição, partindo do conceito científico de adaptação sensorial - uma ferramenta que equilibra a sensibilidade dos estímulos que recebemos - é uma passagem que convoca os visitantes a reflectir sobre os sentidos alargando os domínios da percepção.</p>
+          <p>É na ligação entre o público e o privado que surge a concepção da "Membrana", expandindo as formas de ver para refletir sobre as conexões entre as pessoas. Ao atravessar essa membrana entre o público e o privado, a exposição revela interstícios invisíveis que formam a base da construção do ser social e dos territórios em que vivemos.</p>
+          <p>Através de dispositivos que exploram a cor, o movimento e a interface entre os sentidos e a realidade, a exposição apresenta uma abstração e desconstrução do quotidiano, expondo camadas mais profundas da compreensão da realidade. Assim, a imersão torna-se um elemento-chave na experiência proposta, abrindo espaço para que os visitantes se envolvam num diálogo interno.</p>
+        </div>
+        <div class="en-col">
+          <p class="lang-label">EN</p>
+          <p>All people live different lives, but there are things that are part of the collective experience we share as human beings: one of them is the experience of navigating the external world.</p>
+          <p>In the morning, when we change clothes to leave home, how long do we feel the clothes on our skin? When leaving home, how long does it take until we stop feeling the discomfort of the temperature? And the noise of cars on the sidewalk? How much of that noise disappears when we encounter someone we know on the street and start talking?</p>
+          <p>The human body and mind establish various tools for us to navigate this journey. The exhibition, starting from the scientific concept of sensory adaptation - a tool that balances the sensitivity of the stimuli we receive - is a passage that calls visitors to reflect on the senses, expanding the domains of perception.</p>
+          <p>It is in the connection between the public and the private that the conception of the "Membrane" arises, expanding the ways of seeing to reflect on the connections between people. By crossing this membrane between the public and the private, the exhibition reveals invisible interstices that form the basis of the construction of social beings and the territories in which we live.</p>
+          <p>Through devices that explore color, movement, and the interface between senses and reality, the exhibition presents an abstraction and deconstruction of the everyday, exposing deeper layers of understanding reality. Thus, immersion becomes a key element in the proposed experience, opening space for visitors to engage in internal dialogue.</p>
+        </div>
       </div>
     </div>`,
     images:["images/membrana/01.jpg","images/membrana/02.jpg","images/membrana/03.jpg"]
@@ -439,10 +410,21 @@ const projectData = {
     title:"Porvir",
     text:`<div class="content-inner">
       <h2>Porvir</h2>
-      <p style="font-size:13px;color:var(--blue);letter-spacing:.06em;text-transform:uppercase;margin-bottom:20px;">Projeto de arte participativa · Serra do Açor · 2024</p>
-      <div class="bilingual">
-        <div><p class="lang-label">PT</p><p>Porvir é um projeto de intercâmbio multidisciplinar que envolve artistas locais, artistas externos e a comunidade, com o objetivo de imaginar o futuro através da arte participativa. Focado em quatro aldeias da Serra do Açor, o Porvir procura, através da expressão artística, construir um espaço de partilha, investigação, criação e exposição, estimulando o pensamento crítico das comunidades envolvidas. O projeto culmina em exposições coletivas no espaço público, promovendo discussões abertas e trocas de ideias entre participantes, público e instituições.</p></div>
-        <div><p class="lang-label">EN</p><p>Porvir is a multidisciplinary exchange project involving local artists, external artists, and the community, aimed at envisioning the future through participatory art. Focused on four villages in the Serra do Açor region, Porvir seeks, through artistic expression, to build a space for sharing, research, creation, and exhibition, while stimulating the critical thinking of the involved communities. The project culminates in collective exhibitions in the public space, promoting open discussions and idea exchanges among participants, the public, and institutions.</p></div>
+      <div class="lang-subheader" style="font-size:13px;color:var(--blue);letter-spacing:.06em;text-transform:uppercase;margin-bottom:20px;">
+        <span class="lang-pt">Projeto de arte participativa · Serra do Açor · 2024</span>
+        <span class="lang-en">Participatory art project · Serra do Açor · 2024</span>
+      </div>
+      <div class="bilingual-block">
+        <div class="pt-col">
+          <p class="lang-label">PT</p>
+          <p>Porvir é um projeto de intercâmbio multidisciplinar que envolve artistas locais, artistas externos e a comunidade, com o objetivo de imaginar o futuro através da arte participativa. Focado em quatro aldeias da Serra do Açor, o Porvir procura, através da expressão artística, construir um espaço de partilha, investigação, criação e exposição, estimulando o pensamento crítico das comunidades envolvidas.</p>
+          <p>Oficinas participativas são realizadas em três aldeias diferentes, onde artistas e membros da comunidade colaboram em projetos únicos. Cada aldeia acolhe um artista em residência, que desenvolve obras originais inspiradas nas experiências e dinâmicas locais. O projeto culmina em exposições coletivas no espaço público, promovendo discussões abertas e trocas de ideias entre participantes, público e instituições.</p>
+        </div>
+        <div class="en-col">
+          <p class="lang-label">EN</p>
+          <p>Porvir is a multidisciplinary exchange project involving local artists, external artists, and the community, aimed at envisioning the future through participatory art. Focused on four villages in the Serra do Açor region, Porvir seeks, through artistic expression, to build a space for sharing, research, creation, and exhibition, while stimulating the critical thinking of the involved communities.</p>
+          <p>Participatory workshops are held in three different villages, where artists and community members collaborate on unique projects. Each village host an artist-in-residence, who develops original artworks inspired by local experiences and dynamics. The project culminates in collective exhibitions in the public space, promoting open discussions and idea exchanges among participants, the public, and institutions.</p>
+        </div>
       </div>
     </div>`,
     images:["images/porvir/01.jpg","images/porvir/02.jpg","images/porvir/03.jpg"]
@@ -451,10 +433,21 @@ const projectData = {
     title:"Imagens Verdes",
     text:`<div class="content-inner">
       <h2>Imagens Verdes</h2>
-      <p style="font-size:13px;color:var(--blue);letter-spacing:.06em;text-transform:uppercase;margin-bottom:20px;">Oficinas de expressão artística · Porto · 2023–2025</p>
-      <div class="bilingual">
-        <div><p class="lang-label">PT</p><p>Imagens Verdes é um projeto contínuo de transformação que reúne pessoas com 65 ou mais anos para uma exploração única da autoexpressão. Através de oficinas dinâmicas que integram teatro, música, ilustração e fotografia, os participantes mergulham nas suas memórias, partilhando experiências entre si. Dedicado à promoção do intercâmbio entre artistas e a comunidade sénior do Bonfim no Porto, o projeto explora memórias afetivas através de práticas interdisciplinares, promovendo a democratização cultural e a expressão artística.</p></div>
-        <div><p class="lang-label">EN</p><p>Imagens Verdes is an ongoing project aimed at transformation, bringing together individuals aged 65 and above for a unique exploration of self-expression. Through dynamic workshops that integrate theatre, music, illustration, and photography, participants delve into the realms of their memories, sharing their experiences with one another. Dedicated to promoting exchange between artists and the senior community of Bonfim in Porto, we explore affective memories through interdisciplinary practices, fostering cultural democratisation and artistic expression.</p></div>
+      <div class="lang-subheader" style="font-size:13px;color:var(--blue);letter-spacing:.06em;text-transform:uppercase;margin-bottom:20px;">
+        <span class="lang-pt">Oficinas de expressão artística · Porto · 2023–2025</span>
+        <span class="lang-en">Artistic expression workshops · Porto · 2023–2025</span>
+      </div>
+      <div class="bilingual-block">
+        <div class="pt-col">
+          <p class="lang-label">PT</p>
+          <p>Imagens Verdes é um projeto contínuo de transformação que reúne pessoas com 65 ou mais anos para uma exploração única da autoexpressão. Através de oficinas dinâmicas que integram teatro, música, ilustração e fotografia, os participantes mergulham nas suas memórias, partilhando experiências entre si.</p>
+          <p>Dedicado à promoção do intercâmbio entre artistas e a comunidade sénior do Bonfim no Porto, exploramos memórias afetivas através de práticas interdisciplinares. A partir de memórias afetivas e coletivas, interpretamos experiências num ambiente de apoio e comunhão, envolvendo os participantes através de diversas atividades desenhadas para promover a democratização cultural na zona e incentivar a expressão artística. Estas sessões são concebidas com princípios de aprendizagem não-formal e fomento do convívio no seu cerne.</p>
+        </div>
+        <div class="en-col">
+          <p class="lang-label">EN</p>
+          <p>Imagens Verdes is an ongoing project aimed at transformation, bringing together individuals aged 65 and above for a unique exploration of self-expression. Through dynamic workshops that integrate theater, music, illustration, and photography, participants delve into the realms of their memories, sharing their experiences with one another.</p>
+          <p>Dedicated to promoting exchange between artists and the senior community of Bonfim in Porto, we explore affective memories through interdisciplinary practices. Drawing from both affective and collective memories, we interpret experiences within a supportive and communal environment, engaging participants through various activities designed to promote cultural democratization in the area and encourage artistic expression. These sessions are designed with principles of non-formal learning and fostering conviviality at their core.</p>
+        </div>
       </div>
     </div>`,
     images:["images/imagensverdes/01.jpg","images/imagensverdes/02.jpg","images/imagensverdes/03.jpg"]
@@ -463,54 +456,62 @@ const projectData = {
     title:"A Casa de Falar Baixinho",
     text:`<div class="content-inner">
       <h2>A Casa de Falar Baixinho</h2>
-      <p style="font-size:13px;color:var(--blue);letter-spacing:.06em;text-transform:uppercase;margin-bottom:20px;">Exposição · Encontros da Imagem · 2025</p>
-      <div class="bilingual">
-        <div><p class="lang-label">PT</p><p>Integrada no núcleo expositivo Argumentários, que celebra e revisita a história do festival, a intervenção do Colectivo Barda responde ao desafio de recuperar memórias e experiências que moldaram de forma sensível e contínua a identidade dos Encontros da Imagem. Partindo de eventos reais da Semana de Abertura de 2018, o coletivo explora encontros, trocas e gestos inscritos na memória da comunidade reunida em torno do festival. Cada imagem em A casa de falar baixinho evoca episódios específicos, convocando afetos, práticas e momentos que, embora ausentes da documentação formal, ficaram marcados nos corpos e na memória particular de cada edição.</p></div>
-        <div><p class="lang-label">EN</p><p>Integrated into the exhibition core Argumentários, which aims to celebrate and revisit the history of the festival, the intervention by Colectivo Barda responds to the challenge of recovering memories and experiences that have sensitively shaped the identity of Encontros da Imagem. Drawing from real events during the Opening Week of 2018, the collective explores encounters, exchanges and gestures inscribed in the memory of the community gathered around the festival. Each image in A casa de falar baixinho evokes specific episodes, calling forth affects, practices and moments that, although absent from formal documentation, left their mark on bodies and became embedded in the memory of each edition.</p></div>
+      <div class="lang-subheader" style="font-size:13px;color:var(--blue);letter-spacing:.06em;text-transform:uppercase;margin-bottom:20px;">
+        <span class="lang-pt">Exposição · Encontros da Imagem · 2025</span>
+        <span class="lang-en">Exhibition · Encontros da Imagem · 2025</span>
+      </div>
+      <div class="bilingual-block">
+        <div class="pt-col">
+          <p class="lang-label">PT</p>
+          <p>Integrada no núcleo expositivo Argumentários, que celebra e revisita a história do festival, a intervenção do Colectivo Barda responde ao desafio de recuperar memórias e experiências que moldaram de forma sensível e contínua a identidade dos Encontros da Imagem.</p>
+          <p>Partindo de eventos reais da Semana de Abertura de 2018, o coletivo explora encontros, trocas e gestos inscritos na memória da comunidade reunida em torno do festival. Cada imagem em A casa de falar baixinho evoca episódios específicos, convocando afetos, práticas e momentos que, embora ausentes da documentação formal, ficaram marcados nos corpos e na memória particular de cada edição.</p>
+        </div>
+        <div class="en-col">
+          <p class="lang-label">EN</p>
+          <p>Integrated into the exhibition core Argumentários, which aims to celebrate and revisit the history of the festival, the intervention by Colectivo Barda responds to the challenge of recovering memories and experiences that have sensitively shaped the identity of Encontros da Imagem.</p>
+          <p>Drawing from real events during the Opening Week of 2018, the collective explores encounters, exchanges and gestures inscribed in the memory of the community gathered around the festival. Each image in A casa de falar baixinho evokes specific episodes, calling forth affects, practices and moments that, although absent from formal documentation, left their mark on bodies and became embedded in the memory of each edition.</p>
+        </div>
       </div>
     </div>`,
-    images:["images/casafalarbaixinho/1.jpg","images/casafalarbaixinho/2.jpg","images/casafalarbaixinho/3.jpg"]
+    images:["images/casafalarbaixinho/1.jpg"]
   },
   about:{
     title:"About",
     text:`<div class="content-inner">
       <h2>BARDA</h2>
-      <div class="bilingual" style="margin-bottom:28px;">
-        <div><p class="lang-label">PT</p><p>O Colectivo Barda enfatiza as artes visuais como meio de transformação e capacitação de comunidades periféricas, usando a imagem como ferramenta de intervenção e questionamento, promovendo a criação de sinergias entre comunidade e território através de diálogos experimentais. Barda é uma manifestação de vontade colaborativa que tomou a forma de um coletivo.</p></div>
-        <div><p class="lang-label">EN</p><p>Barda Collective emphasises visual arts as a means of transformation and empowerment for peripheral communities, using imagery as a tool for intervention and questioning, promoting the creation of synergies between community and territory through experimental dialogues. Barda is a manifestation of collaborative will that has taken the form of a collective.</p></div>
+      <div class="bilingual-block" style="margin-bottom:28px;">
+        <div class="pt-col">
+          <p class="lang-label">PT</p>
+          <p>O Colectivo Barda enfatiza as artes visuais como meio de transformação e capacitação de comunidades periféricas, usando a imagem como ferramenta de intervenção e questionamento, promovendo a criação de sinergias entre comunidade e território através de diálogos experimentais.</p>
+          <p>Barda é uma manifestação de vontade colaborativa que tomou a forma de um coletivo.</p>
+        </div>
+        <div class="en-col">
+          <p class="lang-label">EN</p>
+          <p>Barda Collective emphasizes visual arts as a means of transformation and empowerment for peripheral communities, using imagery as a tool for intervention and questioning, promoting the creation of synergies between community and territory through experimental dialogues.</p>
+          <p>Barda is a manifestation of collaborative will that has taken the form of a collective.</p>
+        </div>
       </div>
       <div class="bios">
-        <h3>Who is Barda?</h3>
-        <div class="bio"><p class="bio-name">Ana Luísa Rego</p><p>Born in Cinfães (1974), lives in Porto. She began her journey in photography during the analog era, complementing her education with a Photography course at Oficina Da Imagem (2009), a documentary photography workshop at Instituto Português de Fotografia (2015), and a Master's in Artistic Photography at IPCI (2019). She was a founding member of cultural association Espaço Compasso and social association Moving Cause. In her practice, she documents themes inspired by social, cultural, and scientific issues through an interdisciplinary and collaborative approach. She exhibits individually and collectively in Portugal and abroad, with highlights at Fnac Galleries, Fundação Oriente Dili-Timor, Encontros de Imagem, PhotoAlicante, and HybridArt Space Gallery in Budapest.</p></div>
-        <div class="bio"><p class="bio-name">Carlos Trancoso</p><p>Born in 1989, visual artist based in Porto. Trained in Architecture at FAUP and holding a Master's in Artistic Photography from IPCI, his practice explores the intersections between nature, technology and systems of observation, combining photographic thinking with spatial, sonic and computational processes. He works across photography, installation, video and experimental image-making devices. Since 2022 he has been a member of the European Futures Photography platform through Ci.Clo. In 2024 he won the Intergalactica Open Call, leading to the publication of his photobook <em>How to Build a Telescope</em> by XYZ Books in 2025.</p></div>
-        <div class="bio"><p class="bio-name">Diana Sá</p><p>Born in Espinho in 1985. She attended the professional photography course at the Portuguese Institute of Photography and the Master's in Artistic Photography at IPCI. In 2020, she participated in an artistic residency in the Azores and received an honorable mention from FNAC in photography. She has participated in group exhibitions in Portugal and abroad. She is interested in long-term projects about territory, everyday life, and the ephemeral.</p></div>
-        <div class="bio"><p class="bio-name">Guida Marques</p><p>Born in 1986, neo-rural, lives in Serra do Açor since 2017. Master's in Multimedia Art – Performance/Installation at Fine Arts of Lisbon (2019) and Master's in Architecture at the University of Coimbra (2011). She develops reconstructions of schist houses and performances/installations focused on the body/place/memory relationship. Activist in defense of the forest, organic agriculture, and traditional architecture. She participated in the Manifesta 12 Contemporary Art Biennial and is one of the invited architects for the Portuguese representation at the Venice Architecture Biennale 2023.</p></div>
-        <div class="bio"><p class="bio-name">Hernâni Sousa</p><p>Born in Espinho in 1982. Holds a Master's in Information Science from the Faculty of Engineering at the University of Porto. Completed the Professional Photography Course at the Portuguese Institute of Photography (2018) and the Master's in Artistic Photography at IPCI (2019). He develops personal projects using the photographic medium around themes of intimacy and territory, with particular interest in semiotics and the politicisation of things.</p></div>
-        <div class="bio"><p class="bio-name">Inês Fernandes</p><p>Born in Porto (1996). Graduated in New Communication Technologies from the University of Aveiro and attended the Master's in Artistic Photography at IPCI. In 2019, she interned at Jornal Público, and since then has worked simultaneously as a photographer and freelancer in graphic design and video editing. Her projects address contemporary themes focused on social and environmental issues, with a preference for rural and decentralised contexts. Her work has been featured in international publications including Musée Magazine (New York) and Gallery Photographs (Tokyo).</p></div>
-        <div class="bio"><p class="bio-name">Ivan Da Silva</p><p>Born in the late 80s, finds the theme of his work in neighboring centuries, shifting digital images to analog processes. Through experimental image analysis systems, he deconstructs everyday images in an ecology of images. He has participated in exhibitions at Circulation(s), Encontros da Imagem, Museu da Vila Velha de Vila Real, and Museu do Douro. He works as a visual arts teacher and was coordinator of the Imagens Verdes project.</p></div>
-        <div class="bio"><p class="bio-name">Juliana Maar</p><p>Born in 1981, began her journey in photography in 2013. She participated in group exhibitions in Lisbon and Paris, collaborated with publisher "do lado esquerdo" and launched the fanzine <em>underword</em>. She uses the body and self-portraiture as her main vehicles of expression. She attended the Master's in Artistic Photography at IPCI in 2019. Neo-rural in Serra do Açor for six years.</p></div>
-        <div class="bio"><p class="bio-name">Marco Duarte</p><p>Born in 1978, freelance documentary photographer tackling social issues in his visual projects. In 2021 he joined the community participation project "Alquimia – Como vejo o meu bairro" in Guimarães. In 2022, he co-founded the Barda collective, participating in various collaborative projects since then.</p></div>
+        <div class="lang-subheader">
+           <h3 class="lang-pt">Quem é o Barda?</h3>
+           <h3 class="lang-en">Who is Barda?</h3>
+        </div>
+        <div class="bio"><p class="bio-name">Ana Luísa Rego</p><p>Nasceu em Cinfães (1974), vive no Porto. Iniciou o seu percurso na fotografia ainda na era analógica. Na sua prática, documenta temas inspirados em questões sociais, culturais e científicas através de uma abordagem interdisciplinar e colaborativa.</p></div>
+        <div class="bio"><p class="bio-name">Carlos Trancoso</p><p>Artista visual sediado no Porto. A sua prática explora as interseções entre natureza, tecnologia e sistemas de observação, combinando o pensamento fotográfico com processos espaciais, sonoros e computacionais.</p></div>
+        <div class="bio"><p class="bio-name">Diana Sá</p><p>Frequentou o curso profissional de fotografia no IPF e o Mestrado em Fotografia Artística no IPCI. Interessa-se por projetos de longo prazo sobre o território, o quotidiano e o efémero.</p></div>
+        <div class="bio"><p class="bio-name">Guida Marques</p><p>Nascida em 1986, neo-rural. Desenvolve reconstruções de casas de xisto e performances/instalações focadas na relação corpo/lugar/memória. Ativista na defesa da floresta.</p></div>
+        <div class="bio"><p class="bio-name">Hernâni Sousa</p><p>Mestre em Ciência da Informação. Desenvolve projetos pessoais em torno de temas como a intimidade e o território, com particular interesse na semiótica.</p></div>
+        <div class="bio"><p class="bio-name">Inês Fernandes</p><p>Os seus projetos abordam temas contemporâneos focados em questões sociais e ambientais, com preferência por contextos rurais e descentralizados.</p></div>
+        <div class="bio"><p class="bio-name">Ivan Da Silva</p><p>Desconstrói imagens do quotidiano numa ecologia de imagens através de sistemas experimentais de análise de imagem.</p></div>
+        <div class="bio"><p class="bio-name">Juliana Maar</p><p>Utiliza o corpo e o autorretrato como principais veículos de expressão. Neo-rural na Serra do Açor há seis anos.</p></div>
+        <div class="bio"><p class="bio-name">Marco Duarte</p><p>Fotógrafo documental freelancer que aborda questões sociais nos seus projetos visuais.</p></div>
       </div>
     </div>`,
     images:[]
   }
 };
 
-/* ── SWIPER ───────────────────────────────────── */
-function buildSwiper(images){
-  if(!images.length) return "";
-  const slides = images.map(img=>`<div class="swiper-slide"><img src="${img}"></div>`).join("");
-  return `<div class="swiper"><div class="swiper-wrapper">${slides}</div><div class="swiper-button-next"></div><div class="swiper-button-prev"></div><div class="swiper-pagination"></div></div>`;
-}
-function initSwiper(){
-  swiperInst = new Swiper(".swiper",{
-    loop:true,
-    pagination:{el:".swiper-pagination"},
-    navigation:{nextEl:".swiper-button-next",prevEl:".swiper-button-prev"}
-  });
-}
-
-/* ── OPEN / CLOSE PROJECT ─────────────────────── */
+/* ── UI HELPERS ───────────────────────────────── */
 function openProject(key){
   const item = projectData[key];
   content.innerHTML = item.text + buildSwiper(item.images);
@@ -528,93 +529,86 @@ function closeOverlay(){
   if(swiperInst){ swiperInst.destroy(); swiperInst = null; }
 }
 
-closeBtn.addEventListener("click", closeOverlay);
+function buildSwiper(images){
+  if(!images.length) return "";
+  const slides = images.map(img=>`<div class="swiper-slide"><img src="${img}"></div>`).join("");
+  return `<div class="swiper"><div class="swiper-wrapper">${slides}</div><div class="swiper-button-next"></div><div class="swiper-button-prev"></div><div class="swiper-pagination"></div></div>`;
+}
 
-/* ── PHYSICS ──────────────────────────────────── */
+function initSwiper(){
+  swiperInst = new Swiper(".swiper",{ loop:true, pagination:{el:".swiper-pagination"}, navigation:{nextEl:".swiper-button-next",prevEl:".swiper-button-prev"} });
+}
+
+/* ── PHYSICS ENGINE ───────────────────────────── */
 const { Engine, Runner, Bodies, Composite, Mouse, MouseConstraint } = Matter;
-
 const engine = Engine.create();
 engine.gravity.y = 1.2;
 const world = engine.world;
-
-const W  = window.innerWidth;
-const H  = window.innerHeight;
+const W = window.innerWidth;
+const H = window.innerHeight;
 const cx = W / 2;
 const cy = H / 2;
-
-// floor sits just above the footer
-const FOOTER_H = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--footer-h")) || 44;
+const FOOTER_H = 44;
 const floorY = H - FOOTER_H;
 
 const floor     = Bodies.rectangle(W/2, floorY + 30, W, 60, {isStatic:true});
-const leftWall  = Bodies.rectangle(-30,  H/2, 60, H, {isStatic:true});
+const leftWall  = Bodies.rectangle(-30, H/2, 60, H, {isStatic:true});
 const rightWall = Bodies.rectangle(W+30, H/2, 60, H, {isStatic:true});
 Composite.add(world, [floor, leftWall, rightWall]);
 
 function clampW(w){ return Math.min(w, Math.floor(W * 0.78)); }
 
 const items = [
-  { label:"Membrana",              key:"membrana", x:cx-W*.22, y:cy-H*.55, w:clampW(190), h:54 },
-  { label:"Porvir",                key:"porvir",   x:cx+W*.04, y:cy-H*.70, w:clampW(140), h:54 },
-  { label:"Imagens Verdes",        key:"imagens",  x:cx+W*.20, y:cy-H*.62, w:clampW(240), h:54 },
-  { label:"Casa de Falar Baixinho",key:"casa",     x:cx-W*.04, y:cy-H*.85, w:clampW(320), h:54 },
-  { label:"About",                 key:"about",    x:cx+W*.28, y:cy-H*.78, w:clampW(130), h:54 }
+  { labelPT:"Membrana", labelEN:"Membrana", key:"membrana", x:cx-W*.22, y:cy-H*.55, w:clampW(190), h:54 },
+  { labelPT:"Porvir", labelEN:"Porvir", key:"porvir", x:cx+W*.04, y:cy-H*.70, w:clampW(140), h:54 },
+  { labelPT:"Imagens Verdes", labelEN:"Imagens Verdes", key:"imagens", x:cx+W*.20, y:cy-H*.62, w:clampW(240), h:54 },
+  { labelPT:"Casa de Falar Baixinho", labelEN:"Casa de Falar Baixinho", key:"casa", x:cx-W*.04, y:cy-H*.85, w:clampW(320), h:54 },
+  { labelPT:"Sobre", labelEN:"About", key:"about", x:cx+W*.28, y:cy-H*.78, w:clampW(130), h:54 }
 ];
 
 items.forEach(item => {
-  const body = Bodies.rectangle(item.x, item.y, item.w, item.h, {
-    restitution:.1, friction:.8, frictionAir:.02
-  });
+  const body = Bodies.rectangle(item.x, item.y, item.w, item.h, { restitution:.1, friction:.8, frictionAir:.02 });
   Composite.add(world, body);
-
   const el = document.createElement("div");
   el.className = "physics-button";
-  el.textContent = item.label;
+  el.textContent = currentLang === "en" ? item.labelEN : item.labelPT;
   worldEl.appendChild(el);
-
-  // drag-safe tap
-  let startX, startY;
-  el.addEventListener("pointerdown", e => { startX = e.clientX; startY = e.clientY; });
-  el.addEventListener("pointerup",   e => {
-    const d = Math.hypot(e.clientX - startX, e.clientY - startY);
-    if(d < 8) openProject(item.key);
-  });
-
-  item.body = body;
-  item.el   = el;
+  let sX, sY;
+  el.addEventListener("pointerdown", e => { sX = e.clientX; sY = e.clientY; });
+  el.addEventListener("pointerup", e => { if(Math.hypot(e.clientX-sX, e.clientY-sY) < 8) openProject(item.key); });
+  item.body = body; item.el = el;
 });
 
-// mouse / touch drag for physics — bind ONLY to #world, not the whole body
-// This lets all UI buttons (hamburger, lang, close, nav) receive touch events freely
 const mouse = Mouse.create(worldEl);
-// keep Matter's internal pixel ratio in sync
-mouse.pixelRatio = window.devicePixelRatio;
-const mc = MouseConstraint.create(engine, {
-  mouse, constraint:{ stiffness:.2, render:{ visible:false } }
-});
-// prevent Matter from swallowing touch events that start outside #world
-mc.mouse.element.removeEventListener("touchstart", mc.mouse.mousedown);
-mc.mouse.element.removeEventListener("touchmove",  mc.mouse.mousemove);
-mc.mouse.element.removeEventListener("touchend",   mc.mouse.mouseup);
-mc.mouse.element.addEventListener("touchstart", mc.mouse.mousedown, { passive: true });
-mc.mouse.element.addEventListener("touchmove",  mc.mouse.mousemove, { passive: true });
-mc.mouse.element.addEventListener("touchend",   mc.mouse.mouseup,   { passive: true });
+const mc = MouseConstraint.create(engine, { mouse, constraint:{ stiffness:.2, render:{ visible:false } } });
 Composite.add(world, mc);
-
 Runner.run(Runner.create(), engine);
 
 function tick(){
   items.forEach(({ body, el, w, h }) => {
-    el.style.width     = w + "px";
-    el.style.height    = h + "px";
-    el.style.left      = (body.position.x - w/2) + "px";
-    el.style.top       = (body.position.y - h/2) + "px";
+    el.style.width = w + "px"; el.style.height = h + "px";
+    el.style.left = (body.position.x - w/2) + "px"; el.style.top = (body.position.y - h/2) + "px";
     el.style.transform = `rotate(${body.angle}rad)`;
   });
   requestAnimationFrame(tick);
 }
 tick();
 
+/* ── NAV & GLOBAL ─────────────────────────────── */
+hamburger.addEventListener("click", () => { navMenu.classList.add("open"); navOverlay.classList.add("open"); siteWrap.classList.add("nav-open"); });
+const closeNav = () => { navMenu.classList.remove("open"); navOverlay.classList.remove("open"); siteWrap.classList.remove("nav-open"); };
+navClose.addEventListener("click", closeNav);
+navOverlay.addEventListener("click", closeNav);
+closeBtn.addEventListener("click", closeOverlay);
+document.getElementById("logoHome").addEventListener("click", closeOverlay);
+document.getElementById("navAbout").addEventListener("click", () => { closeNav(); openProject("about"); });
+document.querySelectorAll(".nav-project-btn").forEach(btn => btn.addEventListener("click", () => { closeNav(); openProject(btn.dataset.key); }));
+
+window.addEventListener("load", () => { 
+  const logoW = document.getElementById("logoHome").offsetWidth; 
+  if(logoW > 0) hamburger.style.width = logoW + "px"; 
+  applyLang(currentLang); 
+});
 window.addEventListener("resize", () => location.reload());
 </script>
 </body>
