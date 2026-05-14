@@ -18,24 +18,16 @@
 
 *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 
-/* Esconde o rato real do sistema operativo em todo o lado */
+/* ── DEFINIÇÕES PADRÃO DO CURSOR (DESKTOP) ────── */
 html, body, * { cursor: none !important; }
 
-html, body{
-  margin:0; width:100%; height:100%;
-  overflow:hidden;
-  background:white;
-  font-family:'IBM Plex Sans',sans-serif;
-  color:black;
-}
-
-/* ── CURSOR PERSONALIZADO INTERATIVO ─────────── */
 #custom-cursor-container {
   position: fixed;
   top: 0; left: 0;
   width: 0; height: 0;
   pointer-events: none; /* Não bloqueia cliques ou o arrastar (drag) da física */
   z-index: 9999;
+  display: block; /* Visível no desktop por padrão */
 }
 
 /* Círculo Azul Principal (Com Atraso e à Frente do Ponto) */
@@ -68,7 +60,7 @@ html, body{
 
 /* Efeito Grow no Hover de Links (Ainda Maior) */
 #custom-cursor-container.grow .cursor-circle {
-  width: 38px; /* Diâmetro expandido para ser nitidamente maior */
+  width: 38px;
   height: 38px;
 }
 
@@ -87,6 +79,20 @@ html, body{
 }
 #custom-cursor-container.plus .cursor-dot {
   display: none;
+}
+
+/* ── REMOVE O CURSOR EM MOBILE / TABLET ───────── */
+@media (max-width: 1024px) {
+  html, body, * { cursor: auto !important; }
+  #custom-cursor-container { display: none !important; }
+}
+
+html, body{
+  margin:0; width:100%; height:100%;
+  overflow:hidden;
+  background:white;
+  font-family:'IBM Plex Sans',sans-serif;
+  color:black;
 }
 
 /* ── PUSH WRAPPER ─────────────────────────────── */
@@ -396,33 +402,39 @@ const cursorDot       = document.querySelector(".cursor-dot");
 let swiperInst = null, swiperLightbox = null, currentLang = "pt", tempImages = [];
 
 /* ── MOUSE CURSOR ENGINE (Trailing + Instant Dot) ── */
+// Deteta de forma fiável se é um dispositivo móvel ou tablet real através da largura de ecrã
+const isMobileDevice = window.innerWidth <= 1024;
+
 let mouseX = 0, mouseY = 0; // Coordenadas reais dadas pelo rato
 let ballX = 0, ballY = 0;   // Coordenadas calculadas para o efeito suave
 const speed = 0.15;         // Intensidade do lag/atraso fluido (menos = mais lento)
 
-document.addEventListener('mousemove', (e) => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  
-  // O ponto preto interno segue as coordenadas de imediato (sem atraso)
-  cursorDot.style.left = mouseX + 'px';
-  cursorDot.style.top = mouseY + 'px';
-});
+if (!isMobileDevice) {
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    
+    // O ponto preto interno segue as coordenadas de imediato (sem atraso)
+    cursorDot.style.left = mouseX + 'px';
+    cursorDot.style.top = mouseY + 'px';
+  });
 
-// Loop de renderização fluida (60fps) apenas para o círculo azul externo
-function updateSmoothCursor() {
-  ballX += (mouseX - ballX) * speed;
-  ballY += (mouseY - ballY) * speed;
-  
-  cursorCircle.style.left = ballX + 'px';
-  cursorCircle.style.top = ballY + 'px';
-  
-  requestAnimationFrame(updateSmoothCursor);
+  // Loop de renderização fluida (60fps) apenas para o círculo azul externo
+  function updateSmoothCursor() {
+    ballX += (mouseX - ballX) * speed;
+    ballY += (mouseY - ballY) * speed;
+    
+    cursorCircle.style.left = ballX + 'px';
+    cursorCircle.style.top = ballY + 'px';
+    
+    requestAnimationFrame(updateSmoothCursor);
+  }
+  updateSmoothCursor();
 }
-updateSmoothCursor();
 
-// Sistema de monitorização de Hovers (Garante o efeito "Grow" em elementos interativos)
+// Sistema de monitorização de Hovers (Apenas injetado em ambientes Desktop)
 function setupCursorHovers() {
+  if (isMobileDevice) return; 
   const targets = document.querySelectorAll('a, button, .physics-button, .logo, .hamburger, .nav-project-btn');
   targets.forEach(el => {
     if(!el.dataset.cursorBound) {
@@ -485,7 +497,7 @@ const projectData = {
         <p>De manhã, quando trocamos de roupa para sair de casa, durante quanto tempo sentimos a roupa na nossa pele? Ao sair de casa, quanto tempo demoramos até deixarmos de sentir o desconforto da temperatura? E o ruído dos automóveis na calçada? Quanto desse ruído desaparece quando encontramos alguém conhecido na rua e ficamos a conversar?</p>
         <p>O corpo e a mente humana estabelecem diversas ferramentas para nos podermos guiar nessa navegação. A exposição, partindo do conceito científico de adaptação sensorial — uma ferramenta que equilibra a sensibilidade dos estímulos que recebemos — é uma passagem que convoca os visitantes a reflectir sobre os sentidos alargando os domínios da percepção.</p>
         <p>É na ligação entre o público e o privado que surge a concepção da "Membrana", expandindo as formas de ver para refletir sobre as conexões entre as pessoas. Ao atravessar essa membrana entre o público e o privado, a exposição revela interstícios invisíveis que formam a base da construção do ser social e dos territórios em que vivemos.</p>
-        <p>Através de dispositivos que exploram a cor, o movimento e a interface entre os sentidos e a realidade, a exposição apresenta uma abstraction e desconstrução do quotidiano, expondo camadas mais profundas da compreensão da realidade.</p>
+        <p>Através de dispositivos que exploram a cor, o movimento e a interface entre os sentidos e a realidade, a exposição apresenta uma abstração e desconstrução do quotidiano, expondo camadas mais profundas da compreensão da realidade.</p>
       </div>
       <div class="lang-en">
         <p>All people live different lives, but there are things that are part of the collective experience we share as human beings: one of them is the experience of navigating the external world.</p>
@@ -558,7 +570,7 @@ const projectData = {
   about:{
     text:`<div class="content-inner">
       <h2>BARDA</h2>
-      <div class="lang-pt"><p>O Colectivo Barda enfatiza as artes visuais como meio de transformação e capacitação de comunidades periféricas, usando a imagem como ferramenta de intervenção e questionamento, promovendo a criação de sinergias entre comunidade e território através de diálogos experimentais. Barda é uma manifestação de vontade colaborativa que tomou a forma de um coletivo.</p></div>
+      <div class="lang-pt"><p>O Colectivo Barda enfatiza as artes visuais como meio de transformação e capacitação de comunidades periféricas, usando a imagem como ferramenta de intervenção e questionamento, promovendo a criação de sinergias entre comunidade e território através de diálogos experimentais. Barda é uma manifestation de vontade colaborativa que tomou a forma de um coletivo.</p></div>
       <div class="lang-en"><p>Barda Collective emphasizes visual arts as a means of transformation and empowerment for peripheral communities, using imagery as a tool for intervention and questioning, promoting the creation of synergies between community and territory through experimental dialogues. Barda is a manifestation of collaborative will that has taken the form of a collective.</p></div>
       <div class="bios">
         <div style="margin-bottom:28px;"><h3 class="lang-pt">Quem é o Barda?</h3><h3 class="lang-en">Who is Barda?</h3></div>
@@ -604,22 +616,22 @@ function openProject(key){
   if(item.images.length) {
     setTimeout(() => {
       initSwiper();
-      // Liga dinamicamente o cursor "Plus" ao entrar/sair do carrossel principal
+      // Liga dinamicamente o cursor "Plus" ao entrar/sair do carrossel principal (apenas em Desktop)
       const swiperEl = document.querySelector('.main-swiper');
-      if (swiperEl) {
+      if (swiperEl && !isMobileDevice) {
         swiperEl.addEventListener('mouseenter', () => cursorContainer.classList.add('plus'));
         swiperEl.addEventListener('mouseleave', () => cursorContainer.classList.remove('plus'));
       }
     }, 100);
   }
-  // Mapeia novamente os novos elementos inseridos no DOM (como o botão visitar website)
+  // Ativa os hovers do cursor nos novos elementos injetados
   setupCursorHovers();
 }
 function closeOverlay(){
   overlay.classList.remove("active");
   worldEl.style.zIndex = "10";
   content.innerHTML = "";
-  cursorContainer.classList.remove('plus'); // Limpa o estado preventivamente
+  cursorContainer.classList.remove('plus'); 
   if(swiperInst){ swiperInst.destroy(); swiperInst = null; }
 }
 
@@ -691,7 +703,6 @@ items.forEach(item => {
   });
 });
 
-// Clean MouseConstraint Configuration
 const mouse = Mouse.create(worldEl);
 const mc = MouseConstraint.create(engine, {
   mouse: mouse,
