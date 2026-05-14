@@ -25,12 +25,11 @@ html, body, * { cursor: none !important; }
   position: fixed;
   top: 0; left: 0;
   width: 0; height: 0;
-  pointer-events: none; /* Não bloqueia cliques ou o arrastar (drag) da física */
+  pointer-events: none;
   z-index: 9999;
-  display: block; /* Visível no desktop por padrão */
+  display: block;
 }
 
-/* Círculo Azul Principal (Com Atraso e à Frente do Ponto) */
 .cursor-circle {
   position: absolute;
   width: 16px;
@@ -42,11 +41,10 @@ html, body, * { cursor: none !important; }
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 2; /* Camada superior: fica à FRENTE do ponto preto */
+  z-index: 2;
   will-change: left, top;
 }
 
-/* Ponto Preto Central (Instantâneo e Atrás do Círculo Azul) */
 .cursor-dot {
   position: absolute;
   width: 4px;
@@ -54,17 +52,15 @@ html, body, * { cursor: none !important; }
   background-color: black;
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1; /* Camada inferior: fica ATRÁS do círculo azul */
+  z-index: 1;
   will-change: left, top;
 }
 
-/* Efeito Grow no Hover de Links (Ainda Maior) */
 #custom-cursor-container.grow .cursor-circle {
   width: 38px;
   height: 38px;
 }
 
-/* Modo Slideshow (Círculo maior com o '+' branco) */
 #custom-cursor-container.plus .cursor-circle {
   width: 28px;
   height: 28px;
@@ -81,7 +77,6 @@ html, body, * { cursor: none !important; }
   display: none;
 }
 
-/* ── REMOVE O CURSOR EM MOBILE / TABLET ───────── */
 @media (max-width: 1024px) {
   html, body, * { cursor: auto !important; }
   #custom-cursor-container { display: none !important; }
@@ -143,7 +138,6 @@ html, body{
   touch-action:none;
 }
 
-/* ── UI Layer Interactivity ───────────────────── */
 .logo,.hamburger,.lang-toggle,.close-button,
 .nav-menu,.nav-overlay,.site-footer{ pointer-events:auto; }
 
@@ -267,7 +261,7 @@ html, body{
 .bio p{ font-size:14px; line-height:1.65; color:#333; margin:0; }
 
 /* ── SWIPER ───────────────────────────────────── */
-.swiper{ width:100%; height:55vh; margin-top:34px; }
+.swiper{ width:100%; height:55vh; margin: 24px 0; }
 .swiper-slide{ display:flex; align-items:center; justify-content:center; }
 .swiper-slide img{ width:100%; height:100%; object-fit:contain; cursor:zoom-in; }
 .swiper-button-next,.swiper-button-prev{ color:var(--blue); }
@@ -394,45 +388,35 @@ const lightbox       = document.getElementById("lightbox");
 const lightboxWrapper= document.getElementById("lightbox-wrapper");
 const lightboxClose  = document.getElementById("lightboxClose");
 
-// Referências exclusivas do sistema do cursor personalizado
 const cursorContainer = document.getElementById("custom-cursor-container");
 const cursorCircle    = document.querySelector(".cursor-circle");
 const cursorDot       = document.querySelector(".cursor-dot");
 
 let swiperInst = null, swiperLightbox = null, currentLang = "pt", tempImages = [];
 
-/* ── MOUSE CURSOR ENGINE (Trailing + Instant Dot) ── */
-// Deteta de forma fiável se é um dispositivo móvel ou tablet real através da largura de ecrã
 const isMobileDevice = window.innerWidth <= 1024;
-
-let mouseX = 0, mouseY = 0; // Coordenadas reais dadas pelo rato
-let ballX = 0, ballY = 0;   // Coordenadas calculadas para o efeito suave
-const speed = 0.15;         // Intensidade do lag/atraso fluido (menos = mais lento)
+let mouseX = 0, mouseY = 0;
+let ballX = 0, ballY = 0;
+const speed = 0.15;
 
 if (!isMobileDevice) {
   document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
-    
-    // O ponto preto interno segue as coordenadas de imediato (sem atraso)
     cursorDot.style.left = mouseX + 'px';
     cursorDot.style.top = mouseY + 'px';
   });
 
-  // Loop de renderização fluida (60fps) apenas para o círculo azul externo
   function updateSmoothCursor() {
     ballX += (mouseX - ballX) * speed;
     ballY += (mouseY - ballY) * speed;
-    
     cursorCircle.style.left = ballX + 'px';
     cursorCircle.style.top = ballY + 'px';
-    
     requestAnimationFrame(updateSmoothCursor);
   }
   updateSmoothCursor();
 }
 
-// Sistema de monitorização de Hovers (Apenas injetado em ambientes Desktop)
 function setupCursorHovers() {
   if (isMobileDevice) return; 
   const targets = document.querySelectorAll('a, button, .physics-button, .logo, .hamburger, .nav-project-btn');
@@ -484,20 +468,20 @@ lightboxClose.addEventListener("click", () => {
 });
 
 /* ── PROJECT CONTENT ARCHIVE ──────────────────── */
+// Nota: Separou-se os cabeçalhos das descrições para ordenar dinamicamente no JavaScript
 const projectData = {
   membrana:{
-    text:`<div class="content-inner">
-      <h2>Membrana</h2>
-      <div style="font-size:13px;color:var(--blue);text-transform:uppercase;margin-bottom:20px;">
-        <span class="lang-pt">Exposição coletiva · ACERT, Tondela · 2023–2025</span>
-        <span class="lang-en">Collective exhibition · ACERT, Tondela · 2023–2025</span>
-      </div>
+    titlePT: "Membrana",
+    titleEN: "Membrana",
+    metaPT: "Exposição coletiva · ACERT, Tondela · 2023–2025",
+    metaEN: "Collective exhibition · ACERT, Tondela · 2023–2025",
+    description:`
       <div class="lang-pt">
         <p>Todas as pessoas vivem vidas diferentes, mas há coisas que fazem parte da experiência coletiva que partilhamos como seres humanos: uma delas é a experiência de navegação no world exterior.</p>
         <p>De manhã, quando trocamos de roupa para sair de casa, durante quanto tempo sentimos a roupa na nossa pele? Ao sair de casa, quanto tempo demoramos até deixarmos de sentir o desconforto da temperatura? E o ruído dos automóveis na calçada? Quanto desse ruído desaparece quando encontramos alguém conhecido na rua e ficamos a conversar?</p>
         <p>O corpo e a mente humana estabelecem diversas ferramentas para nos podermos guiar nessa navegação. A exposição, partindo do conceito científico de adaptação sensorial — uma ferramenta que equilibra a sensibilidade dos estímulos que recebemos — é uma passagem que convoca os visitantes a reflectir sobre os sentidos alargando os domínios da percepção.</p>
         <p>É na ligação entre o público e o privado que surge a concepção da "Membrana", expandindo as formas de ver para refletir sobre as conexões entre as pessoas. Ao atravessar essa membrana entre o público e o privado, a exposição revela interstícios invisíveis que formam a base da construção do ser social e dos territórios em que vivemos.</p>
-        <p>Através de dispositivos que exploram a cor, o movimento e a interface entre os sentidos e a realidade, a exposição apresenta uma abstração e desconstrução do quotidiano, expondo camadas mais profundas da compreensão da realidade.</p>
+        <p>Através de dispositivos que exploram a cor, o movimento e a interface entre os sentidos e a realidade, a exposição apresenta uma abstraction e desconstrução do quotidiano, expondo camadas mais profundas da compreensão da realidade.</p>
       </div>
       <div class="lang-en">
         <p>All people live different lives, but there are things that are part of the collective experience we share as human beings: one of them is the experience of navigating the external world.</p>
@@ -505,39 +489,35 @@ const projectData = {
         <p>The human body and mind establish various tools for us to navigate this journey. The exhibition, starting from the scientific concept of sensory adaptation — a tool that balances the sensitivity of the stimuli we receive — is a passage that calls visitors to reflect on the senses, expanding the domains of perception.</p>
         <p>It is in the connection between the public and the private that the conception of the "Membrane" arises, expanding the ways of seeing to reflect on the connections between people. By crossing this membrane between the public and the private, the exhibition reveals invisible interstices that form the basis of the construction of social beings and the territories in which we live.</p>
         <p>Through devices that explore color, movement, and the interface between senses and reality, the exhibition presents an abstraction and deconstruction of the everyday, exposing deeper layers of understanding reality.</p>
-      </div>
-    </div>`,
+      </div>`,
     images: Array.from({length:11}, (_,i) => `images/membrana/${i+1}.jpg`)
   },
   porvir:{
-    text:`<div class="content-inner">
-      <h2>Porvir</h2>
-      <div style="font-size:13px;color:var(--blue);text-transform:uppercase;margin-bottom:20px;">
-        <span class="lang-pt">Projeto de arte participativa · Serra do Açor · 2024</span>
-        <span class="lang-en">Participatory art project · Serra do Açor · 2024</span>
-      </div>
+    titlePT: "Porvir",
+    titleEN: "Porvir",
+    metaPT: "Projeto de arte participativa · Serra do Açor · 2024",
+    metaEN: "Participatory art project · Serra do Açor · 2024",
+    description:`
       <a href="https://porvir.com.pt" target="_blank" class="btn-visit">
         <span class="lang-pt">VISITAR WEBSITE DO PROJETO ↗</span>
         <span class="lang-en">VISIT PROJECT WEBSITE ↗</span>
       </a>
       <div class="lang-pt">
-        <p>Porvir é um projeto de intercâmbio multidisciplinar que envolve artistas locais, artistas externos e a comunidade, com o objetivo de imaginar o futuro através da arte participativa. Focado em quatro aldeias da Serra do Açor, o Porvir procura, através da expressão artística, construir um espaço de partilha, investigação, criação e exposição, estimulando o pensamento crítico das comunidades envolvidas.</p>
+        <p>Porvir é um projeto de intercâmbio multidisciplinar que envolve artistas locais, artistas externos e a comunidade, com o objetivo de imaginar o futuro através da arte participativa. Focado em quatro aldeias da Serra do Açor, o Porvir procura, através da expressão artística, construir um space de partilha, investigação, criação e exposição, estimulando o pensamento crítico das comunidades envolvidas.</p>
         <p>Oficinas participativas são realizadas em três aldeias diferentes, onde artistas e membros da comunidade colaboram em projetos únicos. Cada aldeia acolhe um artista em residência, que desenvolve obras originais inspiradas nas experiências e dinâmicas locais. O projeto culmina em exposições coletivas no espaço público, promovendo discussões abertas e trocas de ideias entre participantes, público e instituições.</p>
       </div>
       <div class="lang-en">
         <p>Porvir is a multidisciplinary exchange project involving local artists, external artists, and the community, aimed at envisioning the future through participatory art. Focused on four villages in the Serra do Açor region, Porvir seeks, through artistic expression, to build a space for sharing, research, creation, and exhibition, while stimulating the critical thinking of the involved communities.</p>
         <p>Participatory workshops are held in three different villages, where artists and community members collaborate on unique projects. Each village hosts an artist-in-residence, who develops original artworks inspired by local experiences and dynamics. The project culminates in collective exhibitions in the public space, promoting open discussions and idea exchanges among participants, the public, and institutions.</p>
-      </div>
-    </div>`,
+      </div>`,
     images: Array.from({length:36}, (_,i) => `images/porvir/${i+1}.jpg`)
   },
   imagens:{
-    text:`<div class="content-inner">
-      <h2>Imagens Verdes</h2>
-      <div style="font-size:13px;color:var(--blue);text-transform:uppercase;margin-bottom:20px;">
-        <span class="lang-pt">Oficinas de expressão artística · Porto · 2023–2025</span>
-        <span class="lang-en">Artistic expression workshops · Porto · 2023–2025</span>
-      </div>
+    titlePT: "Imagens Verdes",
+    titleEN: "Imagens Verdes",
+    metaPT: "Oficinas de expressão artística · Porto · 2023–2025",
+    metaEN: "Artistic expression workshops · Porto · 2023–2025",
+    description:`
       <div class="lang-pt">
         <p>Imagens Verdes é um projeto contínuo de transformação que reúne pessoas com 65 ou mais anos para uma exploração única da autoexpressão. Através de oficinas dinâmicas que integram teatro, música, illustration e fotografia, os participantes mergulham nas suas memórias, partilhando experiências entre si.</p>
         <p>Dedicado à promoção do intercâmbio entre artistas e a comunidade sénior do Bonfim no Porto, exploramos memórias afetivas através de práticas interdisciplinares. A partir de memórias afetivas e coletivas, interpretamos experiências num ambiente de apoio e comunhão, envolvendo os participantes através de diversas atividades desenhadas para promover a democratização cultural na zona e incentivar a expressão artística.</p>
@@ -545,17 +525,15 @@ const projectData = {
       <div class="lang-en">
         <p>Imagens Verdes is an ongoing project aimed at transformation, bringing together individuals aged 65 and above for a unique exploration of self-expression. Through dynamic workshops that integrate theater, music, illustration, and photography, participants delve into the realms of their memories, sharing their experiences with one another.</p>
         <p>Dedicated to promoting exchange between artists and the senior community of Bonfim in Porto, we explore affective memories through interdisciplinary practices. Drawing from both affective and collective memories, we interpret experiences within a supportive and communal environment, engaging participants through various activities designed to promote cultural democratization in the area and encourage artistic expression.</p>
-      </div>
-    </div>`,
+      </div>`,
     images: Array.from({length:16}, (_,i) => `images/imagensverdes/${i+1}.jpg`)
   },
   casa:{
-    text:`<div class="content-inner">
-      <h2>A Casa de Falar Baixinho</h2>
-      <div style="font-size:13px;color:var(--blue);text-transform:uppercase;margin-bottom:20px;">
-        <span class="lang-pt">Exposição · Encontros da Imagem · 2025</span>
-        <span class="lang-en">Exhibition · Encontros da Imagem · 2025</span>
-      </div>
+    titlePT: "A Casa de Falar Baixinho",
+    titleEN: "A Casa de Falar Baixinho",
+    metaPT: "Exposição · Encontros da Imagem · 2025",
+    metaEN: "Exhibition · Encontros da Imagem · 2025",
+    description:`
       <div class="lang-pt">
         <p>Integrada no núcleo expositivo Argumentários, que celebra e revisita a história do festival, a intervenção do Colectivo Barda responde ao desafio de recuperar memórias e experiências que moldaram de forma sensível e contínua a identidade dos Encontros da Imagem.</p>
         <p>Partindo de eventos reais da Semana de Abertura de 2018, o coletivo explora encontros, trocas e gestos inscritos na memória da comunidade reunida em torno do festival. Cada imagem em A casa de falar baixinho evoca episódios específicos, convocando afetos, práticas e momentos que, embora ausentes da documentação formal, ficaram marcados nos corpos e na memória particular de cada edição.</p>
@@ -563,13 +541,15 @@ const projectData = {
       <div class="lang-en">
         <p>Integrated into the exhibition core Argumentários, which aims to celebrate and revisit the history of the festival, the intervention by Colectivo Barda responds to the challenge of recovering memories and experiences that have sensitively shaped the identity of Encontros da Imagem.</p>
         <p>Drawing from real events during the Opening Week of 2018, the collective explores encounters, exchanges and gestures inscribed in the memory of the community gathered around the festival. Each image in A casa de falar baixinho evokes specific episodes, calling forth affects, practices and moments that, although absent from formal documentation, left their mark on bodies and became embedded in the memory of each edition.</p>
-      </div>
-    </div>`,
+      </div>`,
     images: Array.from({length:12}, (_,i) => `images/casafalarbaixinho/${i+1}.jpg`)
   },
   about:{
-    text:`<div class="content-inner">
-      <h2>BARDA</h2>
+    titlePT: "BARDA",
+    titleEN: "BARDA",
+    metaPT: "",
+    metaEN: "",
+    description:`
       <div class="lang-pt"><p>O Colectivo Barda enfatiza as artes visuais como meio de transformação e capacitação de comunidades periféricas, usando a imagem como ferramenta de intervenção e questionamento, promovendo a criação de sinergias entre comunidade e território através de diálogos experimentais. Barda é uma manifestation de vontade colaborativa que tomou a forma de um coletivo.</p></div>
       <div class="lang-en"><p>Barda Collective emphasizes visual arts as a means of transformation and empowerment for peripheral communities, using imagery as a tool for intervention and questioning, promoting the creation of synergies between community and territory through experimental dialogues. Barda is a manifestation of collaborative will that has taken the form of a collective.</p></div>
       <div class="bios">
@@ -583,19 +563,19 @@ const projectData = {
         <div class="bio"><p class="bio-name">Ivan Da Silva</p><p><span class="lang-pt">Desconstrói imagens do quotidiano numa ecologia de imagens através de sistemas experimentais de análise de imagem. Coordenador do projeto Imagens Verdes.</span><span class="lang-en">Deconstructs everyday imagery into an ecology of images through experimental image analysis systems. Coordinator of the Imagens Verdes project.</span></p></div>
         <div class="bio"><p class="bio-name">Juliana Maar</p><p><span class="lang-pt">Nasceu em 1981. Utiliza o corpo e o autorretrato como principais veículos de expressão. Neo-rural na Serra do Açor há seis anos.</span><span class="lang-en">Born in 1981. Uses the body and self-portraiture as her main vehicles of expression. Neo-rural in Serra do Açor for six years.</span></p></div>
         <div class="bio"><p class="bio-name">Marco Duarte</p><p><span class="lang-pt">Fotógrafo documental freelancer que aborda questões sociais nos seus projetos visuais. Co-fundador do coletivo Barda em 2022.</span><span class="lang-en">Freelance documentary photographer addressing social issues in his visual projects. Co-founder of the Barda collective in 2022.</span></p></div>
-      </div>
-    </div>`,
+      </div>`,
     images:[]
   }
 };
 
 /* ── CAROUSEL BUILDERS ────────────────────────── */
 function buildSwiper(imgs){
-  if(!imgs.length) return "";
+  if(!imgs || !imgs.length) return "";
   const slides = imgs.map((img,i) =>
     `<div class="swiper-slide"><img src="${img}" onclick="openLightbox(${i})"></div>`).join("");
   return `<div class="swiper main-swiper"><div class="swiper-wrapper">${slides}</div><div class="swiper-button-next"></div><div class="swiper-button-prev"></div><div class="swiper-pagination"></div></div>`;
 }
+
 function initSwiper(){
   if(swiperInst) swiperInst.destroy();
   swiperInst = new Swiper(".main-swiper",{
@@ -604,19 +584,41 @@ function initSwiper(){
     navigation:{ nextEl:".swiper-button-next", prevEl:".swiper-button-prev" }
   });
 }
+
 function openProject(key){
   const item = projectData[key];
   tempImages = item.images;
-  content.innerHTML = item.text + buildSwiper(item.images);
+  
+  // 1. Constrói o cabeçalho (Título do Projeto)
+  let headerHtml = `<div class="content-inner"><h2>${currentLang === 'en' ? item.titleEN : item.titlePT}</h2>`;
+  
+  // 2. Constrói a linha com Tipologia, Espaço e Ano (se existir meta dados)
+  if(item.metaPT || item.metaEN) {
+    headerHtml += `
+      <div style="font-size:13px;color:var(--blue);text-transform:uppercase;margin-bottom:20px;">
+        <span class="lang-pt">${item.metaPT}</span>
+        <span class="lang-en">${item.metaEN}</span>
+      </div>`;
+  }
+  headerHtml += `</div>`; // fecha content-inner do topo
+
+  // 3. Constrói o Slideshow de Imagens
+  const swiperHtml = buildSwiper(item.images);
+
+  // 4. Constrói a Descrição do Projeto
+  const descriptionHtml = `<div class="content-inner">${item.description}</div>`;
+
+  // Junta tudo na ordem exata solicitada e injeta no content
+  content.innerHTML = headerHtml + swiperHtml + descriptionHtml;
+
   overlay.classList.add("active");
   worldEl.style.zIndex = "0";
   applyLang(currentLang);
   content.scrollTop = 0;
   
-  if(item.images.length) {
+  if(item.images && item.images.length) {
     setTimeout(() => {
       initSwiper();
-      // Liga dinamicamente o cursor "Plus" ao entrar/sair do carrossel principal (apenas em Desktop)
       const swiperEl = document.querySelector('.main-swiper');
       if (swiperEl && !isMobileDevice) {
         swiperEl.addEventListener('mouseenter', () => cursorContainer.classList.add('plus'));
@@ -624,9 +626,9 @@ function openProject(key){
       }
     }, 100);
   }
-  // Ativa os hovers do cursor nos novos elementos injetados
   setupCursorHovers();
 }
+
 function closeOverlay(){
   overlay.classList.remove("active");
   worldEl.style.zIndex = "10";
