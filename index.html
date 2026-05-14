@@ -212,7 +212,7 @@ html, body{
   scrollbar-color: var(--blue) transparent;
 }
 
-/* ── SCROLLBAR STYLING (Webkit - Chrome, Safari, Edge) ── */
+/* ── SCROLLBAR STYLING ── */
 #content::-webkit-scrollbar {
   width: 6px;
 }
@@ -221,10 +221,10 @@ html, body{
 }
 #content::-webkit-scrollbar-thumb {
   background-color: var(--blue);
-  border-radius: 0; /* flat/sem bisel */
+  border-radius: 0;
 }
 #content::-webkit-scrollbar-button {
-  display: none; /* remove setas */
+  display: none;
 }
 
 /* ── BILINGUAL SYSTEM ─────────────────────────── */
@@ -427,7 +427,7 @@ const projectData = {
         </div>
       </div>
     </div>`,
-    images: ["images/porvir/01.jpg", "images/porvir/02.jpg", "images/porvir/03.jpg", "images/porvir/04.jpg", "images/porvir/05.jpg", "images/porvir/06.jpg", "images/porvir/07.jpg", "images/porvir/08.jpg", "images/porvir/09.jpg", "images/porvir/10.jpg", "images/porvir/11.jpg", "images/porvir/12.jpg", "images/porvir/13.jpg", "images/porvir/14.jpg", "images/porvir/15.jpg", "images/porvir/16.jpg", "images/porvir/17.jpg", "images/porvir/18.jpg", "images/porvir/19.jpg", "images/porvir/20.jpg", "images/porvir/21.jpg", "images/porvir/22.jpg", "images/porvir/23.jpg", "images/porvir/24.jpg", "images/porvir/25.jpg", "images/porvir/26.jpg", "images/porvir/27.jpg", "images/porvir/28.jpg", "images/porvir/29.jpg", "images/porvir/30.jpg", "images/porvir/31.jpg", "images/porvir/32.jpg", "images/porvir/33.jpg", "images/porvir/34.jpg", "images/porvir/35.jpg", "images/porvir/36.jpg"]
+    images: ["images/porvir/1.jpg", "images/porvir/2.jpg", "images/porvir/3.jpg", "images/porvir/4.jpg", "images/porvir/5.jpg", "images/porvir/6.jpg", "images/porvir/7.jpg", "images/porvir/8.jpg", "images/porvir/9.jpg", "images/porvir/10.jpg", "images/porvir/11.jpg", "images/porvir/12.jpg", "images/porvir/13.jpg", "images/porvir/14.jpg", "images/porvir/15.jpg", "images/porvir/16.jpg", "images/porvir/17.jpg", "images/porvir/18.jpg", "images/porvir/19.jpg", "images/porvir/20.jpg", "images/porvir/21.jpg", "images/porvir/22.jpg", "images/porvir/23.jpg", "images/porvir/24.jpg", "images/porvir/25.jpg", "images/porvir/26.jpg", "images/porvir/27.jpg", "images/porvir/28.jpg", "images/porvir/29.jpg", "images/porvir/30.jpg", "images/porvir/31.jpg", "images/porvir/32.jpg", "images/porvir/33.jpg", "images/porvir/34.jpg", "images/porvir/35.jpg", "images/porvir/36.jpg"]
   },
   imagens:{
     title:"Imagens Verdes",
@@ -473,8 +473,7 @@ const projectData = {
         </div>
       </div>
     </div>`,
-    images:["images/casafalarbaixinho/1.jpg"]
-  },
+images: ["images/casafalarbaixinho/1.jpg", "images/casafalarbaixinho/2.jpg", "images/casafalarbaixinho/3.jpg", "images/casafalarbaixinho/4.jpg", "images/casafalarbaixinho/5.jpg", "images/casafalarbaixinho/6.jpg", "images/casafalarbaixinho/7.jpg", "images/casafalarbaixinho/8.jpg", "images/casafalarbaixinho/9.jpg", "images/casafalarbaixinho/10.jpg", "images/casafalarbaixinho/11.jpg", "images/casafalarbaixinho/12.jpg"]  },
   about:{
     title:"About",
     text:`<div class="content-inner">
@@ -496,15 +495,69 @@ const projectData = {
            <h3 class="lang-pt">Quem é o Barda?</h3>
            <h3 class="lang-en">Who is Barda?</h3>
         </div>
-        <div class="bio"><p class="bio-name">Ana Luísa Rego</p><p>Nasceu em Cinfães (1974), vive no Porto. Iniciou o seu percurso na fotografia ainda na era analógica. Na sua prática, documenta temas inspirados em questões sociais, culturais e científicas através de uma abordagem interdisciplinar e colaborativa.</p></div>
-        <div class="bio"><p class="bio-name">Carlos Trancoso</p><p>Artista visual sediado no Porto. A sua prática explora as interseções entre natureza, tecnologia e sistemas de observação, combinando o pensamento fotográfico com processos espaciais, sonoros e computacionais.</p></div>
-        <div class="bio"><p class="bio-name">Diana Sá</p><p>Frequentou o curso profissional de fotografia no IPF e o Mestrado em Fotografia Artística no IPCI. Interessa-se por projetos de longo prazo sobre o território, o quotidiano e o efémero.</p></div>
-        <div class="bio"><p class="bio-name">Guida Marques</p><p>Nascida em 1986, neo-rural. Desenvolve reconstruções de casas de xisto e performances/instalações focadas na relação corpo/lugar/memória. Ativista na defesa da floresta.</p></div>
-        <div class="bio"><p class="bio-name">Hernâni Sousa</p><p>Mestre em Ciência da Informação. Desenvolve projetos pessoais em torno de temas como a intimidade e o território, com particular interesse na semiótica.</p></div>
-        <div class="bio"><p class="bio-name">Inês Fernandes</p><p>Os seus projetos abordam temas contemporâneos focados em questões sociais e ambientais, com preferência por contextos rurais e descentralizados.</p></div>
-        <div class="bio"><p class="bio-name">Ivan Da Silva</p><p>Desconstrói imagens do quotidiano numa ecologia de imagens através de sistemas experimentais de análise de imagem.</p></div>
-        <div class="bio"><p class="bio-name">Juliana Maar</p><p>Utiliza o corpo e o autorretrato como principais veículos de expressão. Neo-rural na Serra do Açor há seis anos.</p></div>
-        <div class="bio"><p class="bio-name">Marco Duarte</p><p>Fotógrafo documental freelancer que aborda questões sociais nos seus projetos visuais.</p></div>
+        <div class="bio">
+          <p class="bio-name">Ana Luísa Rego</p>
+          <p>
+            <span class="lang-pt">Nasceu em Cinfães (1974), vive no Porto. Iniciou o seu percurso na fotografia ainda na era analógica. Na sua prática, documenta temas inspirados em questões sociais, culturais e científicas através de uma abordagem interdisciplinar e colaborativa.</span>
+            <span class="lang-en">Born in Cinfães (1974), lives in Porto. Started her journey in photography in the analog era. In her practice, she documents themes inspired by social, cultural, and scientific issues through an interdisciplinary and collaborative approach.</span>
+          </p>
+        </div>
+        <div class="bio">
+          <p class="bio-name">Carlos Trancoso</p>
+          <p>
+            <span class="lang-pt">Artista visual sediado no Porto. A sua prática explora as interseções entre natureza, tecnologia e sistemas de observação, combinando o pensamento fotográfico com processos espaciais, sonoros e computacionais.</span>
+            <span class="lang-en">Visual artist based in Porto. His practice explores the intersections between nature, technology, and systems of observation, combining photographic thought with spatial, sonic, and computational processes.</span>
+          </p>
+        </div>
+        <div class="bio">
+          <p class="bio-name">Diana Sá</p>
+          <p>
+            <span class="lang-pt">Frequentou o curso profissional de fotografia no IPF e o Mestrado em Fotografia Artística no IPCI. Interessa-se por projetos de longo prazo sobre o território, o quotidiano e o efémero.</span>
+            <span class="lang-en">Attended the professional photography course at IPF and the Master's in Artistic Photography at IPCI. Interested in long-term projects regarding territory, daily life, and the ephemeral.</span>
+          </p>
+        </div>
+        <div class="bio">
+          <p class="bio-name">Guida Marques</p>
+          <p>
+            <span class="lang-pt">Nascida em 1986, neo-rural. Desenvolve reconstruções de casas de xisto e performances/instalações focadas na relação corpo/lugar/memória. Ativista na defesa da floresta.</span>
+            <span class="lang-en">Born in 1986, neo-rural. Develops reconstructions of schist houses and performances/installations focused on the body/place/memory relationship. Forest defense activist.</span>
+          </p>
+        </div>
+        <div class="bio">
+          <p class="bio-name">Hernâni Sousa</p>
+          <p>
+            <span class="lang-pt">Mestre em Ciência da Informação. Desenvolve projetos pessoais em torno de temas como a intimidade e o território, com particular interesse na semiótica.</span>
+            <span class="lang-en">Master's in Information Science. Develops personal projects around themes of intimacy and territory, with a particular interest in semiotics.</span>
+          </p>
+        </div>
+        <div class="bio">
+          <p class="bio-name">Inês Fernandes</p>
+          <p>
+            <span class="lang-pt">Os seus projetos abordam temas contemporâneos focados em questões sociais e ambientais, com preferência por contextos rurais e descentralizados.</span>
+            <span class="lang-en">Her projects address contemporary themes focused on social and environmental issues, with a preference for rural and decentralized contexts.</span>
+          </p>
+        </div>
+        <div class="bio">
+          <p class="bio-name">Ivan Da Silva</p>
+          <p>
+            <span class="lang-pt">Desconstrói imagens do quotidiano numa ecologia de imagens através de sistemas experimentais de análise de imagem.</span>
+            <span class="lang-en">Deconstructs everyday imagery into an ecology of images through experimental image analysis systems.</span>
+          </p>
+        </div>
+        <div class="bio">
+          <p class="bio-name">Juliana Maar</p>
+          <p>
+            <span class="lang-pt">Utiliza o corpo e o autorretrato como principais veículos de expressão. Neo-rural na Serra do Açor há seis anos.</span>
+            <span class="lang-en">Uses the body and self-portraiture as her main vehicles of expression. Neo-rural in Serra do Açor for six years.</span>
+          </p>
+        </div>
+        <div class="bio">
+          <p class="bio-name">Marco Duarte</p>
+          <p>
+            <span class="lang-pt">Fotógrafo documental freelancer que aborda questões sociais nos seus projetos visuais.</span>
+            <span class="lang-en">Freelance documentary photographer addressing social issues in his visual projects.</span>
+          </p>
+        </div>
       </div>
     </div>`,
     images:[]
