@@ -13,10 +13,13 @@
   --blue:#1f4fff;
   --footer-h:44px;
   --nav-w:280px;
-  --header-h:90px; /* logo + hamburger zone */
+  --header-h:90px;
 }
 
 *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+/* Esconde o rato real do sistema operativo em todo o lado */
+html, body, * { cursor: none !important; }
 
 html, body{
   margin:0; width:100%; height:100%;
@@ -24,6 +27,66 @@ html, body{
   background:white;
   font-family:'IBM Plex Sans',sans-serif;
   color:black;
+}
+
+/* ── CURSOR PERSONALIZADO INTERATIVO ─────────── */
+#custom-cursor-container {
+  position: fixed;
+  top: 0; left: 0;
+  width: 0; height: 0;
+  pointer-events: none; /* Não bloqueia cliques ou o arrastar (drag) da física */
+  z-index: 9999;
+}
+
+/* Círculo Azul Principal (Com Atraso e à Frente do Ponto) */
+.cursor-circle {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background-color: var(--blue);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2; /* Camada superior: fica à FRENTE do ponto preto */
+  will-change: left, top;
+}
+
+/* Ponto Preto Central (Instantâneo e Atrás do Círculo Azul) */
+.cursor-dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background-color: black;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1; /* Camada inferior: fica ATRÁS do círculo azul */
+  will-change: left, top;
+}
+
+/* Efeito Grow no Hover de Links (Ainda Maior) */
+#custom-cursor-container.grow .cursor-circle {
+  width: 38px; /* Diâmetro expandido para ser nitidamente maior */
+  height: 38px;
+}
+
+/* Modo Slideshow (Círculo maior com o '+' branco) */
+#custom-cursor-container.plus .cursor-circle {
+  width: 28px;
+  height: 28px;
+}
+#custom-cursor-container.plus .cursor-circle::after {
+  content: '+';
+  color: white;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  position: absolute;
+}
+#custom-cursor-container.plus .cursor-dot {
+  display: none;
 }
 
 /* ── PUSH WRAPPER ─────────────────────────────── */
@@ -74,7 +137,7 @@ html, body{
   touch-action:none;
 }
 
-/* ── UI always above world ────────────────────── */
+/* ── UI Layer Interactivity ───────────────────── */
 .logo,.hamburger,.lang-toggle,.close-button,
 .nav-menu,.nav-overlay,.site-footer{ pointer-events:auto; }
 
@@ -135,13 +198,10 @@ html, body{
 }
 .nav-project-btn:hover{ color:var(--blue); }
 
-/* ── OVERLAY (project windows) ────────────────── */
+/* ── OVERLAY (Project Windows) ────────────────── */
 .overlay-container{
   display:none; position:fixed;
-  /* start below logo+hamburger, stop above footer */
-  top:var(--header-h);
-  left:0; right:0;
-  bottom:var(--footer-h);
+  top:var(--header-h); left:0; right:0; bottom:var(--footer-h);
   align-items:center; justify-content:center;
   z-index:300; pointer-events:none;
   padding:12px 4vw;
@@ -149,8 +209,7 @@ html, body{
 .overlay-container.active{ display:flex; }
 
 .overlay-content{
-  width:min(980px,92vw);
-  height:100%;
+  width:min(980px,92vw); height:100%;
   display:flex; flex-direction:column; position:relative;
   border:2px solid var(--blue);
   background:rgba(255,255,255,.95);
@@ -171,10 +230,8 @@ html, body{
 /* ── SCROLLABLE CONTENT ───────────────────────── */
 #content{
   flex:1; overflow-y:auto; overflow-x:hidden;
-  /* top margin clears the close button (35px) */
   padding:52px 52px 52px 52px;
-  margin-top:35px;
-  padding-top:16px;
+  margin-top:35px; padding-top:16px;
   -webkit-overflow-scrolling:touch;
   scrollbar-width:thin; scrollbar-color:var(--blue) transparent;
 }
@@ -182,12 +239,6 @@ html, body{
 #content::-webkit-scrollbar-track{ background:transparent; }
 #content::-webkit-scrollbar-thumb{ background:var(--blue); border-radius:0; }
 #content::-webkit-scrollbar-button{ display:none; }
-
-/* ── BILINGUAL / LANG CLASSES ─────────────────── */
-.lang-label{
-  font-size:11px; font-weight:500; color:var(--blue);
-  text-transform:uppercase; margin-bottom:10px !important;
-}
 
 /* ── CONTENT INNER ────────────────────────────── */
 .content-inner{ max-width:760px; }
@@ -216,7 +267,7 @@ html, body{
 .swiper-button-next,.swiper-button-prev{ color:var(--blue); }
 .swiper-pagination-bullet-active{ background:var(--blue); }
 
-/* ── LIGHTBOX ─────────────────────────────────── */
+/* ── LIGHTBOX (FULLSCREEN) ────────────────────── */
 #lightbox{
   display:none; position:fixed; inset:0;
   background:rgba(0,0,0,.98); z-index:2000;
@@ -229,8 +280,8 @@ html, body{
   color:white; font-size:40px; cursor:pointer; z-index:2100;
   touch-action:manipulation;
 }
-.swiper-lightbox{ width:100%; height:100%; }
-.swiper-lightbox img{ max-width:95vw; max-height:90vh; object-fit:contain; }
+.swiper-lightbox{ width:100%; height:100%; margin-top:0; }
+.swiper-lightbox .swiper-slide img{ max-width:95vw; max-height:90vh; object-fit:contain; cursor:default; }
 .swiper-lightbox .swiper-button-next,
 .swiper-lightbox .swiper-button-prev{ color:white; }
 
@@ -247,7 +298,7 @@ html, body{
 }
 .site-footer a:hover{ opacity:1; }
 
-/* ── MOBILE ───────────────────────────────────── */
+/* ── MOBILE RESPONSIVE ────────────────────────── */
 @media(max-width:768px){
   :root{ --header-h:88px; }
   .statement{ width:84vw; font-size:18px; }
@@ -260,6 +311,11 @@ html, body{
 </style>
 </head>
 <body>
+
+<div id="custom-cursor-container">
+  <div class="cursor-circle"></div>
+  <div class="cursor-dot"></div>
+</div>
 
 <div id="site-wrap">
   <h1 class="logo" id="logoHome">BARDA</h1>
@@ -292,9 +348,8 @@ html, body{
   </footer>
 </div>
 
-<!-- lightbox lives outside site-wrap to avoid clipping -->
 <div id="lightbox">
-  <button class="lightbox-close">×</button>
+  <button class="lightbox-close" id="lightboxClose">×</button>
   <div class="swiper swiper-lightbox">
     <div class="swiper-wrapper" id="lightbox-wrapper"></div>
     <div class="swiper-button-next"></div>
@@ -302,7 +357,6 @@ html, body{
   </div>
 </div>
 
-<!-- nav lives outside site-wrap -->
 <div class="nav-overlay" id="navOverlay"></div>
 <nav class="nav-menu" id="navMenu">
   <button class="nav-menu-close" id="navClose">×</button>
@@ -319,8 +373,8 @@ html, body{
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 <script>
-/* ── REFS ─────────────────────────────────────── */
-const siteWrap       = document.getElementById("site-wrap");
+/* ── ELEMENT REFS ─────────────────────────────── */
+const siteWrap        = document.getElementById("site-wrap");
 const overlay        = document.getElementById("overlay");
 const content        = document.getElementById("content");
 const closeBtn       = document.getElementById("close");
@@ -332,15 +386,65 @@ const navOverlay     = document.getElementById("navOverlay");
 const navClose       = document.getElementById("navClose");
 const lightbox       = document.getElementById("lightbox");
 const lightboxWrapper= document.getElementById("lightbox-wrapper");
-const lightboxClose  = document.querySelector(".lightbox-close");
+const lightboxClose  = document.getElementById("lightboxClose");
+
+// Referências exclusivas do sistema do cursor personalizado
+const cursorContainer = document.getElementById("custom-cursor-container");
+const cursorCircle    = document.querySelector(".cursor-circle");
+const cursorDot       = document.querySelector(".cursor-dot");
 
 let swiperInst = null, swiperLightbox = null, currentLang = "pt", tempImages = [];
 
-/* ── LANGUAGE ─────────────────────────────────── */
+/* ── MOUSE CURSOR ENGINE (Trailing + Instant Dot) ── */
+let mouseX = 0, mouseY = 0; // Coordenadas reais dadas pelo rato
+let ballX = 0, ballY = 0;   // Coordenadas calculadas para o efeito suave
+const speed = 0.15;         // Intensidade do lag/atraso fluido (menos = mais lento)
+
+document.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  
+  // O ponto preto interno segue as coordenadas de imediato (sem atraso)
+  cursorDot.style.left = mouseX + 'px';
+  cursorDot.style.top = mouseY + 'px';
+});
+
+// Loop de renderização fluida (60fps) apenas para o círculo azul externo
+function updateSmoothCursor() {
+  ballX += (mouseX - ballX) * speed;
+  ballY += (mouseY - ballY) * speed;
+  
+  cursorCircle.style.left = ballX + 'px';
+  cursorCircle.style.top = ballY + 'px';
+  
+  requestAnimationFrame(updateSmoothCursor);
+}
+updateSmoothCursor();
+
+// Sistema de monitorização de Hovers (Garante o efeito "Grow" em elementos interativos)
+function setupCursorHovers() {
+  const targets = document.querySelectorAll('a, button, .physics-button, .logo, .hamburger, .nav-project-btn');
+  targets.forEach(el => {
+    if(!el.dataset.cursorBound) {
+      el.dataset.cursorBound = "true";
+      el.addEventListener('mouseenter', () => cursorContainer.classList.add('grow'));
+      el.addEventListener('mouseleave', () => cursorContainer.classList.remove('grow'));
+    }
+  });
+}
+setupCursorHovers();
+
+/* ── BILINGUAL SYSTEM ─────────────────────────── */
 function applyLang(lang){
   const isEN = lang === "en";
   document.querySelectorAll(".lang-pt").forEach(el => el.style.display = isEN ? "none" : "block");
   document.querySelectorAll(".lang-en").forEach(el => el.style.display = isEN ? "block" : "none");
+  
+  if(typeof items !== 'undefined') {
+    items.forEach(item => {
+      if(item.el) item.el.textContent = isEN ? item.labelEN : item.labelPT;
+    });
+  }
 }
 
 langBtn.addEventListener("click", () => {
@@ -349,8 +453,9 @@ langBtn.addEventListener("click", () => {
   applyLang(currentLang);
 });
 
-/* ── LIGHTBOX ─────────────────────────────────── */
+/* ── LIGHTBOX CONTROLLER ──────────────────────── */
 function openLightbox(idx){
+  if(!tempImages.length) return;
   lightboxWrapper.innerHTML = tempImages.map(img =>
     `<div class="swiper-slide"><img src="${img}"></div>`).join("");
   lightbox.classList.add("active");
@@ -361,9 +466,12 @@ function openLightbox(idx){
     keyboard:{ enabled:true }
   });
 }
-lightboxClose.addEventListener("click", () => lightbox.classList.remove("active"));
+lightboxClose.addEventListener("click", () => {
+  lightbox.classList.remove("active");
+  if(swiperLightbox){ swiperLightbox.destroy(); swiperLightbox = null; }
+});
 
-/* ── PROJECT DATA ─────────────────────────────── */
+/* ── PROJECT CONTENT ARCHIVE ──────────────────── */
 const projectData = {
   membrana:{
     text:`<div class="content-inner">
@@ -373,11 +481,11 @@ const projectData = {
         <span class="lang-en">Collective exhibition · ACERT, Tondela · 2023–2025</span>
       </div>
       <div class="lang-pt">
-        <p>Todas as pessoas vivem vidas diferentes, mas há coisas que fazem parte da experiência coletiva que partilhamos como seres humanos: uma delas é a experiência de navegação no mundo exterior.</p>
+        <p>Todas as pessoas vivem vidas diferentes, mas há coisas que fazem parte da experiência coletiva que partilhamos como seres humanos: uma delas é a experiência de navegação no world exterior.</p>
         <p>De manhã, quando trocamos de roupa para sair de casa, durante quanto tempo sentimos a roupa na nossa pele? Ao sair de casa, quanto tempo demoramos até deixarmos de sentir o desconforto da temperatura? E o ruído dos automóveis na calçada? Quanto desse ruído desaparece quando encontramos alguém conhecido na rua e ficamos a conversar?</p>
         <p>O corpo e a mente humana estabelecem diversas ferramentas para nos podermos guiar nessa navegação. A exposição, partindo do conceito científico de adaptação sensorial — uma ferramenta que equilibra a sensibilidade dos estímulos que recebemos — é uma passagem que convoca os visitantes a reflectir sobre os sentidos alargando os domínios da percepção.</p>
         <p>É na ligação entre o público e o privado que surge a concepção da "Membrana", expandindo as formas de ver para refletir sobre as conexões entre as pessoas. Ao atravessar essa membrana entre o público e o privado, a exposição revela interstícios invisíveis que formam a base da construção do ser social e dos territórios em que vivemos.</p>
-        <p>Através de dispositivos que exploram a cor, o movimento e a interface entre os sentidos e a realidade, a exposição apresenta uma abstração e desconstrução do quotidiano, expondo camadas mais profundas da compreensão da realidade.</p>
+        <p>Através de dispositivos que exploram a cor, o movimento e a interface entre os sentidos e a realidade, a exposição apresenta uma abstraction e desconstrução do quotidiano, expondo camadas mais profundas da compreensão da realidade.</p>
       </div>
       <div class="lang-en">
         <p>All people live different lives, but there are things that are part of the collective experience we share as human beings: one of them is the experience of navigating the external world.</p>
@@ -419,7 +527,7 @@ const projectData = {
         <span class="lang-en">Artistic expression workshops · Porto · 2023–2025</span>
       </div>
       <div class="lang-pt">
-        <p>Imagens Verdes é um projeto contínuo de transformação que reúne pessoas com 65 ou mais anos para uma exploração única da autoexpressão. Através de oficinas dinâmicas que integram teatro, música, ilustração e fotografia, os participantes mergulham nas suas memórias, partilhando experiências entre si.</p>
+        <p>Imagens Verdes é um projeto contínuo de transformação que reúne pessoas com 65 ou mais anos para uma exploração única da autoexpressão. Através de oficinas dinâmicas que integram teatro, música, illustration e fotografia, os participantes mergulham nas suas memórias, partilhando experiências entre si.</p>
         <p>Dedicado à promoção do intercâmbio entre artistas e a comunidade sénior do Bonfim no Porto, exploramos memórias afetivas através de práticas interdisciplinares. A partir de memórias afetivas e coletivas, interpretamos experiências num ambiente de apoio e comunhão, envolvendo os participantes através de diversas atividades desenhadas para promover a democratização cultural na zona e incentivar a expressão artística.</p>
       </div>
       <div class="lang-en">
@@ -469,7 +577,7 @@ const projectData = {
   }
 };
 
-/* ── SWIPER / PROJECT ─────────────────────────── */
+/* ── CAROUSEL BUILDERS ────────────────────────── */
 function buildSwiper(imgs){
   if(!imgs.length) return "";
   const slides = imgs.map((img,i) =>
@@ -492,16 +600,30 @@ function openProject(key){
   worldEl.style.zIndex = "0";
   applyLang(currentLang);
   content.scrollTop = 0;
-  if(item.images.length) setTimeout(initSwiper, 100);
+  
+  if(item.images.length) {
+    setTimeout(() => {
+      initSwiper();
+      // Liga dinamicamente o cursor "Plus" ao entrar/sair do carrossel principal
+      const swiperEl = document.querySelector('.main-swiper');
+      if (swiperEl) {
+        swiperEl.addEventListener('mouseenter', () => cursorContainer.classList.add('plus'));
+        swiperEl.addEventListener('mouseleave', () => cursorContainer.classList.remove('plus'));
+      }
+    }, 100);
+  }
+  // Mapeia novamente os novos elementos inseridos no DOM (como o botão visitar website)
+  setupCursorHovers();
 }
 function closeOverlay(){
   overlay.classList.remove("active");
   worldEl.style.zIndex = "10";
   content.innerHTML = "";
+  cursorContainer.classList.remove('plus'); // Limpa o estado preventivamente
   if(swiperInst){ swiperInst.destroy(); swiperInst = null; }
 }
 
-/* ── NAV ──────────────────────────────────────── */
+/* ── NAVIGATION TRIGGERS ──────────────────────── */
 function openNav(){ navMenu.classList.add("open"); navOverlay.classList.add("open"); siteWrap.classList.add("nav-open"); }
 function closeNav(){ navMenu.classList.remove("open"); navOverlay.classList.remove("open"); siteWrap.classList.remove("nav-open"); }
 
@@ -515,13 +637,12 @@ document.querySelectorAll(".nav-project-btn").forEach(btn =>
   btn.addEventListener("click", () => { closeNav(); openProject(btn.dataset.key); })
 );
 
-/* ── HAMBURGER width = logo width ─────────────── */
 window.addEventListener("load", () => {
   const w = document.getElementById("logoHome").offsetWidth;
   if(w > 0) hamburger.style.width = w + "px";
 });
 
-/* ── PHYSICS ──────────────────────────────────── */
+/* ── MATTER.JS PHYSICS ENVIRONMENT ────────────── */
 const { Engine, Runner, Bodies, Composite, Mouse, MouseConstraint } = Matter;
 const engine = Engine.create();
 engine.gravity.y = 1.2;
@@ -532,7 +653,6 @@ const H  = window.innerHeight;
 const cx = W / 2;
 const cy = H / 2;
 
-// Read footer height from CSS variable — floor sits just above it
 const FOOTER_H = parseInt(
   getComputedStyle(document.documentElement).getPropertyValue("--footer-h")
 ) || 44;
@@ -561,6 +681,7 @@ items.forEach(item => {
 
   item.el = document.createElement("div");
   item.el.className = "physics-button";
+  item.el.textContent = currentLang === "en" ? item.labelEN : item.labelPT;
   worldEl.appendChild(item.el);
 
   let sX, sY;
@@ -570,22 +691,17 @@ items.forEach(item => {
   });
 });
 
-// Bind Matter mouse only to #world so UI buttons get touch events freely
+// Clean MouseConstraint Configuration
 const mouse = Mouse.create(worldEl);
-mouse.pixelRatio = window.devicePixelRatio || 1;
 const mc = MouseConstraint.create(engine, {
-  mouse, constraint:{ stiffness:.2, render:{ visible:false } }
+  mouse: mouse,
+  constraint: { stiffness: 0.2, render: { visible: false } }
 });
-mc.mouse.element.removeEventListener("touchstart", mc.mouse.mousedown);
-mc.mouse.element.removeEventListener("touchmove",  mc.mouse.mousemove);
-mc.mouse.element.removeEventListener("touchend",   mc.mouse.mouseup);
-mc.mouse.element.addEventListener("touchstart", mc.mouse.mousedown, { passive:true });
-mc.mouse.element.addEventListener("touchmove",  mc.mouse.mousemove, { passive:true });
-mc.mouse.element.addEventListener("touchend",   mc.mouse.mouseup,   { passive:true });
 Composite.add(world, mc);
 
 Runner.run(Runner.create(), engine);
 
+/* ── ANIMATION TICK FRAME LOOP ────────────────── */
 (function tick(){
   items.forEach(item => {
     item.el.style.width     = item.w + "px";
@@ -593,7 +709,6 @@ Runner.run(Runner.create(), engine);
     item.el.style.left      = (item.body.position.x - item.w/2) + "px";
     item.el.style.top       = (item.body.position.y - item.h/2) + "px";
     item.el.style.transform = `rotate(${item.body.angle}rad)`;
-    item.el.textContent     = currentLang === "en" ? item.labelEN : item.labelPT;
   });
   requestAnimationFrame(tick);
 })();
