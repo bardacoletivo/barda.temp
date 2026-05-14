@@ -427,7 +427,8 @@ const projectData = {
         </div>
       </div>
     </div>`,
-    images:["images/porvir/01.jpg","images/porvir/02.jpg","images/porvir/03.jpg"]
+    /* IMAGENS ATUALIZADAS: 1.jpg até 36.jpg */
+    images: Array.from({length: 36}, (_, i) => `images/porvir/${i + 1}.jpg`)
   },
   imagens:{
     title:"Imagens Verdes",
@@ -450,8 +451,8 @@ const projectData = {
         </div>
       </div>
     </div>`,
-    images:["images/imagensverdes/01.jpg","images/imagensverdes/02.jpg","images/imagensverdes/03.jpg"]
-  },
+    /* IMAGENS ATUALIZADAS: 1.jpg até 36.jpg */
+    images: Array.from({length: 16}, (_, i) => `images/imagensverdes/${i + 1}.jpg`)
   casa:{
     title:"A Casa de Falar Baixinho",
     text:`<div class="content-inner">
