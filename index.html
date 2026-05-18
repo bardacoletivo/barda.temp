@@ -11,7 +11,6 @@
 
 :root{
   --blue:#1f4fff;
-  --footer-h:44px;
   --nav-w:280px;
   --header-h:90px;
 }
@@ -96,8 +95,9 @@ html, body{
 #world{ position:fixed; inset:0; overflow:hidden; z-index:10; touch-action:none; }
 
 .logo,.hamburger,.lang-toggle,.close-button,
-.nav-menu,.nav-overlay,.site-footer{ pointer-events:auto; }
+.nav-menu,.nav-overlay{ pointer-events:auto; }
 
+/* Botões normais de texto */
 .physics-button{
   position:absolute; display:flex; align-items:center; justify-content:center;
   padding:12px 18px; border:1px solid black; background:white;
@@ -107,6 +107,24 @@ html, body{
   touch-action:none; transition:background .15s,color .15s,border-color .15s;
 }
 .physics-button:hover{ background:var(--blue); color:white; border-color:var(--blue); }
+
+/* Botões de ícones (Invertidos inicialmente, mudam no hover) */
+.physics-icon-button {
+  position:absolute; display:flex; align-items:center; justify-content:center;
+  background:var(--blue); border:1px solid var(--blue); cursor:pointer;
+  touch-action:none; transition:background .15s, border-color .15s;
+}
+.physics-icon-button svg {
+  transition: fill .15s;
+}
+/* Efeito hover pedido: fundo branco e ícone azul */
+.physics-icon-button:hover {
+  background: white;
+  border-color: var(--blue);
+}
+.physics-icon-button:hover svg {
+  fill: var(--blue);
+}
 
 .nav-overlay{ display:none; position:fixed; inset:0; z-index:550; background:rgba(0,0,0,.15); }
 .nav-overlay.open{ display:block; }
@@ -144,7 +162,7 @@ html, body{
 
 .overlay-container{
   display:none; position:fixed;
-  top:var(--header-h); left:0; right:0; bottom:var(--footer-h);
+  top:var(--header-h); left:0; right:0; bottom:20px;
   align-items:center; justify-content:center;
   z-index:300; pointer-events:none; padding:12px 4vw;
 }
@@ -211,19 +229,7 @@ html, body{
 .swiper-lightbox .swiper-button-next,
 .swiper-lightbox .swiper-button-prev{ color:white; }
 
-.site-footer{
-  position:fixed; bottom:0; left:0; right:0; z-index:40;
-  background:var(--blue); color:white; height:var(--footer-h);
-  display:flex; align-items:center; justify-content:center; gap:28px;
-}
-.site-footer a{
-  color:white; text-decoration:none; display:flex; align-items:center;
-  opacity:.85; transition:opacity .15s;
-}
-.site-footer a:hover{ opacity:1; }
-
 @media(max-width:768px){
-  :root{ --header-h:88px; }
   .statement{ width:84vw; font-size:18px; }
   .physics-button{ font-size:17px; padding:10px 14px; }
   .overlay-content{ width:96vw; }
@@ -259,15 +265,6 @@ html, body{
       <div id="content"></div>
     </div>
   </div>
-
-  <footer class="site-footer">
-    <a href="mailto:bardacoletivo@gmail.com" title="Email">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.144C21.69 2.28 24 3.434 24 5.457z"/></svg>
-    </a>
-    <a href="https://instagram.com/bardacoletivo" target="_blank" title="Instagram">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-    </a>
-  </footer>
 </div>
 
 <div id="lightbox">
@@ -336,7 +333,7 @@ if (!isMobileDevice) {
 
 function setupCursorHovers() {
   if (isMobileDevice) return;
-  document.querySelectorAll('a, button, .physics-button, .logo, .hamburger, .nav-project-btn').forEach(el => {
+  document.querySelectorAll('a, button, .physics-button, .physics-icon-button, .logo, .hamburger, .nav-project-btn').forEach(el => {
     if (!el.dataset.cursorBound) {
       el.dataset.cursorBound = "true";
       el.addEventListener('mouseenter', () => cursorContainer.classList.add('grow'));
@@ -397,7 +394,9 @@ function applyLang(lang) {
   document.querySelectorAll(".lang-pt").forEach(el => el.style.display = isEN ? "none" : "block");
   document.querySelectorAll(".lang-en").forEach(el => el.style.display = isEN ? "block" : "none");
   if (typeof items !== 'undefined') {
-    items.forEach(item => { if (item.el) item.el.textContent = isEN ? item.labelEN : item.labelPT; });
+    items.forEach(item => { 
+      if (item.el && !item.isIcon) item.el.textContent = isEN ? item.labelEN : item.labelPT; 
+    });
   }
 }
 langBtn.addEventListener("click", () => {
@@ -432,11 +431,11 @@ const projectData = {
     metaEN:"Collective exhibition · ACERT, Tondela · 2023–2025",
     description:`
       <div class="lang-pt">
-        <p>Todas as pessoas vivem vidas differentes, mas há coisas que fazem parte da experiência coletiva que partilhamos como seres humanos: uma delas é a experiência de navegação no world exterior.</p>
+        <p>Todas as pessoas vivem vidas diferentes, mas há coisas que fazem parte da experiência coletiva que partilhamos como seres humanos: uma delas é a experiência de navegação no world exterior.</p>
         <p>De manhã, quando trocamos de roupa para sair de casa, durante quanto tempo sentimos a roupa na nossa pele? Ao sair de casa, quanto tempo demoramos até deixarmos de sentir o desconforto da temperatura? E o ruído dos automóveis na calçada? Quanto desse ruído desaparece quando encontramos alguém conhecido na rua e ficamos a conversar?</p>
         <p>O corpo e a mente humana estabelecem diversas ferramentas para nos podermos guiar nessa navegação. A exposição, partindo do conceito científico de adaptação sensorial — uma ferramenta que equilibra a sensibilidade dos estímulos que recebemos — é uma passagem que convoca os visitantes a reflectir sobre os sentidos alargando os domínios da percepção.</p>
         <p>É na ligação entre o público e o privado que surge a concepção da "Membrana", expandindo as formas de ver para refletir sobre as conexões entre as pessoas. Ao atravessar essa membrana entre o público e o privado, a exposição revela interstícios invisíveis que formam a base da construção do ser social e dos territórios em que vivemos.</p>
-        <p>Através de dispositivos que exploram a cor, o movimento e a interface entre os sentidos e a realidade, a exposição apresenta uma abstraction e desconstrução do quotidiano, expondo camadas mais profundas da compreensão da realidade.</p>
+        <p>Através de dispositivos que exploram a cor, o movimento e a interface entre os sentidos e a reality, a exposição apresenta uma abstraction e desconstrução do quotidiano, expondo camadas mais profundas da compreensão da realidade.</p>
       </div>
       <div class="lang-en">
         <p>All people live different lives, but there are things that are part of the collective experience we share as human beings: one of them is the experience of navigating the external world.</p>
@@ -503,7 +502,7 @@ const projectData = {
       <div class="lang-en"><p>Barda Collective emphasizes visual arts as a means of transformation and empowerment for peripheral communities, using imagery as a tool for intervention and questioning, promoting the creation of synergies between community and territory through experimental dialogues. Barda is a manifestation of collaborative will that has taken the form of a collective.</p></div>
       <div class="bios">
         <div style="margin-bottom:28px;"><h3 class="lang-pt">Quem é o Barda?</h3><h3 class="lang-en">Who is Barda?</h3></div>
-        <div class="bio"><p class="bio-name">Ana Luísa Rego</p><p><span class="lang-pt">Nasceu em Cinfães (1974), vive no Porto. Iniciou o seu percurso na fotografia ainda na era analógica. Na sua prática, documenta temas inspirados em questões sociais, culturais e científicas através de uma abordagem interdisciplinar e colaborativa.</span><span class="lang-en">Born in Cinfães (1974), lives in Porto. Started her journey in photography in the analog era. In her practice, she documents themes inspired by social, cultural, and scientific issues through an interdisciplinary and collaborative approach.</span></p></div>
+        <div class="bio"><p class="bio-name">Ana Luísa Rego</p><p><span class="lang-pt">Nasceu em Cinfães (1974), vive no Porto. Iniciou o seu percurso na fotografia ainda na era analógica. Na sua prática, documenta temas inspirados em questões sociais, culturais e científicas através de uma abordagem interdisciplinar and colaborativa.</span><span class="lang-en">Born in Cinfães (1974), lives in Porto. Started her journey in photography in the analog era. In her practice, she documents themes inspired by social, cultural, and scientific issues through an interdisciplinary and collaborative approach.</span></p></div>
         <div class="bio"><p class="bio-name">Carlos Trancoso</p><p><span class="lang-pt">Artista visual sediado no Porto. A sua prática explora as interseções entre natureza, tecnologia e sistemas de observação, combinando o pensamento fotográfico com processos espaciais, sonoros e computacionais. Em 2024 ganhou a Open Call INTERGALACTICA, resultando na publicação do fotolivro <em>How to Build a Telescope</em> pela XYZ Books em 2025.</span><span class="lang-en">Visual artist based in Porto. His practice explores the intersections between nature, technology, and systems of observation, combining photographic thought with spatial, sonic, and computational processes. In 2024 he won the INTERGALACTICA Open Call, leading to the publication of his photobook <em>How to Build a Telescope</em> by XYZ Books in 2025.</span></p></div>
         <div class="bio"><p class="bio-name">Diana Sá</p><p><span class="lang-pt">Nasceu em Espinho em 1985. Frequentou o curso profissional de fotografia no IPF e o Mestrado em Fotografia Artística no IPCI. Interessa-se por projetos de longo prazo sobre o território, o quotidiano e o efémero.</span><span class="lang-en">Born in Espinho in 1985. Attended the professional photography course at IPF and the Master's in Artistic Photography at IPCI. Interested in long-term projects regarding territory, daily life, and the ephemeral.</span></p></div>
         <div class="bio"><p class="bio-name">Guida Marques</p><p><span class="lang-pt">Nascida em 1986, neo-rural na Serra do Açor desde 2017. Desenvolve reconstruções de casas de xisto e performances/instalações focadas na relação corpo/lugar/memória.</span><span class="lang-en">Born in 1986, neo-rural in Serra do Açor since 2017. Develops reconstructions of schist houses and performances/installations focused on the body/place/memory relationship.</span></p></div>
@@ -532,6 +531,7 @@ function initSwiper() {
   });
 }
 function openProject(key) {
+  if (key === "email" || key === "instagram") return;
   const item = projectData[key];
   tempImages = item.images;
   let headerHtml = `<div class="content-inner"><h2>${currentLang === 'en' ? item.titleEN : item.titlePT}</h2>`;
@@ -594,10 +594,9 @@ const world = engine.world;
 
 const W = window.innerWidth, H = window.innerHeight;
 const cx = W / 2, cy = H / 2;
-const FOOTER_H = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--footer-h")) || 44;
-const floorY = H - FOOTER_H;
 
-// Inicialmente não adicionamos o teto aqui para evitar que os botões nasçam presos
+const floorY = H;
+
 Composite.add(world, [
   Bodies.rectangle(W/2, floorY+30, W, 60, {isStatic:true}), // Chão
   Bodies.rectangle(-30, H/2, 60, H, {isStatic:true}),       // Parede Esquerda
@@ -606,24 +605,48 @@ Composite.add(world, [
 
 function clampW(w){ return Math.min(w, Math.floor(W * 0.78)); }
 
+const mailIconSVG = `<svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.144C21.69 2.28 24 3.434 24 5.457z"/></svg>`;
+const instaIconSVG = `<svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>`;
+
+// Tamanho dos ícones aumentado de 50 para 60 (tanto na física 'w' e 'h', como no elemento visual)
 const items = [
-  { labelPT:"Membrana",               labelEN:"Membrana",               key:"membrana", x:cx-W*.20, y:cy-H*.55, w:clampW(190), h:54 },
-  { labelPT:"Porvir",                  labelEN:"Porvir",                  key:"porvir",   x:cx+W*.04, y:cy-H*.70, w:clampW(140), h:54 },
-  { labelPT:"Imagens Verdes",         labelEN:"Imagens Verdes",         key:"imagens",  x:cx+W*.20, y:cy-H*.62, w:clampW(240), h:54 },
-  { labelPT:"Casa de Falar Baixinho", labelEN:"Casa de Falar Baixinho", key:"casa",     x:cx-W*.04, y:cy-H*.85, w:clampW(320), h:54 },
-  { labelPT:"Sobre",                  labelEN:"About",                  key:"about",    x:cx+W*.28, y:cy-H*.78, w:clampW(130), h:54 }
+  { labelPT:"Membrana",               labelEN:"Membrana",               key:"membrana",  x:cx-W*.20, y:cy-H*.55, w:clampW(190), h:54, isIcon:false },
+  { labelPT:"Porvir",                  labelEN:"Porvir",                  key:"porvir",    x:cx+W*.04, y:cy-H*.70, w:clampW(140), h:54, isIcon:false },
+  { labelPT:"Imagens Verdes",         labelEN:"Imagens Verdes",         key:"imagens",   x:cx+W*.20, y:cy-H*.62, w:clampW(240), h:54, isIcon:false },
+  { labelPT:"Casa de Falar Baixinho", labelEN:"Casa de Falar Baixinho", key:"casa",      x:cx-W*.04, y:cy-H*.85, w:clampW(320), h:54, isIcon:false },
+  { labelPT:"Sobre",                  labelEN:"About",                  key:"about",     x:cx+W*.28, y:cy-H*.78, w:clampW(130), h:54, isIcon:false },
+  { labelPT:"Email",                  labelEN:"Email",                  key:"email",     x:cx-W*.10, y:cy-H*.92, w:60,          h:60, isIcon:true, iconSVG:mailIconSVG,  url:"mailto:bardacoletivo@gmail.com" },
+  { labelPT:"Instagram",              labelEN:"Instagram",              key:"instagram", x:cx+W*.10, y:cy-H*.95, w:60,          h:60, isIcon:true, iconSVG:instaIconSVG, url:"https://instagram.com/bardacoletivo" }
 ];
 
 items.forEach(item => {
   item.body = Bodies.rectangle(item.x, item.y, item.w, item.h, { restitution:.1, friction:.8, frictionAir:.02 });
   Composite.add(world, item.body);
+  
   item.el = document.createElement("div");
-  item.el.className = "physics-button";
-  item.el.textContent = currentLang === "en" ? item.labelEN : item.labelPT;
+  
+  if (item.isIcon) {
+    item.el.className = "physics-icon-button";
+    item.el.innerHTML = item.iconSVG;
+    item.el.title = item.labelPT;
+  } else {
+    item.el.className = "physics-button";
+    item.el.textContent = currentLang === "en" ? item.labelEN : item.labelPT;
+  }
+  
   worldEl.appendChild(item.el);
   let sX, sY;
   item.el.addEventListener("pointerdown", e => { sX = e.clientX; sY = e.clientY; });
-  item.el.addEventListener("pointerup", e => { if (Math.hypot(e.clientX-sX, e.clientY-sY) < 8) openProject(item.key); });
+  item.el.addEventListener("pointerup", e => { 
+    if (Math.hypot(e.clientX-sX, e.clientY-sY) < 8) {
+      if (item.isIcon) {
+        if (item.key === "instagram") window.open(item.url, "_blank");
+        else window.location.href = item.url;
+      } else {
+        openProject(item.key); 
+      }
+    }
+  });
 });
 
 const mc = MouseConstraint.create(engine, {
@@ -636,7 +659,6 @@ Runner.run(Runner.create(), engine);
 let ceilingAdded = false;
 
 (function tick() {
-  // Verifica se todos os botões já desceram o suficiente para podermos ativar o teto com segurança
   if (!ceilingAdded) {
     let allButtonsBelowTop = items.every(item => (item.body.position.y - item.h/2) > 10);
     if (allButtonsBelowTop) {
