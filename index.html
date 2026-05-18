@@ -346,7 +346,7 @@ function setupCursorHovers() {
 }
 setupCursorHovers();
 
-/* ── TYPED.JS: 10 frases placeholder (PT e EN) ── */
+/* ── TYPED.JS ── */
 const typedStringsPT = [
   "Sempre em construção",
   "Imagens como ferramentas para a transformação coletiva",
@@ -432,7 +432,7 @@ const projectData = {
     metaEN:"Collective exhibition · ACERT, Tondela · 2023–2025",
     description:`
       <div class="lang-pt">
-        <p>Todas as pessoas vivem vidas diferentes, mas há coisas que fazem parte da experiência coletiva que partilhamos como seres humanos: uma delas é a experiência de navegação no world exterior.</p>
+        <p>Todas as pessoas vivem vidas differentes, mas há coisas que fazem parte da experiência coletiva que partilhamos como seres humanos: uma delas é a experiência de navegação no world exterior.</p>
         <p>De manhã, quando trocamos de roupa para sair de casa, durante quanto tempo sentimos a roupa na nossa pele? Ao sair de casa, quanto tempo demoramos até deixarmos de sentir o desconforto da temperatura? E o ruído dos automóveis na calçada? Quanto desse ruído desaparece quando encontramos alguém conhecido na rua e ficamos a conversar?</p>
         <p>O corpo e a mente humana estabelecem diversas ferramentas para nos podermos guiar nessa navegação. A exposição, partindo do conceito científico de adaptação sensorial — uma ferramenta que equilibra a sensibilidade dos estímulos que recebemos — é uma passagem que convoca os visitantes a reflectir sobre os sentidos alargando os domínios da percepção.</p>
         <p>É na ligação entre o público e o privado que surge a concepção da "Membrana", expandindo as formas de ver para refletir sobre as conexões entre as pessoas. Ao atravessar essa membrana entre o público e o privado, a exposição revela interstícios invisíveis que formam a base da construção do ser social e dos territórios em que vivemos.</p>
@@ -487,7 +487,7 @@ const projectData = {
     metaEN:"Exhibition · Encontros da Imagem · 2025",
     description:`
       <div class="lang-pt">
-        <p>Integrada no núcleo expositivo Argumentários, que celebra e revisita a história do festival, a intervenção do Colectivo Barda responde ao desafio de recuperar memórias e experiências que moldaram de forma sensível e contínua a identidade dos Encontros da Imagem.</p>
+        <p>Integrada no núcleo expositivo Argumentários, que celebra e revisita a história do festival, a intervention do Colectivo Barda responde ao desafio de recuperar memórias e experiências que moldaram de forma sensível e contínua a identidade dos Encontros da Imagem.</p>
         <p>Partindo de eventos reais da Semana de Abertura de 2018, o coletivo explora encontros, trocas e gestos inscritos na memória da comunidade reunida em torno do festival. Cada imagem em A casa de falar baixinho evoca episódios específicos, convocando afetos, práticas e momentos que, embora ausentes da documentação formal, ficaram marcados nos corpos e na memória particular de cada edição.</p>
       </div>
       <div class="lang-en">
@@ -597,17 +597,18 @@ const cx = W / 2, cy = H / 2;
 const FOOTER_H = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--footer-h")) || 44;
 const floorY = H - FOOTER_H;
 
+// Inicialmente não adicionamos o teto aqui para evitar que os botões nasçam presos
 Composite.add(world, [
-  Bodies.rectangle(W/2, floorY+30, W, 60, {isStatic:true}),
-  Bodies.rectangle(-30, H/2, 60, H, {isStatic:true}),
-  Bodies.rectangle(W+30, H/2, 60, H, {isStatic:true})
+  Bodies.rectangle(W/2, floorY+30, W, 60, {isStatic:true}), // Chão
+  Bodies.rectangle(-30, H/2, 60, H, {isStatic:true}),       // Parede Esquerda
+  Bodies.rectangle(W+30, H/2, 60, H, {isStatic:true})        // Parede Direita
 ]);
 
 function clampW(w){ return Math.min(w, Math.floor(W * 0.78)); }
 
 const items = [
   { labelPT:"Membrana",               labelEN:"Membrana",               key:"membrana", x:cx-W*.20, y:cy-H*.55, w:clampW(190), h:54 },
-  { labelPT:"Porvir",                 labelEN:"Porvir",                 key:"porvir",   x:cx+W*.04, y:cy-H*.70, w:clampW(140), h:54 },
+  { labelPT:"Porvir",                  labelEN:"Porvir",                  key:"porvir",   x:cx+W*.04, y:cy-H*.70, w:clampW(140), h:54 },
   { labelPT:"Imagens Verdes",         labelEN:"Imagens Verdes",         key:"imagens",  x:cx+W*.20, y:cy-H*.62, w:clampW(240), h:54 },
   { labelPT:"Casa de Falar Baixinho", labelEN:"Casa de Falar Baixinho", key:"casa",     x:cx-W*.04, y:cy-H*.85, w:clampW(320), h:54 },
   { labelPT:"Sobre",                  labelEN:"About",                  key:"about",    x:cx+W*.28, y:cy-H*.78, w:clampW(130), h:54 }
@@ -632,7 +633,18 @@ const mc = MouseConstraint.create(engine, {
 Composite.add(world, mc);
 Runner.run(Runner.create(), engine);
 
+let ceilingAdded = false;
+
 (function tick() {
+  // Verifica se todos os botões já desceram o suficiente para podermos ativar o teto com segurança
+  if (!ceilingAdded) {
+    let allButtonsBelowTop = items.every(item => (item.body.position.y - item.h/2) > 10);
+    if (allButtonsBelowTop) {
+      Composite.add(world, Bodies.rectangle(W/2, -30, W, 60, {isStatic:true}));
+      ceilingAdded = true;
+    }
+  }
+
   items.forEach(item => {
     item.el.style.width = item.w + "px";
     item.el.style.height = item.h + "px";
