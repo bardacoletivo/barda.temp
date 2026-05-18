@@ -108,7 +108,7 @@ html, body{
 }
 .physics-button:hover{ background:var(--blue); color:white; border-color:var(--blue); }
 
-/* Botões de ícones (Invertidos inicialmente, mudam no hover) */
+/* Botões de ícones */
 .physics-icon-button {
   position:absolute; display:flex; align-items:center; justify-content:center;
   background:var(--blue); border:1px solid var(--blue); cursor:pointer;
@@ -117,7 +117,6 @@ html, body{
 .physics-icon-button svg {
   transition: fill .15s;
 }
-/* Efeito hover pedido: fundo branco e ícone azul */
 .physics-icon-button:hover {
   background: white;
   border-color: var(--blue);
@@ -498,7 +497,7 @@ const projectData = {
   about:{
     titlePT:"BARDA", titleEN:"BARDA", metaPT:"", metaEN:"",
     description:`
-      <div class="lang-pt"><p>O Colectivo Barda enfatiza as artes visuais como meio de transformação e capacitação de comunidades periféricas, usando a imagem como ferramenta de intervenção e questionamento, promovendo a criação de sinergias entre comunidade e território através de diálogos experimentais. Barda é uma manifestation de vontade colaborativa que tomou a forma de um coletivo.</p></div>
+      <div class="lang-pt"><p>O Colectivo Barda enfatiza as artes visuais como meio de transformação e capacitação de comunidades periféricas, usando a imagem como ferramenta de intervention e questionamento, promovendo a criação de sinergias entre comunidade e território através de diálogos experimentais. Barda é uma manifestation de vontade colaborativa que tomou a forma de um coletivo.</p></div>
       <div class="lang-en"><p>Barda Collective emphasizes visual arts as a means of transformation and empowerment for peripheral communities, using imagery as a tool for intervention and questioning, promoting the creation of synergies between community and territory through experimental dialogues. Barda is a manifestation of collaborative will that has taken the form of a collective.</p></div>
       <div class="bios">
         <div style="margin-bottom:28px;"><h3 class="lang-pt">Quem é o Barda?</h3><h3 class="lang-en">Who is Barda?</h3></div>
@@ -594,7 +593,6 @@ const world = engine.world;
 
 const W = window.innerWidth, H = window.innerHeight;
 const cx = W / 2, cy = H / 2;
-
 const floorY = H;
 
 Composite.add(world, [
@@ -608,7 +606,6 @@ function clampW(w){ return Math.min(w, Math.floor(W * 0.78)); }
 const mailIconSVG = `<svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.144C21.69 2.28 24 3.434 24 5.457z"/></svg>`;
 const instaIconSVG = `<svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>`;
 
-// Tamanho dos ícones aumentado de 50 para 60 (tanto na física 'w' e 'h', como no elemento visual)
 const items = [
   { labelPT:"Membrana",               labelEN:"Membrana",               key:"membrana",  x:cx-W*.20, y:cy-H*.55, w:clampW(190), h:54, isIcon:false },
   { labelPT:"Porvir",                  labelEN:"Porvir",                  key:"porvir",    x:cx+W*.04, y:cy-H*.70, w:clampW(140), h:54, isIcon:false },
@@ -619,8 +616,28 @@ const items = [
   { labelPT:"Instagram",              labelEN:"Instagram",              key:"instagram", x:cx+W*.10, y:cy-H*.95, w:60,          h:60, isIcon:true, iconSVG:instaIconSVG, url:"https://instagram.com/bardacoletivo" }
 ];
 
-items.forEach(item => {
-  item.body = Bodies.rectangle(item.x, item.y, item.w, item.h, { restitution:.1, friction:.8, frictionAir:.02 });
+// Algoritmo de baralhamento (Fisher-Yates Shuffle) para aleatorizar a ordem de queda
+for (let i = items.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [items[i], items[j]] = [items[j], items[i]];
+}
+
+items.forEach((item, index) => {
+  // Tornamos as posições x e y de nascença ligeiramente caóticas
+  // O atraso na queda dá-se mudando sutilmente a altura (y) inicial com base no index
+  const jitterX = (Math.random() - 0.5) * (W * 0.15); 
+  const sequentialY = cy - H * 0.6 - (index * 75); 
+  
+  // Criamos o corpo físico com um ângulo/rotação inicial aleatório para dar um efeito mais orgânico
+  const randomAngle = (Math.random() - 0.5) * 0.5; // Entre -15º e +15º aproximadamente
+
+  item.body = Bodies.rectangle(item.x + jitterX, sequentialY, item.w, item.h, { 
+    restitution: .1, 
+    friction: .8, 
+    frictionAir: .02,
+    angle: randomAngle
+  });
+  
   Composite.add(world, item.body);
   
   item.el = document.createElement("div");
@@ -660,6 +677,7 @@ let ceilingAdded = false;
 
 (function tick() {
   if (!ceilingAdded) {
+    // Agora valida se todos os botões baralhados já desceram abaixo do topo do ecrã
     let allButtonsBelowTop = items.every(item => (item.body.position.y - item.h/2) > 10);
     if (allButtonsBelowTop) {
       Composite.add(world, Bodies.rectangle(W/2, -30, W, 60, {isStatic:true}));
