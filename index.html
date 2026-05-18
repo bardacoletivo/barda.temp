@@ -17,65 +17,32 @@
 }
 
 *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-
-/* ── DEFINIÇÕES PADRÃO DO CURSOR (DESKTOP) ────── */
 html, body, * { cursor: none !important; }
 
 #custom-cursor-container {
-  position: fixed;
-  top: 0; left: 0;
-  width: 0; height: 0;
-  pointer-events: none;
-  z-index: 9999;
-  display: block;
+  position: fixed; top: 0; left: 0; width: 0; height: 0;
+  pointer-events: none; z-index: 9999; display: block;
 }
-
 .cursor-circle {
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  background-color: var(--blue);
-  border-radius: 50%;
+  position: absolute; width: 16px; height: 16px;
+  background-color: var(--blue); border-radius: 50%;
   transform: translate(-50%, -50%);
-  transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-  will-change: left, top;
+  transition: width 0.2s ease, height 0.2s ease;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 2; will-change: left, top;
 }
-
 .cursor-dot {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background-color: black;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  will-change: left, top;
+  position: absolute; width: 4px; height: 4px;
+  background-color: black; border-radius: 50%;
+  transform: translate(-50%, -50%); z-index: 1; will-change: left, top;
 }
-
-#custom-cursor-container.grow .cursor-circle {
-  width: 38px;
-  height: 38px;
-}
-
-#custom-cursor-container.plus .cursor-circle {
-  width: 28px;
-  height: 28px;
-}
+#custom-cursor-container.grow .cursor-circle { width: 38px; height: 38px; }
+#custom-cursor-container.plus .cursor-circle { width: 28px; height: 28px; }
 #custom-cursor-container.plus .cursor-circle::after {
-  content: '+';
-  color: white;
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  font-weight: bold;
-  position: absolute;
+  content: '+'; color: white; font-family: Arial, sans-serif;
+  font-size: 16px; font-weight: bold; position: absolute;
 }
-#custom-cursor-container.plus .cursor-dot {
-  display: none;
-}
+#custom-cursor-container.plus .cursor-dot { display: none; }
 
 @media (max-width: 1024px) {
   html, body, * { cursor: auto !important; }
@@ -83,84 +50,67 @@ html, body, * { cursor: none !important; }
 }
 
 html, body{
-  margin:0; width:100%; height:100%;
-  overflow:hidden;
-  background:white;
-  font-family:'IBM Plex Sans',sans-serif;
-  color:black;
+  margin:0; width:100%; height:100%; overflow:hidden;
+  background:white; font-family:'IBM Plex Sans',sans-serif; color:black;
 }
-
-/* ── PUSH WRAPPER ─────────────────────────────── */
 #site-wrap{
   position:fixed; inset:0;
-  transition:transform .32s cubic-bezier(.4,0,.2,1);
-  will-change:transform;
+  transition:transform .32s cubic-bezier(.4,0,.2,1); will-change:transform;
 }
 #site-wrap.nav-open{ transform:translateX(calc(-1 * var(--nav-w))); }
 
-/* ── LOGO ─────────────────────────────────────── */
 .logo{
   position:fixed; top:20px; right:24px; z-index:500;
   font-family:'Space Grotesk',sans-serif; font-size:21px; font-weight:500;
   color:var(--blue); cursor:pointer; margin:0; line-height:1;
 }
-
-/* ── HAMBURGER ────────────────────────────────── */
 .hamburger{
   position:fixed; top:50px; right:24px; z-index:500; width:32px;
   display:flex; flex-direction:column; gap:6px;
-  cursor:pointer; padding:4px 0; background:none; border:none;
-  touch-action:manipulation;
+  cursor:pointer; padding:4px 0; background:none; border:none; touch-action:manipulation;
 }
 .hamburger span{ display:block; height:2px; background:var(--blue); }
 
-/* ── LANG TOGGLE ──────────────────────────────── */
 .lang-toggle{
   position:fixed; top:20px; left:24px; z-index:500;
   font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:500;
   border:1px solid black; background:white; padding:5px 12px; cursor:pointer;
-  touch-action:manipulation;
-  transition:background .2s,color .2s,border-color .2s;
+  touch-action:manipulation; transition:background .2s,color .2s,border-color .2s;
 }
 .lang-toggle:hover{ background:var(--blue); color:white; border-color:var(--blue); }
 
-/* ── STATEMENT ────────────────────────────────── */
+/* ── STATEMENT ── */
 .statement{
   position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
   width:min(640px,82vw); text-align:center;
   font-family:'Space Grotesk',sans-serif; font-size:22px; line-height:1.35;
   z-index:1; pointer-events:none;
+  min-height:3.5em;
 }
+.statement .typed-cursor{
+  color: var(--blue); font-weight:300; opacity:1;
+  animation: typedBlink 0.7s infinite;
+}
+@keyframes typedBlink{ 0%,100%{opacity:1} 50%{opacity:0} }
 
-/* ── PHYSICS WORLD ────────────────────────────── */
-#world{
-  position:fixed; inset:0; overflow:hidden; z-index:10;
-  touch-action:none;
-}
+#world{ position:fixed; inset:0; overflow:hidden; z-index:10; touch-action:none; }
 
 .logo,.hamburger,.lang-toggle,.close-button,
 .nav-menu,.nav-overlay,.site-footer{ pointer-events:auto; }
 
-/* ── PHYSICS BUTTONS ──────────────────────────── */
 .physics-button{
   position:absolute; display:flex; align-items:center; justify-content:center;
   padding:12px 18px; border:1px solid black; background:white;
   font-family:'Space Grotesk',sans-serif; font-size:20px; cursor:pointer;
   user-select:none; white-space:nowrap;
   min-width:80px; max-width:min(340px,80vw);
-  touch-action:none;
-  transition:background .15s,color .15s,border-color .15s;
+  touch-action:none; transition:background .15s,color .15s,border-color .15s;
 }
 .physics-button:hover{ background:var(--blue); color:white; border-color:var(--blue); }
 
-/* ── NAV OVERLAY ──────────────────────────────── */
-.nav-overlay{
-  display:none; position:fixed; inset:0; z-index:550;
-  background:rgba(0,0,0,.15);
-}
+.nav-overlay{ display:none; position:fixed; inset:0; z-index:550; background:rgba(0,0,0,.15); }
 .nav-overlay.open{ display:block; }
 
-/* ── NAV MENU ─────────────────────────────────── */
 .nav-menu{
   position:fixed; top:0; right:calc(-1 * var(--nav-w));
   width:var(--nav-w); height:100%; background:white;
@@ -171,22 +121,16 @@ html, body{
   transition:right .32s cubic-bezier(.4,0,.2,1);
 }
 .nav-menu.open{ right:0; }
-
 .nav-menu-close{
   position:absolute; top:0; left:0; width:35px; height:35px;
-  border:none; background:var(--blue); color:white;
-  font-size:22px; cursor:pointer;
-  display:flex; align-items:center; justify-content:center;
-  touch-action:manipulation;
+  border:none; background:var(--blue); color:white; font-size:22px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; touch-action:manipulation;
 }
-
 .nav-about-label{
-  font-family:'Space Grotesk',sans-serif;
-  font-size:13px; font-weight:500; letter-spacing:.1em;
-  text-transform:uppercase; color:var(--blue);
+  font-family:'Space Grotesk',sans-serif; font-size:13px; font-weight:500;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--blue);
   margin:0 0 20px 0; text-align:left;
-  cursor:pointer; background:none; border:none; padding:0;
-  touch-action:manipulation;
+  cursor:pointer; background:none; border:none; padding:0; touch-action:manipulation;
 }
 .nav-about-label:hover{ opacity:.7; }
 .nav-divider{ border:none; border-top:1px solid #e0e0e0; margin:20px 0; }
@@ -198,40 +142,28 @@ html, body{
 }
 .nav-project-btn:hover{ color:var(--blue); }
 
-/* ── OVERLAY (Project Windows) ────────────────── */
 .overlay-container{
   display:none; position:fixed;
   top:var(--header-h); left:0; right:0; bottom:var(--footer-h);
   align-items:center; justify-content:center;
-  z-index:300; pointer-events:none;
-  padding:12px 4vw;
+  z-index:300; pointer-events:none; padding:12px 4vw;
 }
 .overlay-container.active{ display:flex; }
-
 .overlay-content{
   width:min(980px,92vw); height:100%;
   display:flex; flex-direction:column; position:relative;
-  border:2px solid var(--blue);
-  background:rgba(255,255,255,.95);
-  backdrop-filter:blur(10px);
-  pointer-events:auto; overflow:hidden;
+  border:2px solid var(--blue); background:rgba(255,255,255,.95);
+  backdrop-filter:blur(10px); pointer-events:auto; overflow:hidden;
 }
-
-/* ── CLOSE BUTTON ─────────────────────────────── */
 .close-button{
-  position:absolute; top:0; right:0;
-  width:35px; height:35px;
-  border:none; background:var(--blue); color:white;
-  font-size:22px; cursor:pointer; z-index:10;
-  display:flex; align-items:center; justify-content:center;
+  position:absolute; top:0; right:0; width:35px; height:35px;
+  border:none; background:var(--blue); color:white; font-size:22px; cursor:pointer;
+  z-index:10; display:flex; align-items:center; justify-content:center;
   touch-action:manipulation; flex-shrink:0;
 }
-
-/* ── SCROLLABLE CONTENT ───────────────────────── */
 #content{
   flex:1; overflow-y:auto; overflow-x:hidden;
-  padding:52px 52px 52px 52px;
-  margin-top:35px; padding-top:16px;
+  padding:52px 52px 52px 52px; margin-top:35px; padding-top:16px;
   -webkit-overflow-scrolling:touch;
   scrollbar-width:thin; scrollbar-color:var(--blue) transparent;
 }
@@ -240,7 +172,6 @@ html, body{
 #content::-webkit-scrollbar-thumb{ background:var(--blue); border-radius:0; }
 #content::-webkit-scrollbar-button{ display:none; }
 
-/* ── CONTENT INNER ────────────────────────────── */
 .content-inner{ max-width:760px; }
 .content-inner h2{ margin:0 0 18px 0; font-family:'Space Grotesk',sans-serif; font-size:34px; font-weight:500; }
 .content-inner p{ margin:0 0 18px 0; font-size:16px; line-height:1.65; }
@@ -252,7 +183,6 @@ html, body{
 }
 .btn-visit:hover{ background:var(--blue); color:white; }
 
-/* ── BIOS ─────────────────────────────────────── */
 .bios{ margin-top:40px; border-top:1px solid #e0e0e0; padding-top:32px; }
 .bios h3{ font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--blue); text-transform:uppercase; margin:0 0 28px 0; }
 .bio{ margin-bottom:32px; padding-bottom:32px; border-bottom:1px solid #f0f0f0; }
@@ -260,45 +190,38 @@ html, body{
 .bio-name{ font-family:'Space Grotesk',sans-serif; font-size:17px; font-weight:500; margin:0 0 10px 0; }
 .bio p{ font-size:14px; line-height:1.65; color:#333; margin:0; }
 
-/* ── SWIPER ───────────────────────────────────── */
 .swiper{ width:100%; height:55vh; margin: 24px 0; }
 .swiper-slide{ display:flex; align-items:center; justify-content:center; }
 .swiper-slide img{ width:100%; height:100%; object-fit:contain; cursor:zoom-in; }
 .swiper-button-next,.swiper-button-prev{ color:var(--blue); }
 .swiper-pagination-bullet-active{ background:var(--blue); }
 
-/* ── LIGHTBOX (FULLSCREEN) ────────────────────── */
 #lightbox{
-  display:none; position:fixed; inset:0;
-  background:rgba(0,0,0,.98); z-index:2000;
+  display:none; position:fixed; inset:0; background:rgba(0,0,0,.98); z-index:2000;
   flex-direction:column; align-items:center; justify-content:center;
 }
 #lightbox.active{ display:flex; }
 .lightbox-close{
-  position:absolute; top:20px; right:24px;
-  width:44px; height:44px; border:none; background:none;
-  color:white; font-size:40px; cursor:pointer; z-index:2100;
-  touch-action:manipulation;
+  position:absolute; top:20px; right:24px; width:44px; height:44px;
+  border:none; background:none; color:white; font-size:40px; cursor:pointer;
+  z-index:2100; touch-action:manipulation;
 }
 .swiper-lightbox{ width:100%; height:100%; margin-top:0; }
 .swiper-lightbox .swiper-slide img{ max-width:95vw; max-height:90vh; object-fit:contain; cursor:default; }
 .swiper-lightbox .swiper-button-next,
 .swiper-lightbox .swiper-button-prev{ color:white; }
 
-/* ── FOOTER ───────────────────────────────────── */
 .site-footer{
   position:fixed; bottom:0; left:0; right:0; z-index:40;
   background:var(--blue); color:white; height:var(--footer-h);
   display:flex; align-items:center; justify-content:center; gap:28px;
 }
 .site-footer a{
-  color:white; text-decoration:none;
-  display:flex; align-items:center;
+  color:white; text-decoration:none; display:flex; align-items:center;
   opacity:.85; transition:opacity .15s;
 }
 .site-footer a:hover{ opacity:1; }
 
-/* ── MOBILE RESPONSIVE ────────────────────────── */
 @media(max-width:768px){
   :root{ --header-h:88px; }
   .statement{ width:84vw; font-size:18px; }
@@ -325,8 +248,7 @@ html, body{
   </button>
 
   <div class="statement">
-    <div class="lang-pt">Imagens como ferramentas para a transformação coletiva</div>
-    <div class="lang-en" style="display:none">Images as tools for collective transformation</div>
+    <span id="typed-statement"></span>
   </div>
 
   <div id="world"></div>
@@ -371,57 +293,51 @@ html, body{
 </nav>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 <script>
-/* ── ELEMENT REFS ─────────────────────────────── */
+/* ── REFS ── */
 const siteWrap        = document.getElementById("site-wrap");
-const overlay        = document.getElementById("overlay");
-const content        = document.getElementById("content");
-const closeBtn       = document.getElementById("close");
-const worldEl        = document.getElementById("world");
-const langBtn        = document.getElementById("langToggle");
-const hamburger      = document.getElementById("hamburger");
-const navMenu        = document.getElementById("navMenu");
-const navOverlay     = document.getElementById("navOverlay");
-const navClose       = document.getElementById("navClose");
-const lightbox       = document.getElementById("lightbox");
-const lightboxWrapper= document.getElementById("lightbox-wrapper");
-const lightboxClose  = document.getElementById("lightboxClose");
-
+const overlay         = document.getElementById("overlay");
+const content         = document.getElementById("content");
+const closeBtn        = document.getElementById("close");
+const worldEl         = document.getElementById("world");
+const langBtn         = document.getElementById("langToggle");
+const hamburger       = document.getElementById("hamburger");
+const navMenu         = document.getElementById("navMenu");
+const navOverlay      = document.getElementById("navOverlay");
+const navClose        = document.getElementById("navClose");
+const lightbox        = document.getElementById("lightbox");
+const lightboxWrapper = document.getElementById("lightbox-wrapper");
+const lightboxClose   = document.getElementById("lightboxClose");
 const cursorContainer = document.getElementById("custom-cursor-container");
 const cursorCircle    = document.querySelector(".cursor-circle");
 const cursorDot       = document.querySelector(".cursor-dot");
 
 let swiperInst = null, swiperLightbox = null, currentLang = "pt", tempImages = [];
-
 const isMobileDevice = window.innerWidth <= 1024;
-let mouseX = 0, mouseY = 0;
-let ballX = 0, ballY = 0;
+let mouseX = 0, mouseY = 0, ballX = 0, ballY = 0;
 const speed = 0.15;
 
 if (!isMobileDevice) {
-  document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX; mouseY = e.clientY;
     cursorDot.style.left = mouseX + 'px';
-    cursorDot.style.top = mouseY + 'px';
+    cursorDot.style.top  = mouseY + 'px';
   });
-
-  function updateSmoothCursor() {
+  (function updateSmoothCursor() {
     ballX += (mouseX - ballX) * speed;
     ballY += (mouseY - ballY) * speed;
     cursorCircle.style.left = ballX + 'px';
-    cursorCircle.style.top = ballY + 'px';
+    cursorCircle.style.top  = ballY + 'px';
     requestAnimationFrame(updateSmoothCursor);
-  }
-  updateSmoothCursor();
+  })();
 }
 
 function setupCursorHovers() {
-  if (isMobileDevice) return; 
-  const targets = document.querySelectorAll('a, button, .physics-button, .logo, .hamburger, .nav-project-btn');
-  targets.forEach(el => {
-    if(!el.dataset.cursorBound) {
+  if (isMobileDevice) return;
+  document.querySelectorAll('a, button, .physics-button, .logo, .hamburger, .nav-project-btn').forEach(el => {
+    if (!el.dataset.cursorBound) {
       el.dataset.cursorBound = "true";
       el.addEventListener('mouseenter', () => cursorContainer.classList.add('grow'));
       el.addEventListener('mouseleave', () => cursorContainer.classList.remove('grow'));
@@ -430,51 +346,88 @@ function setupCursorHovers() {
 }
 setupCursorHovers();
 
-/* ── BILINGUAL SYSTEM ─────────────────────────── */
-function applyLang(lang){
+/* ── TYPED.JS: 10 frases placeholder (PT e EN) ── */
+const typedStringsPT = [
+  "Imagens como ferramentas para a transformação coletiva",
+  "A fotografia que habita os territórios esquecidos",
+  "Onde a memória encontra o presente",
+  "Arte participativa como ato de resistência",
+  "Construir comunidade através da imagem",
+  "O olhar que transforma o que toca",
+  "Experimentar o visível para revelar o invisível",
+  "Colaboração como forma de conhecimento",
+  "Práticas artísticas enraizadas no território",
+  "A imagem como linguagem partilhada"
+];
+const typedStringsEN = [
+  "Images as tools for collective transformation",
+  "Photography that inhabits forgotten territories",
+  "Where memory meets the present",
+  "Participatory art as an act of resistance",
+  "Building community through the image",
+  "A gaze that transforms everything it touches",
+  "Experimenting with the visible to reveal the invisible",
+  "Collaboration as a form of knowledge",
+  "Artistic practices rooted in territory",
+  "The image as a shared language"
+];
+
+let typedInstance = null;
+
+function initTyped(lang) {
+  if (typedInstance) { typedInstance.destroy(); typedInstance = null; }
+  typedInstance = new Typed("#typed-statement", {
+    strings: lang === "en" ? typedStringsEN : typedStringsPT,
+    typeSpeed: 38,
+    backSpeed: 18,
+    backDelay: 2800,
+    startDelay: 300,
+    loop: true,
+    smartBackspace: false,
+    cursorChar: "|",
+  });
+}
+initTyped("pt");
+
+/* ── LANG SWITCH ── */
+function applyLang(lang) {
   const isEN = lang === "en";
   document.querySelectorAll(".lang-pt").forEach(el => el.style.display = isEN ? "none" : "block");
   document.querySelectorAll(".lang-en").forEach(el => el.style.display = isEN ? "block" : "none");
-  
-  if(typeof items !== 'undefined') {
-    items.forEach(item => {
-      if(item.el) item.el.textContent = isEN ? item.labelEN : item.labelPT;
-    });
+  if (typeof items !== 'undefined') {
+    items.forEach(item => { if (item.el) item.el.textContent = isEN ? item.labelEN : item.labelPT; });
   }
 }
-
 langBtn.addEventListener("click", () => {
   currentLang = currentLang === "pt" ? "en" : "pt";
   langBtn.textContent = currentLang === "pt" ? "EN" : "PT";
   applyLang(currentLang);
+  initTyped(currentLang);
 });
 
-/* ── LIGHTBOX CONTROLLER ──────────────────────── */
-function openLightbox(idx){
-  if(!tempImages.length) return;
-  lightboxWrapper.innerHTML = tempImages.map(img =>
-    `<div class="swiper-slide"><img src="${img}"></div>`).join("");
+/* ── LIGHTBOX ── */
+function openLightbox(idx) {
+  if (!tempImages.length) return;
+  lightboxWrapper.innerHTML = tempImages.map(img => `<div class="swiper-slide"><img src="${img}"></div>`).join("");
   lightbox.classList.add("active");
-  if(swiperLightbox) swiperLightbox.destroy();
+  if (swiperLightbox) swiperLightbox.destroy();
   swiperLightbox = new Swiper(".swiper-lightbox", {
-    initialSlide: idx, loop:true,
-    navigation:{ nextEl:".swiper-button-next", prevEl:".swiper-button-prev" },
-    keyboard:{ enabled:true }
+    initialSlide: idx, loop: true,
+    navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+    keyboard: { enabled: true }
   });
 }
 lightboxClose.addEventListener("click", () => {
   lightbox.classList.remove("active");
-  if(swiperLightbox){ swiperLightbox.destroy(); swiperLightbox = null; }
+  if (swiperLightbox) { swiperLightbox.destroy(); swiperLightbox = null; }
 });
 
-/* ── PROJECT CONTENT ARCHIVE ──────────────────── */
-// Nota: Separou-se os cabeçalhos das descrições para ordenar dinamicamente no JavaScript
+/* ── PROJECT DATA ── */
 const projectData = {
   membrana:{
-    titlePT: "Membrana",
-    titleEN: "Membrana",
-    metaPT: "Exposição coletiva · ACERT, Tondela · 2023–2025",
-    metaEN: "Collective exhibition · ACERT, Tondela · 2023–2025",
+    titlePT:"Membrana", titleEN:"Membrana",
+    metaPT:"Exposição coletiva · ACERT, Tondela · 2023–2025",
+    metaEN:"Collective exhibition · ACERT, Tondela · 2023–2025",
     description:`
       <div class="lang-pt">
         <p>Todas as pessoas vivem vidas diferentes, mas há coisas que fazem parte da experiência coletiva que partilhamos como seres humanos: uma delas é a experiência de navegação no world exterior.</p>
@@ -493,10 +446,9 @@ const projectData = {
     images: Array.from({length:11}, (_,i) => `images/membrana/${i+1}.jpg`)
   },
   porvir:{
-    titlePT: "Porvir",
-    titleEN: "Porvir",
-    metaPT: "Projeto de arte participativa · Serra do Açor · 2024",
-    metaEN: "Participatory art project · Serra do Açor · 2024",
+    titlePT:"Porvir", titleEN:"Porvir",
+    metaPT:"Projeto de arte participativa · Serra do Açor · 2024",
+    metaEN:"Participatory art project · Serra do Açor · 2024",
     description:`
       <a href="https://porvir.com.pt" target="_blank" class="btn-visit">
         <span class="lang-pt">VISITAR WEBSITE DO PROJETO ↗</span>
@@ -513,10 +465,9 @@ const projectData = {
     images: Array.from({length:36}, (_,i) => `images/porvir/${i+1}.jpg`)
   },
   imagens:{
-    titlePT: "Imagens Verdes",
-    titleEN: "Imagens Verdes",
-    metaPT: "Oficinas de expressão artística · Porto · 2023–2025",
-    metaEN: "Artistic expression workshops · Porto · 2023–2025",
+    titlePT:"Imagens Verdes", titleEN:"Imagens Verdes",
+    metaPT:"Oficinas de expressão artística · Porto · 2023–2025",
+    metaEN:"Artistic expression workshops · Porto · 2023–2025",
     description:`
       <div class="lang-pt">
         <p>Imagens Verdes é um projeto contínuo de transformação que reúne pessoas com 65 ou mais anos para uma exploração única da autoexpressão. Através de oficinas dinâmicas que integram teatro, música, illustration e fotografia, os participantes mergulham nas suas memórias, partilhando experiências entre si.</p>
@@ -529,10 +480,9 @@ const projectData = {
     images: Array.from({length:16}, (_,i) => `images/imagensverdes/${i+1}.jpg`)
   },
   casa:{
-    titlePT: "A Casa de Falar Baixinho",
-    titleEN: "A Casa de Falar Baixinho",
-    metaPT: "Exposição · Encontros da Imagem · 2025",
-    metaEN: "Exhibition · Encontros da Imagem · 2025",
+    titlePT:"A Casa de Falar Baixinho", titleEN:"A Casa de Falar Baixinho",
+    metaPT:"Exposição · Encontros da Imagem · 2025",
+    metaEN:"Exhibition · Encontros da Imagem · 2025",
     description:`
       <div class="lang-pt">
         <p>Integrada no núcleo expositivo Argumentários, que celebra e revisita a história do festival, a intervenção do Colectivo Barda responde ao desafio de recuperar memórias e experiências que moldaram de forma sensível e contínua a identidade dos Encontros da Imagem.</p>
@@ -545,19 +495,16 @@ const projectData = {
     images: Array.from({length:12}, (_,i) => `images/casafalarbaixinho/${i+1}.jpg`)
   },
   about:{
-    titlePT: "BARDA",
-    titleEN: "BARDA",
-    metaPT: "",
-    metaEN: "",
+    titlePT:"BARDA", titleEN:"BARDA", metaPT:"", metaEN:"",
     description:`
       <div class="lang-pt"><p>O Colectivo Barda enfatiza as artes visuais como meio de transformação e capacitação de comunidades periféricas, usando a imagem como ferramenta de intervenção e questionamento, promovendo a criação de sinergias entre comunidade e território através de diálogos experimentais. Barda é uma manifestation de vontade colaborativa que tomou a forma de um coletivo.</p></div>
       <div class="lang-en"><p>Barda Collective emphasizes visual arts as a means of transformation and empowerment for peripheral communities, using imagery as a tool for intervention and questioning, promoting the creation of synergies between community and territory through experimental dialogues. Barda is a manifestation of collaborative will that has taken the form of a collective.</p></div>
       <div class="bios">
         <div style="margin-bottom:28px;"><h3 class="lang-pt">Quem é o Barda?</h3><h3 class="lang-en">Who is Barda?</h3></div>
-        <div class="bio"><p class="bio-name">Ana Luísa Rego</p><p><span class="lang-pt">Nasceu em Cinfães (1974), vive no Porto. Iniciou o seu percurso na fotografia ainda na era analógica. Na sua prática, documenta temas inspirados em questões sociais, culturais e científicas através de uma abordagem interdisciplinar e colaborativa. Expõe individualmente e coletivamente em Portugal e no estrangeiro.</span><span class="lang-en">Born in Cinfães (1974), lives in Porto. Started her journey in photography in the analog era. In her practice, she documents themes inspired by social, cultural, and scientific issues through an interdisciplinary and collaborative approach.</span></p></div>
+        <div class="bio"><p class="bio-name">Ana Luísa Rego</p><p><span class="lang-pt">Nasceu em Cinfães (1974), vive no Porto. Iniciou o seu percurso na fotografia ainda na era analógica. Na sua prática, documenta temas inspirados em questões sociais, culturais e científicas através de uma abordagem interdisciplinar e colaborativa.</span><span class="lang-en">Born in Cinfães (1974), lives in Porto. Started her journey in photography in the analog era. In her practice, she documents themes inspired by social, cultural, and scientific issues through an interdisciplinary and collaborative approach.</span></p></div>
         <div class="bio"><p class="bio-name">Carlos Trancoso</p><p><span class="lang-pt">Artista visual sediado no Porto. A sua prática explora as interseções entre natureza, tecnologia e sistemas de observação, combinando o pensamento fotográfico com processos espaciais, sonoros e computacionais. Em 2024 ganhou a Open Call INTERGALACTICA, resultando na publicação do fotolivro <em>How to Build a Telescope</em> pela XYZ Books em 2025.</span><span class="lang-en">Visual artist based in Porto. His practice explores the intersections between nature, technology, and systems of observation, combining photographic thought with spatial, sonic, and computational processes. In 2024 he won the INTERGALACTICA Open Call, leading to the publication of his photobook <em>How to Build a Telescope</em> by XYZ Books in 2025.</span></p></div>
         <div class="bio"><p class="bio-name">Diana Sá</p><p><span class="lang-pt">Nasceu em Espinho em 1985. Frequentou o curso profissional de fotografia no IPF e o Mestrado em Fotografia Artística no IPCI. Interessa-se por projetos de longo prazo sobre o território, o quotidiano e o efémero.</span><span class="lang-en">Born in Espinho in 1985. Attended the professional photography course at IPF and the Master's in Artistic Photography at IPCI. Interested in long-term projects regarding territory, daily life, and the ephemeral.</span></p></div>
-        <div class="bio"><p class="bio-name">Guida Marques</p><p><span class="lang-pt">Nascida em 1986, neo-rural na Serra do Açor desde 2017. Desenvolve reconstruções de casas de xisto e performances/instalações focadas na relação corpo/lugar/memória. Ativista na defesa da floresta e da arquitetura tradicional.</span><span class="lang-en">Born in 1986, neo-rural in Serra do Açor since 2017. Develops reconstructions of schist houses and performances/installations focused on the body/place/memory relationship. Forest and traditional architecture activist.</span></p></div>
+        <div class="bio"><p class="bio-name">Guida Marques</p><p><span class="lang-pt">Nascida em 1986, neo-rural na Serra do Açor desde 2017. Desenvolve reconstruções de casas de xisto e performances/instalações focadas na relação corpo/lugar/memória.</span><span class="lang-en">Born in 1986, neo-rural in Serra do Açor since 2017. Develops reconstructions of schist houses and performances/installations focused on the body/place/memory relationship.</span></p></div>
         <div class="bio"><p class="bio-name">Hernâni Sousa</p><p><span class="lang-pt">Mestre em Ciência da Informação. Desenvolve projetos pessoais em torno de temas como a intimidade e o território, com particular interesse na semiótica e na politização das coisas.</span><span class="lang-en">Master's in Information Science. Develops personal projects around themes of intimacy and territory, with a particular interest in semiotics and the politicisation of things.</span></p></div>
         <div class="bio"><p class="bio-name">Inês Fernandes</p><p><span class="lang-pt">Nasceu no Porto em 1996. Os seus projetos abordam temas contemporâneos focados em questões sociais e ambientais, com preferência por contextos rurais e descentralizados.</span><span class="lang-en">Born in Porto in 1996. Her projects address contemporary themes focused on social and environmental issues, with a preference for rural and decentralized contexts.</span></p></div>
         <div class="bio"><p class="bio-name">Ivan Da Silva</p><p><span class="lang-pt">Desconstrói imagens do quotidiano numa ecologia de imagens através de sistemas experimentais de análise de imagem. Coordenador do projeto Imagens Verdes.</span><span class="lang-en">Deconstructs everyday imagery into an ecology of images through experimental image analysis systems. Coordinator of the Imagens Verdes project.</span></p></div>
@@ -568,55 +515,37 @@ const projectData = {
   }
 };
 
-/* ── CAROUSEL BUILDERS ────────────────────────── */
-function buildSwiper(imgs){
-  if(!imgs || !imgs.length) return "";
-  const slides = imgs.map((img,i) =>
-    `<div class="swiper-slide"><img src="${img}" onclick="openLightbox(${i})"></div>`).join("");
+/* ── CAROUSEL ── */
+function buildSwiper(imgs) {
+  if (!imgs || !imgs.length) return "";
+  const slides = imgs.map((img, i) => `<div class="swiper-slide"><img src="${img}" onclick="openLightbox(${i})"></div>`).join("");
   return `<div class="swiper main-swiper"><div class="swiper-wrapper">${slides}</div><div class="swiper-button-next"></div><div class="swiper-button-prev"></div><div class="swiper-pagination"></div></div>`;
 }
-
-function initSwiper(){
-  if(swiperInst) swiperInst.destroy();
-  swiperInst = new Swiper(".main-swiper",{
-    loop:true,
-    pagination:{ el:".swiper-pagination" },
-    navigation:{ nextEl:".swiper-button-next", prevEl:".swiper-button-prev" }
+function initSwiper() {
+  if (swiperInst) swiperInst.destroy();
+  swiperInst = new Swiper(".main-swiper", {
+    loop: true,
+    pagination: { el: ".swiper-pagination" },
+    navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" }
   });
 }
-
-function openProject(key){
+function openProject(key) {
   const item = projectData[key];
   tempImages = item.images;
-  
-  // 1. Constrói o cabeçalho (Título do Projeto)
   let headerHtml = `<div class="content-inner"><h2>${currentLang === 'en' ? item.titleEN : item.titlePT}</h2>`;
-  
-  // 2. Constrói a linha com Tipologia, Espaço e Ano (se existir meta dados)
-  if(item.metaPT || item.metaEN) {
-    headerHtml += `
-      <div style="font-size:13px;color:var(--blue);text-transform:uppercase;margin-bottom:20px;">
-        <span class="lang-pt">${item.metaPT}</span>
-        <span class="lang-en">${item.metaEN}</span>
-      </div>`;
+  if (item.metaPT || item.metaEN) {
+    headerHtml += `<div style="font-size:13px;color:var(--blue);text-transform:uppercase;margin-bottom:20px;">
+      <span class="lang-pt">${item.metaPT}</span>
+      <span class="lang-en">${item.metaEN}</span>
+    </div>`;
   }
-  headerHtml += `</div>`; // fecha content-inner do topo
-
-  // 3. Constrói o Slideshow de Imagens
-  const swiperHtml = buildSwiper(item.images);
-
-  // 4. Constrói a Descrição do Projeto
-  const descriptionHtml = `<div class="content-inner">${item.description}</div>`;
-
-  // Junta tudo na ordem exata solicitada e injeta no content
-  content.innerHTML = headerHtml + swiperHtml + descriptionHtml;
-
+  headerHtml += `</div>`;
+  content.innerHTML = headerHtml + buildSwiper(item.images) + `<div class="content-inner">${item.description}</div>`;
   overlay.classList.add("active");
   worldEl.style.zIndex = "0";
   applyLang(currentLang);
   content.scrollTop = 0;
-  
-  if(item.images && item.images.length) {
+  if (item.images && item.images.length) {
     setTimeout(() => {
       initSwiper();
       const swiperEl = document.querySelector('.main-swiper');
@@ -628,18 +557,17 @@ function openProject(key){
   }
   setupCursorHovers();
 }
-
-function closeOverlay(){
+function closeOverlay() {
   overlay.classList.remove("active");
   worldEl.style.zIndex = "10";
   content.innerHTML = "";
-  cursorContainer.classList.remove('plus'); 
-  if(swiperInst){ swiperInst.destroy(); swiperInst = null; }
+  cursorContainer.classList.remove('plus');
+  if (swiperInst) { swiperInst.destroy(); swiperInst = null; }
 }
 
-/* ── NAVIGATION TRIGGERS ──────────────────────── */
-function openNav(){ navMenu.classList.add("open"); navOverlay.classList.add("open"); siteWrap.classList.add("nav-open"); }
-function closeNav(){ navMenu.classList.remove("open"); navOverlay.classList.remove("open"); siteWrap.classList.remove("nav-open"); }
+/* ── NAV ── */
+function openNav() { navMenu.classList.add("open"); navOverlay.classList.add("open"); siteWrap.classList.add("nav-open"); }
+function closeNav() { navMenu.classList.remove("open"); navOverlay.classList.remove("open"); siteWrap.classList.remove("nav-open"); }
 
 hamburger.addEventListener("click", openNav);
 navClose.addEventListener("click", closeNav);
@@ -653,80 +581,67 @@ document.querySelectorAll(".nav-project-btn").forEach(btn =>
 
 window.addEventListener("load", () => {
   const w = document.getElementById("logoHome").offsetWidth;
-  if(w > 0) hamburger.style.width = w + "px";
+  if (w > 0) hamburger.style.width = w + "px";
 });
 
-/* ── MATTER.JS PHYSICS ENVIRONMENT ────────────── */
+/* ── PHYSICS ── */
 const { Engine, Runner, Bodies, Composite, Mouse, MouseConstraint } = Matter;
 const engine = Engine.create();
 engine.gravity.y = 1.2;
 const world = engine.world;
 
-const W  = window.innerWidth;
-const H  = window.innerHeight;
-const cx = W / 2;
-const cy = H / 2;
-
-const FOOTER_H = parseInt(
-  getComputedStyle(document.documentElement).getPropertyValue("--footer-h")
-) || 44;
+const W = window.innerWidth, H = window.innerHeight;
+const cx = W / 2, cy = H / 2;
+const FOOTER_H = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--footer-h")) || 44;
 const floorY = H - FOOTER_H;
 
-const floor     = Bodies.rectangle(W/2, floorY + 30, W, 60, { isStatic:true });
-const leftWall  = Bodies.rectangle(-30,  H/2, 60, H,  { isStatic:true });
-const rightWall = Bodies.rectangle(W+30, H/2, 60, H,  { isStatic:true });
-Composite.add(world, [floor, leftWall, rightWall]);
+Composite.add(world, [
+  Bodies.rectangle(W/2, floorY+30, W, 60, {isStatic:true}),
+  Bodies.rectangle(-30, H/2, 60, H, {isStatic:true}),
+  Bodies.rectangle(W+30, H/2, 60, H, {isStatic:true})
+]);
 
 function clampW(w){ return Math.min(w, Math.floor(W * 0.78)); }
 
 const items = [
-  { labelPT:"Membrana",              labelEN:"Membrana",              key:"membrana", x:cx-W*.20, y:cy-H*.55, w:clampW(190), h:54 },
-  { labelPT:"Porvir",                labelEN:"Porvir",                key:"porvir",   x:cx+W*.04, y:cy-H*.70, w:clampW(140), h:54 },
-  { labelPT:"Imagens Verdes",        labelEN:"Imagens Verdes",        key:"imagens",  x:cx+W*.20, y:cy-H*.62, w:clampW(240), h:54 },
-  { labelPT:"Casa de Falar Baixinho",labelEN:"Casa de Falar Baixinho",key:"casa",     x:cx-W*.04, y:cy-H*.85, w:clampW(320), h:54 },
-  { labelPT:"Sobre",                 labelEN:"About",                 key:"about",    x:cx+W*.28, y:cy-H*.78, w:clampW(130), h:54 }
+  { labelPT:"Membrana",               labelEN:"Membrana",               key:"membrana", x:cx-W*.20, y:cy-H*.55, w:clampW(190), h:54 },
+  { labelPT:"Porvir",                 labelEN:"Porvir",                 key:"porvir",   x:cx+W*.04, y:cy-H*.70, w:clampW(140), h:54 },
+  { labelPT:"Imagens Verdes",         labelEN:"Imagens Verdes",         key:"imagens",  x:cx+W*.20, y:cy-H*.62, w:clampW(240), h:54 },
+  { labelPT:"Casa de Falar Baixinho", labelEN:"Casa de Falar Baixinho", key:"casa",     x:cx-W*.04, y:cy-H*.85, w:clampW(320), h:54 },
+  { labelPT:"Sobre",                  labelEN:"About",                  key:"about",    x:cx+W*.28, y:cy-H*.78, w:clampW(130), h:54 }
 ];
 
 items.forEach(item => {
-  item.body = Bodies.rectangle(item.x, item.y, item.w, item.h, {
-    restitution:.1, friction:.8, frictionAir:.02
-  });
+  item.body = Bodies.rectangle(item.x, item.y, item.w, item.h, { restitution:.1, friction:.8, frictionAir:.02 });
   Composite.add(world, item.body);
-
   item.el = document.createElement("div");
   item.el.className = "physics-button";
   item.el.textContent = currentLang === "en" ? item.labelEN : item.labelPT;
   worldEl.appendChild(item.el);
-
   let sX, sY;
   item.el.addEventListener("pointerdown", e => { sX = e.clientX; sY = e.clientY; });
-  item.el.addEventListener("pointerup",   e => {
-    if(Math.hypot(e.clientX - sX, e.clientY - sY) < 8) openProject(item.key);
-  });
+  item.el.addEventListener("pointerup", e => { if (Math.hypot(e.clientX-sX, e.clientY-sY) < 8) openProject(item.key); });
 });
 
-const mouse = Mouse.create(worldEl);
 const mc = MouseConstraint.create(engine, {
-  mouse: mouse,
+  mouse: Mouse.create(worldEl),
   constraint: { stiffness: 0.2, render: { visible: false } }
 });
 Composite.add(world, mc);
-
 Runner.run(Runner.create(), engine);
 
-/* ── ANIMATION TICK FRAME LOOP ────────────────── */
-(function tick(){
+(function tick() {
   items.forEach(item => {
-    item.el.style.width     = item.w + "px";
-    item.el.style.height    = item.h + "px";
-    item.el.style.left      = (item.body.position.x - item.w/2) + "px";
-    item.el.style.top       = (item.body.position.y - item.h/2) + "px";
+    item.el.style.width = item.w + "px";
+    item.el.style.height = item.h + "px";
+    item.el.style.left = (item.body.position.x - item.w/2) + "px";
+    item.el.style.top  = (item.body.position.y - item.h/2) + "px";
     item.el.style.transform = `rotate(${item.body.angle}rad)`;
   });
   requestAnimationFrame(tick);
 })();
 
-window.addEventListener("resize", () => { if(Math.abs(window.innerWidth - W) > 50) location.reload(); });
+window.addEventListener("resize", () => { if (Math.abs(window.innerWidth - W) > 50) location.reload(); });
 </script>
 </body>
 </html>
