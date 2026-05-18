@@ -86,7 +86,7 @@ html, body{
   z-index:1; pointer-events:none;
   min-height:3.5em;
 }
-.statement .typed-cursor{
+.statement .typed-cursor, .overlay-content .typed-cursor {
   color: var(--blue); font-weight:300; opacity:1;
   animation: typedBlink 0.7s infinite;
 }
@@ -190,7 +190,7 @@ html, body{
 #content::-webkit-scrollbar-button{ display:none; }
 
 .content-inner{ max-width:760px; }
-.content-inner h2{ margin:0 0 18px 0; font-family:'Space Grotesk',sans-serif; font-size:34px; font-weight:500; }
+.content-inner h2{ margin:0 0 18px 0; font-family:'Space Grotesk',sans-serif; font-size:34px; font-weight:500; min-height: 1.2em; }
 .content-inner p{ margin:0 0 18px 0; font-size:16px; line-height:1.65; }
 
 .btn-visit{
@@ -207,6 +207,12 @@ html, body{
 .bio-name{ font-family:'Space Grotesk',sans-serif; font-size:17px; font-weight:500; margin:0 0 10px 0; }
 .bio p{ font-size:14px; line-height:1.65; color:#333; margin:0; }
 
+/* Configuração base das setas do Swiper (Desktop) */
+.swiper-button-next, .swiper-button-prev {
+  --swiper-navigation-size: 28px; /* Setas discretas por defeito */
+  width: 32px;
+  height: 32px;
+}
 .swiper{ width:100%; height:55vh; margin: 24px 0; }
 .swiper-slide{ display:flex; align-items:center; justify-content:center; }
 .swiper-slide img{ width:100%; height:100%; object-fit:contain; cursor:zoom-in; }
@@ -232,9 +238,21 @@ html, body{
   .statement{ width:84vw; font-size:18px; }
   .physics-button{ font-size:17px; padding:10px 14px; }
   .overlay-content{ width:96vw; }
-  #content{ padding:52px 20px 20px 20px; }
-  .content-inner h2{ font-size:26px; }
+  
+  #content{ 
+    padding:16px 16px 20px 16px; 
+    margin-top:0px; 
+  }
+  
+  .content-inner h2{ font-size:26px; margin-bottom:12px; padding-right:30px; }
   .swiper{ height:38vh; }
+
+  /* Redução acentuada do tamanho das setas no Mobile */
+  .swiper-button-next, .swiper-button-prev {
+    --swiper-navigation-size: 18px !important;
+    width: 22px !important;
+    height: 22px !important;
+  }
 }
 </style>
 </head>
@@ -371,6 +389,7 @@ const typedStringsEN = [
 ];
 
 let typedInstance = null;
+let typedProjectTitleInstance = null; 
 
 function initTyped(lang) {
   if (typedInstance) { typedInstance.destroy(); typedInstance = null; }
@@ -486,7 +505,7 @@ const projectData = {
     description:`
       <div class="lang-pt">
         <p>Integrada no núcleo expositivo Argumentários, que celebra e revisita a história do festival, a intervention do Colectivo Barda responde ao desafio de recuperar memórias e experiências que moldaram de forma sensível e contínua a identidade dos Encontros da Imagem.</p>
-        <p>Partindo de eventos reais da Semana de Abertura de 2018, o coletivo explora encontros, trocas e gestos inscritos na memória da comunidade reunida em torno do festival. Cada imagem em A casa de falar baixinho evoca episódios específicos, convocando afetos, práticas e momentos que, embora ausentes da documentação formal, ficaram marcados nos corpos e na memória particular de cada edição.</p>
+        <p>Partindo de eventos reais da Semana de Abertura de 2018, o coletivo explora encontros, trocas e gestos inscritos na memory da comunidade reunida em torno do festival. Cada imagem em A casa de falar baixinho evoca episódios específicos, convocando afetos, práticas e momentos que, embora ausentes da documentação formal, ficaram marcados nos corpos e na memória particular de cada edição.</p>
       </div>
       <div class="lang-en">
         <p>Integrated into the exhibition core Argumentários, which aims to celebrate and revisit the history of the festival, the intervention by Colectivo Barda responds to the challenge of recovering memories and experiences that have sensitively shaped the identity of Encontros da Imagem.</p>
@@ -533,7 +552,13 @@ function openProject(key) {
   if (key === "email" || key === "instagram") return;
   const item = projectData[key];
   tempImages = item.images;
-  let headerHtml = `<div class="content-inner"><h2>${currentLang === 'en' ? item.titleEN : item.titlePT}</h2>`;
+  
+  if (typedProjectTitleInstance) {
+    typedProjectTitleInstance.destroy();
+    typedProjectTitleInstance = null;
+  }
+
+  let headerHtml = `<div class="content-inner"><h2 id="project-title-typed"></h2>`;
   if (item.metaPT || item.metaEN) {
     headerHtml += `<div style="font-size:13px;color:var(--blue);text-transform:uppercase;margin-bottom:20px;">
       <span class="lang-pt">${item.metaPT}</span>
@@ -546,6 +571,16 @@ function openProject(key) {
   worldEl.style.zIndex = "0";
   applyLang(currentLang);
   content.scrollTop = 0;
+
+  const titleText = currentLang === 'en' ? item.titleEN : item.titlePT;
+  
+  typedProjectTitleInstance = new Typed("#project-title-typed", {
+    strings: [titleText],
+    typeSpeed: 40,
+    showCursor: false,
+    loop: false
+  });
+
   if (item.images && item.images.length) {
     setTimeout(() => {
       initSwiper();
@@ -564,6 +599,11 @@ function closeOverlay() {
   content.innerHTML = "";
   cursorContainer.classList.remove('plus');
   if (swiperInst) { swiperInst.destroy(); swiperInst = null; }
+  
+  if (typedProjectTitleInstance) {
+    typedProjectTitleInstance.destroy();
+    typedProjectTitleInstance = null;
+  }
 }
 
 /* ── NAV ── */
@@ -616,20 +656,15 @@ const items = [
   { labelPT:"Instagram",              labelEN:"Instagram",              key:"instagram", x:cx+W*.10, y:cy-H*.95, w:60,          h:60, isIcon:true, iconSVG:instaIconSVG, url:"https://instagram.com/bardacoletivo" }
 ];
 
-// Algoritmo de baralhamento (Fisher-Yates Shuffle) para aleatorizar a ordem de queda
 for (let i = items.length - 1; i > 0; i--) {
   const j = Math.floor(Math.random() * (i + 1));
   [items[i], items[j]] = [items[j], items[i]];
 }
 
 items.forEach((item, index) => {
-  // Tornamos as posições x e y de nascença ligeiramente caóticas
-  // O atraso na queda dá-se mudando sutilmente a altura (y) inicial com base no index
   const jitterX = (Math.random() - 0.5) * (W * 0.15); 
   const sequentialY = cy - H * 0.6 - (index * 75); 
-  
-  // Criamos o corpo físico com um ângulo/rotação inicial aleatório para dar um efeito mais orgânico
-  const randomAngle = (Math.random() - 0.5) * 0.5; // Entre -15º e +15º aproximadamente
+  const randomAngle = (Math.random() - 0.5) * 0.5;
 
   item.body = Bodies.rectangle(item.x + jitterX, sequentialY, item.w, item.h, { 
     restitution: .1, 
@@ -677,7 +712,6 @@ let ceilingAdded = false;
 
 (function tick() {
   if (!ceilingAdded) {
-    // Agora valida se todos os botões baralhados já desceram abaixo do topo do ecrã
     let allButtonsBelowTop = items.every(item => (item.body.position.y - item.h/2) > 10);
     if (allButtonsBelowTop) {
       Composite.add(world, Bodies.rectangle(W/2, -30, W, 60, {isStatic:true}));
