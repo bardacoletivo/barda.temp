@@ -108,6 +108,18 @@ html, body{
 }
 .physics-button:hover{ background:var(--blue); color:white; border-color:var(--blue); }
 
+/* Botão de destaque do Sobre/About */
+.physics-button.featured-about {
+  background: var(--blue);
+  color: white;
+  border: 1px solid var(--blue);
+}
+.physics-button.featured-about:hover {
+  background: white;
+  color: var(--blue);
+  border-color: var(--blue);
+}
+
 /* Botões de ícones */
 .physics-icon-button {
   position:absolute; display:flex; align-items:center; justify-content:center;
@@ -207,9 +219,8 @@ html, body{
 .bio-name{ font-family:'Space Grotesk',sans-serif; font-size:17px; font-weight:500; margin:0 0 10px 0; }
 .bio p{ font-size:14px; line-height:1.65; color:#333; margin:0; }
 
-/* Configuração base das setas do Swiper (Desktop) */
 .swiper-button-next, .swiper-button-prev {
-  --swiper-navigation-size: 28px; /* Setas discretas por defeito */
+  --swiper-navigation-size: 28px;
   width: 32px;
   height: 32px;
 }
@@ -247,7 +258,6 @@ html, body{
   .content-inner h2{ font-size:26px; margin-bottom:12px; padding-right:30px; }
   .swiper{ height:38vh; }
 
-  /* Redução acentuada do tamanho das setas no Mobile */
   .swiper-button-next, .swiper-button-prev {
     --swiper-navigation-size: 18px !important;
     width: 22px !important;
@@ -449,11 +459,11 @@ const projectData = {
     metaEN:"Collective exhibition · ACERT, Tondela · 2023–2025",
     description:`
       <div class="lang-pt">
-        <p>Todas as pessoas vivem vidas diferentes, mas há coisas que fazem parte da experiência coletiva que partilhamos como seres humanos: uma delas é a experiência de navegação no world exterior.</p>
+        <p>Todas as pessoas vivem vidas diferentes, mas há coisas que fazem parte da experiência coletiva que partilhamos como seres humanos: uma delas é a experiência de navegação no mundo exterior.</p>
         <p>De manhã, quando trocamos de roupa para sair de casa, durante quanto tempo sentimos a roupa na nossa pele? Ao sair de casa, quanto tempo demoramos até deixarmos de sentir o desconforto da temperatura? E o ruído dos automóveis na calçada? Quanto desse ruído desaparece quando encontramos alguém conhecido na rua e ficamos a conversar?</p>
         <p>O corpo e a mente humana estabelecem diversas ferramentas para nos podermos guiar nessa navegação. A exposição, partindo do conceito científico de adaptação sensorial — uma ferramenta que equilibra a sensibilidade dos estímulos que recebemos — é uma passagem que convoca os visitantes a reflectir sobre os sentidos alargando os domínios da percepção.</p>
         <p>É na ligação entre o público e o privado que surge a concepção da "Membrana", expandindo as formas de ver para refletir sobre as conexões entre as pessoas. Ao atravessar essa membrana entre o público e o privado, a exposição revela interstícios invisíveis que formam a base da construção do ser social e dos territórios em que vivemos.</p>
-        <p>Através de dispositivos que exploram a cor, o movimento e a interface entre os sentidos e a reality, a exposição apresenta uma abstraction e desconstrução do quotidiano, expondo camadas mais profundas da compreensão da realidade.</p>
+        <p>Através de dispositivos que exploram a cor, o movimento e a interface entre os sentidos e a realidade, a exposição apresenta uma abstração e desconstrução do quotidiano, expondo camadas mais profundas da compreensão da realidade.</p>
       </div>
       <div class="lang-en">
         <p>All people live different lives, but there are things that are part of the collective experience we share as human beings: one of them is the experience of navigating the external world.</p>
@@ -474,7 +484,7 @@ const projectData = {
         <span class="lang-en">VISIT PROJECT WEBSITE ↗</span>
       </a>
       <div class="lang-pt">
-        <p>Porvir é um projeto de intercâmbio multidisciplinar que envolve artistas locais, artistas externos e a comunidade, com o objetivo de imaginar o futuro através da arte participativa. Focado em quatro aldeias da Serra do Açor, o Porvir procura, através da expressão artística, construir um space de partilha, investigação, criação e exposição, estimulando o pensamento crítico das comunidades envolvidas.</p>
+        <p>Porvir é um projeto de intercâmbio multidisciplinar que envolve artistas locais, artistas externos e a comunidade, com o objetivo de imaginar o futuro através da arte participativa. Focado em quatro aldeias da Serra do Açor, o Porvir procura, através da expressão artística, construir um espaço de partilha, investigação, criação e exposição, estimulando o pensamento crítico das comunidades envolvidas.</p>
         <p>Oficinas participativas são realizadas em três aldeias diferentes, onde artistas e membros da comunidade colaboram em projetos únicos. Cada aldeia acolhe um artista em residência, que desenvolve obras originais inspiradas nas experiências e dinâmicas locais. O projeto culmina em exposições coletivas no espaço público, promovendo discussões abertas e trocas de ideias entre participantes, público e instituições.</p>
       </div>
       <div class="lang-en">
@@ -489,7 +499,7 @@ const projectData = {
     metaEN:"Artistic expression workshops · Porto · 2023–2025",
     description:`
       <div class="lang-pt">
-        <p>Imagens Verdes é um projeto contínuo de transformação que reúne pessoas com 65 ou mais anos para uma exploração única da autoexpressão. Através de oficinas dinâmicas que integram teatro, música, illustration e fotografia, os participantes mergulham nas suas memórias, partilhando experiências entre si.</p>
+        <p>Imagens Verdes é um projeto contínuo de transformação que reúne pessoas com 65 ou mais anos para uma exploração única da autoexpressão. Através de oficinas dinâmicas que integram teatro, música, ilustração e fotografia, os participantes mergulham nas suas memórias, partilhando experiências entre si.</p>
         <p>Dedicado à promoção do intercâmbio entre artistas e a comunidade sénior do Bonfim no Porto, exploramos memórias afetivas através de práticas interdisciplinares. A partir de memórias afetivas e coletivas, interpretamos experiências num ambiente de apoio e comunhão, envolvendo os participantes através de diversas atividades desenhadas para promover a democratização cultural na zona e incentivar a expressão artística.</p>
       </div>
       <div class="lang-en">
@@ -504,8 +514,8 @@ const projectData = {
     metaEN:"Exhibition · Encontros da Imagem · 2025",
     description:`
       <div class="lang-pt">
-        <p>Integrada no núcleo expositivo Argumentários, que celebra e revisita a história do festival, a intervention do Colectivo Barda responde ao desafio de recuperar memórias e experiências que moldaram de forma sensível e contínua a identidade dos Encontros da Imagem.</p>
-        <p>Partindo de eventos reais da Semana de Abertura de 2018, o coletivo explora encontros, trocas e gestos inscritos na memory da comunidade reunida em torno do festival. Cada imagem em A casa de falar baixinho evoca episódios específicos, convocando afetos, práticas e momentos que, embora ausentes da documentação formal, ficaram marcados nos corpos e na memória particular de cada edição.</p>
+        <p>Integrada no núcleo expositivo Argumentários, que celebra e revisita a história do festival, a intervenção do Colectivo Barda responde ao desafio de recuperar memórias e experiências que moldaram de forma sensível e contínua a identidade dos Encontros da Imagem.</p>
+        <p>Partindo de eventos reais da Semana de Abertura de 2018, o coletivo explora encontros, trocas e gestos inscritos na memória da comunidade reunida em torno do festival. Cada imagem em A casa de falar baixinho evoca episódios específicos, convocando afetos, práticas e momentos que, embora ausentes da documentação formal, ficaram marcados nos corpos e na memória particular de cada edição.</p>
       </div>
       <div class="lang-en">
         <p>Integrated into the exhibition core Argumentários, which aims to celebrate and revisit the history of the festival, the intervention by Colectivo Barda responds to the challenge of recovering memories and experiences that have sensitively shaped the identity of Encontros da Imagem.</p>
@@ -520,7 +530,7 @@ const projectData = {
       <div class="lang-en"><p>Barda Collective emphasizes visual arts as a means of transformation and empowerment for peripheral communities, using imagery as a tool for intervention and questioning, promoting the creation of synergies between community and territory through experimental dialogues. Barda is a manifestation of collaborative will that has taken the form of a collective.</p></div>
       <div class="bios">
         <div style="margin-bottom:28px;"><h3 class="lang-pt">Quem é o Barda?</h3><h3 class="lang-en">Who is Barda?</h3></div>
-        <div class="bio"><p class="bio-name">Ana Luísa Rego</p><p><span class="lang-pt">Nasceu em Cinfães (1974), vive no Porto. Iniciou o seu percurso na fotografia ainda na era analógica. Na sua prática, documenta temas inspirados em questões sociais, culturais e científicas através de uma abordagem interdisciplinar and colaborativa.</span><span class="lang-en">Born in Cinfães (1974), lives in Porto. Started her journey in photography in the analog era. In her practice, she documents themes inspired by social, cultural, and scientific issues through an interdisciplinary and collaborative approach.</span></p></div>
+        <div class="bio"><p class="bio-name">Ana Luísa Rego</p><p><span class="lang-pt">Nasceu em Cinfães (1974), vive no Porto. Iniciou o seu percurso na fotografia ainda na era analógica. Na sua prática, documenta temas inspirados em questões sociais, culturais e científicas através de uma abordagem interdisciplinar e colaborativa.</span><span class="lang-en">Born in Cinfães (1974), lives in Porto. Started her journey in photography in the analog era. In her practice, she documents themes inspired by social, cultural, and scientific issues through an interdisciplinary and collaborative approach.</span></p></div>
         <div class="bio"><p class="bio-name">Carlos Trancoso</p><p><span class="lang-pt">Artista visual sediado no Porto. A sua prática explora as interseções entre natureza, tecnologia e sistemas de observação, combinando o pensamento fotográfico com processos espaciais, sonoros e computacionais. Em 2024 ganhou a Open Call INTERGALACTICA, resultando na publicação do fotolivro <em>How to Build a Telescope</em> pela XYZ Books em 2025.</span><span class="lang-en">Visual artist based in Porto. His practice explores the intersections between nature, technology, and systems of observation, combining photographic thought with spatial, sonic, and computational processes. In 2024 he won the INTERGALACTICA Open Call, leading to the publication of his photobook <em>How to Build a Telescope</em> by XYZ Books in 2025.</span></p></div>
         <div class="bio"><p class="bio-name">Diana Sá</p><p><span class="lang-pt">Nasceu em Espinho em 1985. Frequentou o curso profissional de fotografia no IPF e o Mestrado em Fotografia Artística no IPCI. Interessa-se por projetos de longo prazo sobre o território, o quotidiano e o efémero.</span><span class="lang-en">Born in Espinho in 1985. Attended the professional photography course at IPF and the Master's in Artistic Photography at IPCI. Interested in long-term projects regarding territory, daily life, and the ephemeral.</span></p></div>
         <div class="bio"><p class="bio-name">Guida Marques</p><p><span class="lang-pt">Nascida em 1986, neo-rural na Serra do Açor desde 2017. Desenvolve reconstruções de casas de xisto e performances/instalações focadas na relação corpo/lugar/memória.</span><span class="lang-en">Born in 1986, neo-rural in Serra do Açor since 2017. Develops reconstructions of schist houses and performances/installations focused on the body/place/memory relationship.</span></p></div>
@@ -682,7 +692,12 @@ items.forEach((item, index) => {
     item.el.innerHTML = item.iconSVG;
     item.el.title = item.labelPT;
   } else {
-    item.el.className = "physics-button";
+    // Adiciona a classe especial invertida se for o botão 'Sobre/About'
+    if(item.key === "about") {
+      item.el.className = "physics-button featured-about";
+    } else {
+      item.el.className = "physics-button";
+    }
     item.el.textContent = currentLang === "en" ? item.labelEN : item.labelPT;
   }
   
