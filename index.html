@@ -59,29 +59,26 @@ html, body{
 }
 #site-wrap.nav-open{ transform:translateX(calc(-1 * var(--nav-w))); }
 
-/* ── HEADER DESKTOP PADRÃO ── */
+/* ── CABEÇALHO GLOBAL (UNIFICADO DESKTOP/MOBILE) ── */
 .logo{
-  position:fixed; top:20px; right:24px; z-index:500;
+  position:fixed; top:20px; right:24px; z-index:9999;
   font-family:'Space Grotesk',sans-serif; font-size:21px; font-weight:500;
   color:var(--blue); cursor:pointer; margin:0; line-height:1;
 }
 .hamburger{
-  position:fixed; top:50px; right:24px; z-index:500; width:32px;
+  position:fixed; top:52px; right:24px; z-index:9999; width:32px;
   display:flex; flex-direction:column; gap:6px;
   cursor:pointer; padding:4px 0; background:transparent; border:none; touch-action:manipulation;
 }
-.hamburger span{ display:block; height:2px; background:var(--blue); }
+.hamburger span{ display:block; height:2px; background:var(--blue); width: 100%; }
 
 .lang-toggle{
-  position:fixed; top:20px; left:24px; z-index:500;
+  position:fixed; top:20px; left:24px; z-index:9999;
   font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:500;
   border:1px solid black; background:white; padding:5px 12px; cursor:pointer;
   touch-action:manipulation; transition:background .2s,color .2s,border-color .2s;
 }
 .lang-toggle:hover{ background:var(--blue); color:white; border-color:var(--blue); }
-
-/* Contentor invisível em desktop, serve para blindar o mobile */
-.mobile-header-container { display: none; }
 
 /* ── STATEMENT ── */
 .statement{
@@ -256,49 +253,20 @@ html, body{
 .swiper-lightbox .swiper-button-next,
 .swiper-lightbox .swiper-button-prev{ color:white; }
 
-/* ── LAYOUT RESPONSIVO GERAL (TABLETS / PHONES) ── */
+/* ── LAYOUT RESPONSIVO GERAL (TABLETS / PHONES ATÉ 768PX) ── */
 @media(max-width:768px){
-  :root { --nav-w: 240px; --header-h: 70px; }
+  :root { --nav-w: 240px; --header-h: 80px; }
   
-  /* Ocultar elementos fixed soltos que causavam bugs de estouro de caixa no iOS */
-  #site-wrap > .logo, 
-  #site-wrap > .hamburger, 
-  #site-wrap > .lang-toggle { 
-    display: none !important; 
-  }
-
-  /* Criação de uma barra nativa mecânica e imune a cortes de overflow */
-  .mobile-header-container {
-    display: flex !important;
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    height: var(--header-h);
-    background: transparent;
-    z-index: 500;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 16px;
-    pointer-events: none;
-  }
-  .mobile-header-container * { pointer-events: auto; }
+  /* Mantém consistência espacial e impede que a física empurre o topo */
+  .logo { top: 16px; right: 16px; font-size: 20px; }
+  .lang-toggle { top: 16px; left: 16px; padding: 5px 12px; font-size: 13px; }
   
-  /* Alinhamento flexível que impede colisões e mantém consistência visual */
-  .mobile-header-container .lang-toggle { position: static; padding: 5px 12px; font-size: 13px; }
-  
-  .mobile-right-actions {
-    display: flex;
-    align-items: center;
-    gap: 20px; /* Margem controlada entre o Hambúrguer e o Logótipo */
-  }
-  .mobile-header-container .logo { position: static; font-size: 20px; }
-  .mobile-header-container .hamburger { 
-    position: static; 
+  /* O Hambúrguer desce ligeiramente e mantém-se alinhado à direita por baixo do logo */
+  .hamburger { 
+    top: 46px; 
+    right: 16px; 
     width: 28px; 
-    height: auto; 
-    display: flex; 
-    flex-direction: column; 
     gap: 5px; 
-    padding: 4px 0;
   }
 
   .statement{ width:84vw; font-size:17px; top: 38%; }
@@ -316,16 +284,24 @@ html, body{
   }
 }
 
-/* ── AJUSTE EXTREMO: IPHONE SE 1ª GERAÇÃO (LARGURAS ATÉ 320PX/360PX) ── */
+/* ── AJUSTE CIRÚRGICO INDSTRUTÍVEL: IPHONE SE (ATÉ 320PX/360PX) ── */
 @media(max-width:360px){
-  :root { --header-h: 55px; --nav-w: 215px; }
-  .mobile-header-container { padding: 0 12px; }
-  .mobile-right-actions { gap: 14px; }
-  .mobile-header-container .logo { font-size: 18px; }
-  .mobile-header-container .lang-toggle { padding: 4px 9px; font-size: 12px; }
-  .mobile-header-container .hamburger { width: 24px; gap: 4px; }
+  :root { --header-h: 70px; --nav-w: 215px; }
+  
+  /* Dimensões reduzidas no topo para caber na largura total de 320px sem explodir */
+  .logo { top: 12px; right: 12px; font-size: 17px; }
+  .lang-toggle { top: 12px; left: 12px; padding: 4px 10px; font-size: 11px; }
+  
+  /* No SE o hambúrguer ganha um respiro preciso para nunca sumir sob o ecrã */
+  .hamburger { 
+    top: 38px; 
+    right: 12px; 
+    width: 24px; 
+    gap: 4px; 
+  }
+  .hamburger span { height: 2px; }
 
-  .statement { font-size: 13px; top: 34%; }
+  .statement { font-size: 13px; top: 35%; }
   .physics-button { font-size: 12px !important; padding: 5px 8px !important; }
   
   .nav-menu { padding: 60px 16px 16px 16px; }
@@ -346,19 +322,7 @@ html, body{
   <div class="cursor-dot"></div>
 </div>
 
-<!-- BARRA DE TOPO EXCLUSIVA MOBILE (Imune a bugs de corte do Safari iOS) -->
-<div class="mobile-header-container">
-  <button class="lang-toggle mobileLang">EN</button>
-  <div class="mobile-right-actions">
-    <button class="hamburger mobileHam" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-    <h1 class="logo mobileLogo">BARDA</h1>
-  </div>
-</div>
-
 <div id="site-wrap">
-  <!-- Elementos Desktop originais mantidos intactos -->
   <h1 class="logo" id="logoHome">BARDA</h1>
   <button class="lang-toggle" id="langToggle">EN</button>
   <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -533,16 +497,12 @@ function applyLang(lang) {
   }
 }
 
-function toggleLanguageGlobal() {
+langBtn.addEventListener("click", () => {
   currentLang = currentLang === "pt" ? "en" : "pt";
-  const label = currentLang === "pt" ? "EN" : "PT";
-  langBtn.textContent = label;
-  document.querySelector(".mobileLang").textContent = label;
+  langBtn.textContent = currentLang === "pt" ? "EN" : "PT";
   applyLang(currentLang);
   initTyped(currentLang);
-}
-langBtn.addEventListener("click", toggleLanguageGlobal);
-document.querySelector(".mobileLang").addEventListener("click", toggleLanguageGlobal);
+});
 
 /* ── LIGHTBOX ── */
 function openLightbox(idx) {
@@ -767,16 +727,12 @@ function closeOverlay() {
 function openNav() { navMenu.classList.add("open"); navOverlay.classList.add("open"); siteWrap.classList.add("nav-open"); }
 function closeNav() { navMenu.classList.remove("open"); navOverlay.classList.remove("open"); siteWrap.classList.remove("nav-open"); }
 
-// Eventos ligados a ambos os pares de botões (Desktop e Barra Mobile)
 hamburger.addEventListener("click", openNav);
-document.querySelector(".mobileHam").addEventListener("click", openNav);
-
 navClose.addEventListener("click", closeNav);
 navOverlay.addEventListener("click", closeNav);
 closeBtn.addEventListener("click", closeOverlay);
 
 document.getElementById("logoHome").addEventListener("click", closeOverlay);
-document.querySelector(".mobileLogo").addEventListener("click", closeOverlay);
 
 document.getElementById("navAbout").addEventListener("click", () => { closeNav(); openProject("about"); });
 document.querySelectorAll(".nav-project-btn").forEach(btn =>
@@ -851,7 +807,6 @@ items.forEach((item, index) => {
     item.el.innerHTML = item.iconSVG;
     item.el.title = item.labelPT;
   } else {
-    // Tanto o "about" como o "arquivo" ganham agora a classe de destaque azul
     if(item.key === "about" || item.key === "arquivo") {
       item.el.className = "physics-button featured-blue";
     } else {
