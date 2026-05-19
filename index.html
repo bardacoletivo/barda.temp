@@ -326,6 +326,48 @@ html, body{
 <script src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 <script>
+/* ── TAB TYPED EFFECT (ANTI-IP BLINDADO) ── */
+(function loopTabTitle() {
+  const strings = ["BARDA", "COLETIVO"];
+  let wordIndex = 0;
+  // Começamos em 5 porque o título padrão inicial já é "BARDA" completo
+  let charIndex = 5; 
+  let isDeleting = false;
+
+  function type() {
+    const fullWord = strings[wordIndex];
+
+    if (isDeleting) {
+      // Interrompe a remoção na 1ª letra (charIndex = 1). Nunca fica vazio!
+      charIndex = Math.max(1, charIndex - 2);
+    } else {
+      charIndex = Math.min(fullWord.length, charIndex + 2);
+    }
+
+    document.title = fullWord.substring(0, charIndex);
+
+    let typeSpeed = 40; 
+
+    if (!isDeleting && charIndex === fullWord.length) {
+      typeSpeed = 2000; 
+      isDeleting = true;
+    } else if (isDeleting && charIndex === 1) {
+      // Quando resta apenas a 1ª letra, fazemos a troca cirúrgica em background
+      isDeleting = false;
+      wordIndex = (wordIndex + 1) % strings.length;
+      
+      // Define o index inicial da próxima palavra como 1 (a sua primeira letra já fica lá)
+      charIndex = 1; 
+      typeSpeed = 200; 
+    }
+
+    setTimeout(type, typeSpeed);
+  }
+
+  // Só arranca o loop após a leitura inicial estável da primeira palavra
+  setTimeout(type, 2000);
+})();
+
 /* ── REFS ── */
 const siteWrap        = document.getElementById("site-wrap");
 const overlay          = document.getElementById("overlay");
@@ -455,8 +497,8 @@ const projectData = {
       <div class="lang-pt">
         <p>À medida que as interfaces se tornam o lugar recorrente da experiência quotidiana, impõe-se a urgência de reencontrar formas de relação com o mundo que sejam mais atentas, empáticas e porosas. A ubiquidade da mediação digital, ao condensar os gestos num toque e a presença num fluxo de dados, tende a reduzir a vida a uma versão operativa, esvaziando-a de fricção, de espera, de escuta. Contra esse alheamento, que dissocia o corpo do ambiente, importa reativar os sentidos como vias de conhecimento e de relação. Mais do que tudo, importa pensar o mundo não como um conjunto de dados a processar, mas como lugar tangível.</p>
         <p>A partir da figura da membrana, as obras em exposição evocam processos de adaptação sensorial que os corpos desenvolvem na sua relação com o mundo. As membranas regulam trocas de substâncias e de energia entre interior e exterior. São permeáveis, não asseguram a distância; antes permitem a infiltração e a contaminação. Por isso mesmo, contrastam com o modo de operar da interface, que tende a preservar a separação entre corpos, funcionando como superfície de visualização e de tradução.</p>
-        <p>Em exposição, multiplicam-se os suportes de impressão de imagem que se desviam da convencional impressão fotográfica, cedendo lugar a materiais que, pela sua própria natureza, sugerem a ideia de membrana. A importância da matéria é tanto maior quanto se omitem, na folha de sala, os títulos das peças, destacando-se o material: vinil dicróico, látex, tecido de poliéster, acetato...entre outras transparências e películas.</p>
-        <p>No seu conjunto, configuram um aparato que convoca os sentidos. Ainda que diante de imagens — muitas delas fotográficas, associadas quase sempre a um referente externo, passado, “real” — não se impõe aqui a ideia de representation, mas antes a de presença. Exemplar, nesse sentido, é a peça em vinil dicróico, que funciona quase como um sumário de intenções porque a sua propriedade de mudar de cor consoante a posição do observador ativa, de forma imediata, a consciência de si no espaço — ver torna-se, aqui, também um modo de se perceber enquanto corpo situado.</p>
+        <p>Em exposição, multiplicam-se os suportes de impressão de imagem que se desviam da unconventional impressão fotográfica, cedendo lugar a materiais que, pela sua própria natureza, sugerem a ideia de membrana. A importância da matéria é tanto maior quanto se omitem, na folha de sala, os títulos das peças, destacando-se o material: vinil dicróico, látex, tecido de poliéster, acetato...entre outras transparências e películas.</p>
+        <p>No seu conjunto, configuram um aparato que convoca os sentidos. Ainda que diante de imagens — muitas delas fotográficas, associadas quase sempre a um referente externo, passado, “real” — não se impõe aqui a ideia de representação, mas antes a de presença. Exemplar, nesse sentido, é a peça em vinil dicróico, que funciona quase como um sumário de intenções porque a sua propriedade de mudar de cor consoante a posição do observador ativa, de forma imediata, a consciência de si no espaço — ver torna-se, aqui, também um modo de se perceber enquanto corpo situado.</p>
         <p style="margin-top: 24px; font-weight: 500; text-align: right; color: var(--blue);">Vera Carmo</p>
       </div>
       <div class="lang-en">
@@ -479,7 +521,7 @@ const projectData = {
       </a>
       <div class="lang-pt">
         <p>Porvir é um projeto de intercâmbio multidisciplinar que envolve artistas locais, artistas externos e a comunidade, com o objetivo de imaginar o futuro através da arte participativa. Focado em quatro aldeias da Serra do Açor, o Porvir procura, através da expressão artística, construir um space de partilha, investigação, criação e exposição, estimulando o pensamento crítico das comunidades envolvidas.</p>
-        <p>Oficinas participativas são realizadas em três aldeias diferentes, onde artistas e membros da comunidade colaboram em projetos únicos. Cada aldeia acolhe um artista em residência, que desenvolve obras originais inspiradas nas experiências e dinâmicas locais. O projeto culmina em exposições coletivas no espaço público, promovendo discussões abertas e trocas de ideias entre participantes, público e instituições.</p>
+        <p>Oficinas participativas são realizadas em três aldeias diferentes, onde artistas e membros da comunidade colaboram em projetos únicos. Cada aldeia acolhe um artist em residência, que desenvolve obras originais inspiradas nas experiências e dinâmicas locais. O projeto culmina em exposições coletivas no espaço público, promovendo discussões abertas e trocas de ideias entre participantes, público e instituições.</p>
       </div>
       <div class="lang-en">
         <p>Porvir is a multidisciplinary exchange project involving local artists, external artists, and the community, aimed at envisioning the future through participatory art. Focused on four villages in the Serra do Açor region, Porvir seeks, through artistic expression, to build a space for sharing, research, creation, and exhibition, while stimulating the critical thinking of the involved communities.</p>
