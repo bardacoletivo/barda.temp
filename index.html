@@ -50,7 +50,7 @@ html, body, * { cursor: none !important; }
 
 html, body{
   margin:0; width:100%; height:100%; overflow:hidden;
-  background:white; font-family:'IBM Plex Sans',sans-serif; color:black;
+  background:#f3f6fa; font-family:'IBM Plex Sans',sans-serif; color:black;
 }
 #site-wrap{
   position:fixed; inset:0;
@@ -66,7 +66,7 @@ html, body{
 .hamburger{
   position:fixed; top:50px; right:24px; z-index:500; width:32px;
   display:flex; flex-direction:column; gap:6px;
-  cursor:pointer; padding:4px 0; background:none; border:none; touch-action:manipulation;
+  cursor:pointer; padding:4px 0; background:white; border:none; touch-action:manipulation;
 }
 .hamburger span{ display:block; height:2px; background:var(--blue); }
 
@@ -194,7 +194,7 @@ html, body{
   flex:1; overflow-y:auto; overflow-x:hidden;
   padding:52px 52px 52px 52px; margin-top:35px; padding-top:16px;
   -webkit-overflow-scrolling:touch;
-  scrollbar-width:thin; scrollbar-color:var(--blue) transparent;
+  scrollbar-width:thin; stroke-color:var(--blue) transparent;
 }
 #content::-webkit-scrollbar{ width:4px; }
 #content::-webkit-scrollbar-track{ background:transparent; }
@@ -230,6 +230,10 @@ html, body{
 .swiper-button-next,.swiper-button-prev{ color:var(--blue); }
 .swiper-pagination-bullet-active{ background:var(--blue); }
 
+/* Estilos adicionais para imagem estática sem zoom */
+.static-image-container { width:100%; height:55vh; margin: 24px 0; display:flex; align-items:center; justify-content:center; }
+.static-image-container img { width:100%; height:100%; object-fit:contain; cursor:default !important; }
+
 #lightbox{
   display:none; position:fixed; inset:0; background:rgba(0,0,0,.98); z-index:2000;
   flex-direction:column; align-items:center; justify-content:center;
@@ -256,7 +260,7 @@ html, body{
   }
   
   .content-inner h2{ font-size:26px; margin-bottom:12px; padding-right:30px; }
-  .swiper{ height:38vh; }
+  .swiper, .static-image-container{ height:38vh; }
 
   .swiper-button-next, .swiper-button-prev {
     --swiper-navigation-size: 18px !important;
@@ -361,7 +365,7 @@ if (!isMobileDevice) {
 
 function setupCursorHovers() {
   if (isMobileDevice) return;
-  document.querySelectorAll('a, button, .physics-button, .physics-icon-button, .logo, .hamburger, .nav-project-btn').forEach(el => {
+  document.querySelectorAll('a, button, .physics-button, .physics-icon-button, .logo, .hamburger, .nav-project-btn, .swiper-button-next, .swiper-button-prev').forEach(el => {
     if (!el.dataset.cursorBound) {
       el.dataset.cursorBound = "true";
       el.addEventListener('mouseenter', () => cursorContainer.classList.add('grow'));
@@ -373,10 +377,18 @@ setupCursorHovers();
 
 /* ── TYPED.JS ── */
 const typedStringsPT = [
-  "Em construção"
+  "Sempre em construção",
+  "Barda é uma manifestação de vontade colaborativa que ganhou a forma de coletivo",
+  "enfatiza as artes visuais como meio de transformação e instrumento de empoderamento para comunidades periféricas",
+  "utiliza a imagem como ferramenta de intervenção e questionamento.",
+  "promovendo a criação de sinergias entre comunidade e território através de diálogos experimentais"
 ];
 const typedStringsEN = [
-  "In construction"
+  "Always in construction",
+  "Barda is a manifestation of collaborative will that has taken the form of a collective",
+  "emphasizes visual arts as a means of transformation and empowerment for peripheral communities",
+  "uses imagery as a tool for intervention and questioning.",
+  "promoting the creation of synergies between community and territory through experimental dialogues"
 ];
 
 let typedInstance = null;
@@ -439,13 +451,22 @@ const projectData = {
     metaPT:"Exposição coletiva · ACERT, Tondela · 2023–2025",
     metaEN:"Collective exhibition · ACERT, Tondela · 2023–2025",
     description:`
-      <div>
+      <div class="lang-pt">
         <p>À medida que as interfaces se tornam o lugar recorrente da experiência quotidiana, impõe-se a urgência de reencontrar formas de relação com o mundo que sejam mais atentas, empáticas e porosas. A ubiquidade da mediação digital, ao condensar os gestos num toque e a presença num fluxo de dados, tende a reduzir a vida a uma versão operativa, esvaziando-a de fricção, de espera, de escuta. Contra esse alheamento, que dissocia o corpo do ambiente, importa reativar os sentidos como vias de conhecimento e de relação. Mais do que tudo, importa pensar o mundo não como um conjunto de dados a processar, mas como lugar tangível.</p>
         <p>A partir da figura da membrana, as obras em exposição evocam processos de adaptação sensorial que os corpos desenvolvem na sua relação com o mundo. As membranas regulam trocas de substâncias e de energia entre interior e exterior. São permeáveis, não asseguram a distância; antes permitem a infiltração e a contaminação. Por isso mesmo, contrastam com o modo de operar da interface, que tende a preservar a separação entre corpos, funcionando como superfície de visualização e de tradução.</p>
         <p>Em exposição, multiplicam-se os suportes de impressão de imagem que se desviam da convencional impressão fotográfica, cedendo lugar a materiais que, pela sua própria natureza, sugerem a ideia de membrana. A importância da matéria é tanto maior quanto se omitem, na folha de sala, os títulos das peças, destacando-se o material: vinil dicróico, látex, tecido de poliéster, acetato...entre outras transparências e películas.</p>
         <p>No seu conjunto, configuram um aparato que convoca os sentidos. Ainda que diante de imagens — muitas delas fotográficas, associadas quase sempre a um referente externo, passado, “real” — não se impõe aqui a ideia de representação, mas antes a de presença. Exemplar, nesse sentido, é a peça em vinil dicróico, que funciona quase como um sumário de intenções porque a sua propriedade de mudar de cor consoante a posição do observador ativa, de forma imediata, a consciência de si no espaço — ver torna-se, aqui, também um modo de se perceber enquanto corpo situado.</p>
         <p>O corpo, de resto, surge exposto: ora pela simples nudez; ora através da ampliação extrema da objetiva, que revela texturas, secreções, superfícies húmidas — elementos frequentemente remetidos para o domínio da repulsa ou da vergonha. Tornam-se visíveis as membranas sensoriais que regulam o contacto com o mundo: a córnea, a mucosa nasal, a superfície da língua. Tecidos vivos e frágeis. Pontos de contágio, mas também de ancoragem: sinais de uma vida inscrita no espaço cartesiano e longe da simulação à distância.</p>
         <p>O visitante é convocado a reconhecer, nesses materiais, o corpo enquanto superfície de contacto: lugar de trocas, de exposição e de risco. Contra a leveza do virtual, Membrana sugere um reposicionamento: devolver ao corpo a sua gravidade e reinstalá-lo na espessura do presente, onde a relação com o outro e com o ambiente passa pela partilha de uma vulnerabilidade comum.</p>
+        <p style="margin-top: 24px; font-weight: 500; text-align: right; color: var(--blue);">Vera Carmo</p>
+      </div>
+      <div class="lang-en">
+        <p>As interfaces become the recurring place of everyday experience, there is an urgent need to rediscover ways of relating to the world that are more attentive, empathetic, and porous. The ubiquity of digital mediation, by condensing gestures into a single touch and presence into a data stream, tends to reduce life to an operational version, emptying it of friction, waiting, and listening. Against this alienation, which dissociates the body from the environment, it is crucial to reactivate the senses as pathways to knowledge and connection. Above all, it matters to think of the world not as a set of data to be processed, but as a tangible place.</p>
+        <p>Starting from the figure of the membrane, the works on display evoke processes of sensory adaptation that bodies develop in their relationship with the world. Membranes regulate exchanges of substances and energy between the interior and exterior. They are permeable, they do not guarantee distance; instead, they allow infiltration and contamination. For this very reason, they contrast with the operational mode of the interface, which tends to preserve the separation between bodies, functioning merely as a surface for display and translation.</p>
+        <p>In the exhibition, image printing mediums deviate from conventional photographic prints, giving way to materials that, by their very nature, suggest the idea of a membrane. The importance of matter is highlighted by omitting the titles of the pieces from the gallery text, emphasizing instead the medium: dichroic vinyl, latex, polyester fabric, acetate... among other transparencies and films.</p>
+        <p>As a whole, they configure an apparatus that begs the senses. Even when facing images—many of them photographic, almost always associated with an external, past, “real” referent—the idea of representation does not impose itself here, but rather that of presence. Exemplary in this sense is the dichroic vinyl piece, which functions almost as a summary of intentions because its property of changing color depending on the observer's position immediately activates self-awareness in space—seeing becomes, here, also a way of perceiving oneself as a situated body.</p>
+        <p>The body, moreover, appears exposed: at times through simple nudity; at others through the extreme magnification of the lens, revealing textures, secretions, damp surfaces—elements often dismissed into the realms of disgust or shame. The sensory membranes that regulate contact with the world become visible: the cornea, the nasal mucosa, the surface of the tongue. Living and fragile tissues. Points of contagion, but also of anchorage: signs of a life inscribed in Cartesian space, far from remote simulation.</p>
+        <p>The visitor is called upon to recognize, within these materials, the body as a surface of contact: a place of exchanges, exposure, and risk. Against the weightlessness of the virtual, Membrana suggests a repositioning: returning gravity to the body and reinstalling it within the thickness of the present, where the relationship with the other and with the environment relies on sharing a common vulnerability.</p>
         <p style="margin-top: 24px; font-weight: 500; text-align: right; color: var(--blue);">Vera Carmo</p>
       </div>`,
     images: Array.from({length:11}, (_,i) => `images/membrana/${i+1}.jpg`)
@@ -460,7 +481,7 @@ const projectData = {
         <span class="lang-en">VISIT PROJECT WEBSITE ↗</span>
       </a>
       <div class="lang-pt">
-        <p>Porvir é um projeto de intercâmbio multidisciplinar que envolve artistas locais, artistas externos e a comunidade, com o objetivo de imaginar o futuro através da arte participativa. Focado em quatro aldeias da Serra do Açor, o Porvir procura, através da expressão artística, construir um espaço de partilha, investigação, criação e exposição, estimulando o pensamento crítico das comunidades envolvidas.</p>
+        <p>Porvir é um projeto de intercâmbio multidisciplinar que envolve artistas locais, artistas externos e a comunidade, com o objetivo de imaginar o futuro através da arte participativa. Focado em quatro aldeias da Serra do Açor, o Porvir procura, através da expressão artística, construir um space de partilha, investigação, criação e exposição, estimulando o pensamento crítico das comunidades envolvidas.</p>
         <p>Oficinas participativas são realizadas em três aldeias diferentes, onde artistas e membros da comunidade colaboram em projetos únicos. Cada aldeia acolhe um artista em residência, que desenvolve obras originais inspiradas nas experiências e dinâmicas locais. O projeto culmina em exposições coletivas no espaço público, promovendo discussões abertas e trocas de ideias entre participantes, público e instituições.</p>
       </div>
       <div class="lang-en">
@@ -490,7 +511,7 @@ const projectData = {
     metaEN:"Exhibition · Encontros da Imagem · 2025",
     description:`
       <div class="lang-pt">
-        <p>Integrada no núcleo expositivo Argumentários, que celebra e revisita a história do festival, a intervenção do Colectivo Barda responde ao desafio de recuperar memórias e experiências que moldaram de forma sensível e contínua a identidade dos Encontros da Imagem.</p>
+        <p>Integrada no núcleo expositivo Argumentários, que celebra e revisita a história do festival, a intenção do Colectivo Barda responde ao desafio de recuperar memórias e experiências que moldaram de forma sensível e contínua a identidade dos Encontros da Imagem.</p>
         <p>Partindo de eventos reais da Semana de Abertura de 2018, o coletivo explora encontros, trocas e gestos inscritos na memória da comunidade reunida em torno do festival. Cada imagem em A casa de falar baixinho evoca episódios específicos, convocando afetos, práticas e momentos que, embora ausentes da documentação formal, ficaram marcados nos corpos e na memória particular de cada edição.</p>
       </div>
       <div class="lang-en">
@@ -505,7 +526,7 @@ const projectData = {
     metaEN:"Workshops, lectures and public events",
     description:`
       <div class="lang-pt">
-        <p>Espaço dedicado à partilha coletiva através de palestras, oficinas experimentais e eventos práticos dinamizados pelo Colectivo Barda ou com a nossa participação ativa.</p>
+        <p>Espaço dedicado à partilha coletiva através de palestras, oficinas experimentais e eventos práticos dinamizados pelo Colectivo Barda ou com a nossa participação activa.</p>
         <p>Acreditamos na ativação do espaço público e das comunidades periféricas através de momentos de encontro focados na pedagogia da imagem, pensamento crítico e experimentação visual direta com os participantes do território.</p>
       </div>
       <div class="lang-en">
@@ -515,7 +536,8 @@ const projectData = {
     images: []
   },
   about:{
-    titlePT:"BARDA", titleEN:"BARDA", metaPT:"", metaEN:"",
+    titlePT:"Quem?", titleEN:"Who?", metaPT:"", metaEN:"",
+    isAboutPage: true,
     description:`
       <div class="lang-pt">
         <p>Barda é uma manifestação de vontade colaborativa que ganhou a forma de coletivo, enfatiza as artes visuais como meio de transformação e instrumento de empoderamento para comunidades periféricas, utiliza a imagem como ferramenta de intervenção e questionamento, promovendo a criação de sinergias entre comunidade e território através de diálogos experimentais.</p>
@@ -524,7 +546,7 @@ const projectData = {
         <p>Barda is a manifestation of collaborative will that has taken the form of a collective, emphasizes visual arts as a means of transformation and empowerment for peripheral communities, uses imagery as a tool for intervention and questioning, promoting the creation of synergies between community and territory through experimental dialogues.</p>
       </div>
       <div class="bios">
-        <div style="margin-bottom:28px;"><h3 class="lang-pt">Quem é o Barda?</h3><h3 class="lang-en">Who is Barda?</h3></div>
+        <div style="margin-bottom:28px;"><h3 class="lang-pt">Mas quem?</h3><h3 class="lang-en">But who?</h3></div>
         <div class="bio"><p class="bio-name">Ana Luísa Rego</p><p><span class="lang-pt">Nasceu em Cinfães (1974), vive no Porto. Iniciou o seu percurso na fotografia ainda na era analógica. Na sua prática, documenta temas inspirados em questões sociais, culturais e científicas através de uma abordagem interdisciplinar e colaborativa.</span><span class="lang-en">Born in Cinfães (1974), lives in Porto. Started her journey in photography in the analog era. In her practice, she documents themes inspired by social, cultural, and scientific issues through an interdisciplinary and collaborative approach.</span></p></div>
         <div class="bio"><p class="bio-name">Carlos Trancoso</p><p><span class="lang-pt">Artista visual sediado no Porto. A sua prática explora as interseções entre natureza, tecnologia e sistemas de observação, combinando o pensamento fotográfico com processos espaciais, sonoros e computacionais. Em 2024 ganhou a Open Call INTERGALACTICA, resultando na publicação do fotolivro <em>How to Build a Telescope</em> pela XYZ Books em 2025.</span><span class="lang-en">Visual artist based in Porto. His practice explores the intersections between nature, technology, and systems of observation, combining photographic thought with spatial, sonic, and computational processes. In 2024 he won the INTERGALACTICA Open Call, leading to the publication of his photobook <em>How to Build a Telescope</em> by XYZ Books in 2025.</span></p></div>
         <div class="bio"><p class="bio-name">Diana Sá</p><p><span class="lang-pt">Nasceu em Espinho em 1985. Frequentou o curso profissional de fotografia no IPF e o Mestrado em Fotografia Artística no IPCI. Interessa-se por projetos de longo prazo sobre o território, o quotidiano e o efémero.</span><span class="lang-en">Born in Espinho in 1985. Attended the professional photography course at IPF and the Master's in Artistic Photography at IPCI. Interested in long-term projects regarding territory, daily life, and the ephemeral.</span></p></div>
@@ -535,13 +557,16 @@ const projectData = {
         <div class="bio"><p class="bio-name">Juliana Maar</p><p><span class="lang-pt">Nasceu em 1981. Utiliza o corpo e o autorretrato como principais veículos de expressão. Neo-rural na Serra do Açor há seis anos.</span><span class="lang-en">Born in 1981. Uses the body and self-portraiture as her main vehicles of expression. Neo-rural in Serra do Açor for six years.</span></p></div>
         <div class="bio"><p class="bio-name">Marco Duarte</p><p><span class="lang-pt">Fotógrafo documental freelancer que aborda questões sociais nos seus projetos visuais. Co-fundador do coletivo Barda em 2022.</span><span class="lang-en">Freelance documentary photographer addressing social issues in his visual projects. Co-founder of the Barda collective in 2022.</span></p></div>
       </div>`,
-    images: Array.from({length:11}, (_,i) => `images/membrana/${i+1}.jpg`)
+    images: ["images/logo-barda.png"]
   },
 };
 
 /* ── CAROUSEL ── */
-function buildSwiper(imgs) {
+function buildSwiper(imgs, isAbout) {
   if (!imgs || !imgs.length) return "";
+  if (isAbout) {
+    return `<div class="static-image-container"><img src="${imgs[0]}"></div>`;
+  }
   const slides = imgs.map((img, i) => `<div class="swiper-slide"><img src="${img}" onclick="openLightbox(${i})"></div>`).join("");
   return `<div class="swiper main-swiper"><div class="swiper-wrapper">${slides}</div><div class="swiper-button-next"></div><div class="swiper-button-prev"></div><div class="swiper-pagination"></div></div>`;
 }
@@ -571,7 +596,8 @@ function openProject(key) {
     </div>`;
   }
   headerHtml += `</div>`;
-  content.innerHTML = headerHtml + buildSwiper(item.images) + `<div class="content-inner">${item.description}</div>`;
+  
+  content.innerHTML = headerHtml + buildSwiper(item.images, item.isAboutPage) + `<div class="content-inner">${item.description}</div>`;
   overlay.classList.add("active");
   worldEl.style.zIndex = "0";
   applyLang(currentLang);
@@ -586,13 +612,26 @@ function openProject(key) {
     loop: false
   });
 
-  if (item.images && item.images.length) {
+  if (item.images && item.images.length && !item.isAboutPage) {
     setTimeout(() => {
       initSwiper();
       const swiperEl = document.querySelector('.main-swiper');
       if (swiperEl && !isMobileDevice) {
         swiperEl.addEventListener('mouseenter', () => cursorContainer.classList.add('plus'));
         swiperEl.addEventListener('mouseleave', () => cursorContainer.classList.remove('plus'));
+        
+        document.querySelectorAll('.swiper-button-next, .swiper-button-prev').forEach(btn => {
+          btn.addEventListener('mouseenter', (e) => {
+            e.stopPropagation();
+            cursorContainer.classList.remove('plus');
+            cursorContainer.classList.add('grow');
+          });
+          btn.addEventListener('mouseleave', (e) => {
+            e.stopPropagation();
+            cursorContainer.classList.remove('grow');
+            cursorContainer.classList.add('plus');
+          });
+        });
       }
     }, 100);
   }
@@ -649,7 +688,7 @@ Composite.add(world, [
 function clampW(w){ return Math.min(w, Math.floor(W * 0.78)); }
 
 const mailIconSVG = `<svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.144C21.69 2.28 24 3.434 24 5.457z"/></svg>`;
-const instaIconSVG = `<svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>`;
+const instaIconSVG = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>`;
 
 const items = [
   { labelPT:"Membrana",               labelEN:"Membrana",               key:"membrana",  x:cx-W*.20, y:cy-H*.55, w:clampW(190), h:54, isIcon:false },
@@ -742,4 +781,4 @@ let ceilingAdded = false;
 window.addEventListener("resize", () => { if (Math.abs(window.innerWidth - W) > 50) location.reload(); });
 </script>
 </body>
-</html>
+</html> 
