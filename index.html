@@ -106,6 +106,7 @@ html, body{
   user-select:none; white-space:nowrap;
   min-width:80px; max-width:min(340px,80vw);
   touch-action:none; transition:background .15s,color .15s,border-color .15s;
+  border-radius: 0;
 }
 .physics-button:hover{ background:var(--blue); color:white; border-color:var(--blue); }
 
@@ -126,6 +127,7 @@ html, body{
   position:absolute; display:flex; align-items:center; justify-content:center;
   background:var(--blue); border:1px solid var(--blue); cursor:pointer;
   touch-action:none; transition:background .15s, border-color .15s;
+  border-radius: 0;
 }
 .physics-icon-button svg {
   transition: fill .15s;
@@ -250,9 +252,11 @@ html, body{
 .swiper-lightbox .swiper-button-next,
 .swiper-lightbox .swiper-button-prev{ color:white; }
 
+/* ── LAYOUT RESPONSIVO GERAL ── */
 @media(max-width:768px){
+  :root { --nav-w: 240px; }
   .statement{ width:84vw; font-size:18px; }
-  .physics-button{ font-size:17px; padding:10px 14px; }
+  .physics-button{ font-size:16px; padding:10px 14px; }
   .overlay-content{ width:96vw; }
   
   #content{ 
@@ -260,7 +264,7 @@ html, body{
     margin-top:0px; 
   }
   
-  .content-inner h2{ font-size:26px; margin-bottom:12px; padding-right:30px; }
+  .content-inner h2{ font-size:24px; margin-bottom:12px; padding-right:30px; }
   .swiper, .static-image-container{ height:38vh; }
 
   .swiper-button-next, .swiper-button-prev {
@@ -268,6 +272,47 @@ html, body{
     width: 22px !important;
     height: 22px !important;
   }
+}
+
+/* ── REDIMENSIONAMENTO COMPLETO: IPHONE SE E SIMILARES (LARGURAS ATÉ 360PX) ── */
+@media(max-width:360px){
+  :root { 
+    --header-h: 60px; 
+    --nav-w: 220px;
+  }
+  
+  /* Ajuste cirúrgico dos gatilhos do topo para não colidirem */
+  .logo { 
+    top: 15px; 
+    right: 16px; 
+    font-size: 18px; 
+  }
+  .lang-toggle { 
+    top: 15px; 
+    left: 16px; 
+    padding: 4px 10px; 
+    font-size: 12px; 
+  }
+  .hamburger { 
+    top: 16px; 
+    right: 96px; /* Alinha o hambúrguer de forma perfeitamente segura à esquerda do Logótipo */
+    width: 26px !important; 
+    gap: 4px;
+  }
+  .hamburger span { height: 2px; }
+
+  /* Redução global de textos e elementos interativos internos */
+  .statement { font-size: 14px; top: 35%; }
+  .physics-button { font-size: 13px !important; padding: 6px 10px !important; }
+  
+  .nav-menu { padding: 60px 20px 20px 20px; }
+  .nav-project-btn { font-size: 15px; padding: 8px 0; }
+  
+  .overlay-container { bottom: 10px; }
+  .content-inner h2 { font-size: 20px; }
+  .content-inner p { font-size: 14px; line-height: 1.5; }
+  .bio-name { font-size: 15px; }
+  .bio p { font-size: 13px; }
 }
 </style>
 </head>
@@ -326,45 +371,34 @@ html, body{
 <script src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 <script>
-/* ── TAB TYPED EFFECT (ANTI-IP BLINDADO) ── */
+/* ── TAB TYPED EFFECT ── */
 (function loopTabTitle() {
   const strings = ["BARDA", "COLETIVO"];
   let wordIndex = 0;
-  // Começamos em 5 porque o título padrão inicial já é "BARDA" completo
   let charIndex = 5; 
   let isDeleting = false;
 
   function type() {
     const fullWord = strings[wordIndex];
-
     if (isDeleting) {
-      // Interrompe a remoção na 1ª letra (charIndex = 1). Nunca fica vazio!
       charIndex = Math.max(1, charIndex - 2);
     } else {
       charIndex = Math.min(fullWord.length, charIndex + 2);
     }
-
     document.title = fullWord.substring(0, charIndex);
-
     let typeSpeed = 40; 
 
     if (!isDeleting && charIndex === fullWord.length) {
       typeSpeed = 2000; 
       isDeleting = true;
     } else if (isDeleting && charIndex === 1) {
-      // Quando resta apenas a 1ª letra, fazemos a troca cirúrgica em background
       isDeleting = false;
       wordIndex = (wordIndex + 1) % strings.length;
-      
-      // Define o index inicial da próxima palavra como 1 (a sua primeira letra já fica lá)
       charIndex = 1; 
       typeSpeed = 200; 
     }
-
     setTimeout(type, typeSpeed);
   }
-
-  // Só arranca o loop após a leitura inicial estável da primeira palavra
   setTimeout(type, 2000);
 })();
 
@@ -423,7 +457,7 @@ const typedStringsPT = [
   "Sempre em construção",
   "Barda é uma manifestação de vontade colaborativa que ganhou a forma de coletivo",
   "enfatiza as artes visuais como meio de transformação e instrumento de empoderamento para comunidades periféricas",
-  "utiliza a imagem como ferramenta de intervenção e questionamento.",
+  "utiliza a imagem como ferramenta de intervention e questionamento.",
   "promovendo a criação de sinergias entre comunidade e território através de diálogos experimentais"
 ];
 const typedStringsEN = [
@@ -495,7 +529,7 @@ const projectData = {
     metaEN:"Collective exhibition · ACERT, Tondela · 2023–2025",
     description:`
       <div class="lang-pt">
-        <p>À medida que as interfaces se tornam o lugar recorrente da experiência quotidiana, impõe-se a urgência de reencontrar formas de relação com o mundo que sejam mais atentas, empáticas e porosas. A ubiquidade da mediação digital, ao condensar os gestos num toque e a presença num fluxo de dados, tende a reduzir a vida a uma versão operativa, esvaziando-a de fricção, de espera, de escuta. Contra esse alheamento, que dissocia o corpo do ambiente, importa reativar os sentidos como vias de conhecimento e de relação. Mais do que tudo, importa pensar o mundo não como um conjunto de dados a processar, mas como lugar tangível.</p>
+        <p>À medida que as interfaces se tornam o lugar recorrente da experiência quotidiana, impõe-se a urgência de reencontrar formas de relação com o mundo que sejam mais atentas, empáticas e porosas. A ubiquidade da mediação digital, ao condensar os gestos num toque e a presença num fluxo de dados, tende a reduzir a vida a uma versão operativa, esvaziando-a de fricção, de espera, de escuta. Contra esse alheamento, que dissocia o corpo do ambiente, importa reativar os sentidos como vias de conhecimento e de relação. Mais do que tudo, importa pensar o world não como um conjunto de dados a processar, mas como lugar tangível.</p>
         <p>A partir da figura da membrana, as obras em exposição evocam processos de adaptação sensorial que os corpos desenvolvem na sua relação com o mundo. As membranas regulam trocas de substâncias e de energia entre interior e exterior. São permeáveis, não asseguram a distância; antes permitem a infiltração e a contaminação. Por isso mesmo, contrastam com o modo de operar da interface, que tende a preservar a separação entre corpos, funcionando como superfície de visualização e de tradução.</p>
         <p>Em exposição, multiplicam-se os suportes de impressão de imagem que se desviam da unconventional impressão fotográfica, cedendo lugar a materiais que, pela sua própria natureza, sugerem a ideia de membrana. A importância da matéria é tanto maior quanto se omitem, na folha de sala, os títulos das peças, destacando-se o material: vinil dicróico, látex, tecido de poliéster, acetato...entre outras transparências e películas.</p>
         <p>No seu conjunto, configuram um aparato que convoca os sentidos. Ainda que diante de imagens — muitas delas fotográficas, associadas quase sempre a um referente externo, passado, “real” — não se impõe aqui a ideia de representação, mas antes a de presença. Exemplar, nesse sentido, é a peça em vinil dicróico, que funciona quase como um sumário de intenções porque a sua propriedade de mudar de cor consoante a posição do observador ativa, de forma imediata, a consciência de si no espaço — ver torna-se, aqui, também um modo de se perceber enquanto corpo situado.</p>
@@ -520,8 +554,8 @@ const projectData = {
         <span class="lang-en">VISIT PROJECT WEBSITE ↗</span>
       </a>
       <div class="lang-pt">
-        <p>Porvir é um projeto de intercâmbio multidisciplinar que envolve artistas locais, artistas externos e a comunidade, com o objetivo de imaginar o futuro através da arte participativa. Focado em quatro aldeias da Serra do Açor, o Porvir procura, através da expressão artística, construir um space de partilha, investigação, criação e exposição, estimulando o pensamento crítico das comunidades envolvidas.</p>
-        <p>Oficinas participativas são realizadas em três aldeias diferentes, onde artistas e membros da comunidade colaboram em projetos únicos. Cada aldeia acolhe um artist em residência, que desenvolve obras originais inspiradas nas experiências e dinâmicas locais. O projeto culmina em exposições coletivas no espaço público, promovendo discussões abertas e trocas de ideias entre participantes, público e instituições.</p>
+        <p>Porvir é um projeto de intercâmbio multidisciplinar que envolve artistas locais, artistas externos e a comunidade, com o objetivo de imaginar o futuro através da arte participativa. Focado em quatro aldeias da Serra do Açor, o Porvir procura, através da expressão artística, construir um espaço de partilha, investigação, criação e exposição, estimulando o pensamento crítico das comunidades envolvidas.</p>
+        <p>Oficinas participativas são realizadas em três aldeias diferentes, onde artistas e membros da comunidade colaboram em projetos únicos. Cada aldeia acolhe um artista em residência, que desenvolve obras originais inspiradas nas experiências e dinâmicas locais. O projeto culmina em exposições coletivas no espaço público, promovendo discussões abertas e trocas de ideias entre participantes, público e instituições.</p>
       </div>
       <div class="lang-en">
         <p>Porvir is a multidisciplinary exchange project involving local artists, external artists, and the community, aimed at envisioning the future through participatory art. Focused on four villages in the Serra do Açor region, Porvir seeks, through artistic expression, to build a space for sharing, research, creation, and exhibition, while stimulating the critical thinking of the involved communities.</p>
@@ -704,8 +738,11 @@ document.querySelectorAll(".nav-project-btn").forEach(btn =>
 );
 
 window.addEventListener("load", () => {
-  const w = document.getElementById("logoHome").offsetWidth;
-  if (w > 0) hamburger.style.width = w + "px";
+  // Desativado em ecrãs pequenos para não quebrar a responsividade via CSS
+  if (window.innerWidth > 768) {
+    const w = document.getElementById("logoHome").offsetWidth;
+    if (w > 0) hamburger.style.width = w + "px";
+  }
 });
 
 /* ── PHYSICS ── */
@@ -719,9 +756,9 @@ const cx = W / 2, cy = H / 2;
 const floorY = H;
 
 Composite.add(world, [
-  Bodies.rectangle(W/2, floorY+30, W, 60, {isStatic:true}), // Chão
-  Bodies.rectangle(-30, H/2, 60, H, {isStatic:true}),       // Parede Esquerda
-  Bodies.rectangle(W+30, H/2, 60, H, {isStatic:true})        // Parede Direita
+  Bodies.rectangle(W/2, floorY+30, W, 60, {isStatic:true}), 
+  Bodies.rectangle(-30, H/2, 60, H, {isStatic:true}),       
+  Bodies.rectangle(W+30, H/2, 60, H, {isStatic:true})        
 ]);
 
 function clampW(w){ return Math.min(w, Math.floor(W * 0.78)); }
@@ -729,15 +766,20 @@ function clampW(w){ return Math.min(w, Math.floor(W * 0.78)); }
 const mailIconSVG = `<svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.144C21.69 2.28 24 3.434 24 5.457z"/></svg>`;
 const instaIconSVG = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>`;
 
+// Deteção cirúrgica de ecrã muito pequeno para reajustar blocos da física
+const isMicroMobile = window.innerWidth <= 360;
+const bHeight = isMicroMobile ? 42 : 54; 
+const iconSize = isMicroMobile ? 48 : 60;
+
 const items = [
-  { labelPT:"Membrana",               labelEN:"Membrana",               key:"membrana",  x:cx-W*.20, y:cy-H*.55, w:clampW(190), h:54, isIcon:false },
-  { labelPT:"Porvir",                  labelEN:"Porvir",                  key:"porvir",    x:cx+W*.04, y:cy-H*.70, w:clampW(140), h:54, isIcon:false },
-  { labelPT:"Imagens Verdes",         labelEN:"Imagens Verdes",         key:"imagens",   x:cx+W*.20, y:cy-H*.62, w:clampW(240), h:54, isIcon:false },
-  { labelPT:"Casa de Falar Baixinho", labelEN:"Casa de Falar Baixinho", key:"casa",      x:cx-W*.04, y:cy-H*.85, w:clampW(320), h:54, isIcon:false },
-  { labelPT:"Estivemos aqui!",        labelEN:"We were here!",          key:"arquivo",   x:cx-W*.15, y:cy-H*.68, w:clampW(210), h:54, isIcon:false },
-  { labelPT:"Sobre",                  labelEN:"About",                  key:"about",     x:cx+W*.28, y:cy-H*.78, w:clampW(130), h:54, isIcon:false },
-  { labelPT:"Email",                  labelEN:"Email",                  key:"email",     x:cx-W*.10, y:cy-H*.92, w:60,          h:60, isIcon:true, iconSVG:mailIconSVG,  url:"mailto:bardacoletivo@gmail.com" },
-  { labelPT:"Instagram",               labelEN:"Instagram",               key:"instagram", x:cx+W*.10, y:cy-H*.95, w:60,          h:60, isIcon:true, iconSVG:instaIconSVG, url:"https://instagram.com/bardacoletivo" }
+  { labelPT:"Membrana",               labelEN:"Membrana",               key:"membrana",  x:cx-W*.20, y:cy-H*.55, w:clampW(isMicroMobile ? 120 : 190), h:bHeight, isIcon:false },
+  { labelPT:"Porvir",                  labelEN:"Porvir",                  key:"porvir",    x:cx+W*.04, y:cy-H*.70, w:clampW(isMicroMobile ? 90 : 140),  h:bHeight, isIcon:false },
+  { labelPT:"Imagens Verdes",         labelEN:"Imagens Verdes",         key:"imagens",   x:cx+W*.20, y:cy-H*.62, w:clampW(isMicroMobile ? 150 : 240), h:bHeight, isIcon:false },
+  { labelPT:"Casa de Falar Baixinho", labelEN:"Casa de Falar Baixinho", key:"casa",      x:cx-W*.04, y:cy-H*.85, w:clampW(isMicroMobile ? 195 : 320), h:bHeight, isIcon:false },
+  { labelPT:"Estivemos aqui!",        labelEN:"We were here!",          key:"arquivo",   x:cx-W*.15, y:cy-H*.68, w:clampW(isMicroMobile ? 150 : 210), h:bHeight, isIcon:false },
+  { labelPT:"Sobre",                  labelEN:"About",                  key:"about",     x:cx+W*.28, y:cy-H*.78, w:clampW(isMicroMobile ? 90 : 130),  h:bHeight, isIcon:false },
+  { labelPT:"Email",                  labelEN:"Email",                  key:"email",     x:cx-W*.10, y:cy-H*.92, w:iconSize,                          h:iconSize, isIcon:true, iconSVG:mailIconSVG,  url:"mailto:bardacoletivo@gmail.com" },
+  { labelPT:"Instagram",               labelEN:"Instagram",               key:"instagram", x:cx+W*.10, y:cy-H*.95, w:iconSize,                          h:iconSize, isIcon:true, iconSVG:instaIconSVG, url:"https://instagram.com/bardacoletivo" }
 ];
 
 for (let i = items.length - 1; i > 0; i--) {
@@ -758,7 +800,6 @@ items.forEach((item, index) => {
   });
   
   Composite.add(world, item.body);
-  
   item.el = document.createElement("div");
   
   if (item.isIcon) {
