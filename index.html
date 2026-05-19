@@ -314,7 +314,7 @@ html, body{
   <button class="nav-project-btn" data-key="porvir">Porvir</button>
   <button class="nav-project-btn" data-key="imagens">Imagens Verdes</button>
   <button class="nav-project-btn" data-key="casa">A Casa de Falar Baixinho</button>
-  <button class="nav-project-btn" data-key="acoes">Ações</button>
+  <button class="nav-project-btn" data-key="arquivo">Estivemos aqui!</button>
 </nav>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
@@ -524,8 +524,8 @@ const projectData = {
       </div>`,
     images: Array.from({length:12}, (_,i) => `images/casafalarbaixinho/${i+1}.jpg`)
   },
-  acoes:{
-    titlePT:"Ações", titleEN:"Actions",
+  arquivo:{
+    titlePT:"Estivemos aqui!", titleEN:"We were here!",
     metaPT:"Oficinas, palestras e eventos públicos",
     metaEN:"Workshops, lectures and public events",
     description:`
@@ -537,7 +537,7 @@ const projectData = {
         <p>A dedicated space for collective sharing through lectures, experimental workshops, and hands-on events organized by Barda Collective or with our active participation.</p>
         <p>We believe in activating public space and peripheral communities through meeting moments focused on image pedagogy, critical thinking, and direct visual experimentation with the territory's participants.</p>
       </div>`,
-    images: [] /* Adicionar caminhos de imagens de palestras/oficinas se as tiverem, ex: `images/acoes/1.jpg` */
+    images: [] /* Adicionar caminhos de imagens de palestras/oficinas se as tiverem, ex: `images/arquivo/1.jpg` */
   },
   about:{
     titlePT:"BARDA", titleEN:"BARDA", metaPT:"", metaEN:"",
@@ -674,10 +674,10 @@ const instaIconSVG = `<svg width="22" height="22" viewBox="0 0 24 24" fill="whit
 
 const items = [
   { labelPT:"Membrana",               labelEN:"Membrana",               key:"membrana",  x:cx-W*.20, y:cy-H*.55, w:clampW(190), h:54, isIcon:false },
-  { labelPT:"Porvir",                  labelEN:"Porvir",                  key:"porvir",    x:cx+W*.04, y:cy-H*.70, w:clampW(140), h:54, isIcon:false },
+  { labelPT:"Porvir",                 labelEN:"Porvir",                 key:"porvir",    x:cx+W*.04, y:cy-H*.70, w:clampW(140), h:54, isIcon:false },
   { labelPT:"Imagens Verdes",         labelEN:"Imagens Verdes",         key:"imagens",   x:cx+W*.20, y:cy-H*.62, w:clampW(240), h:54, isIcon:false },
   { labelPT:"Casa de Falar Baixinho", labelEN:"Casa de Falar Baixinho", key:"casa",      x:cx-W*.04, y:cy-H*.85, w:clampW(320), h:54, isIcon:false },
-  { labelPT:"Ações",                  labelEN:"Actions",                  key:"acoes",     x:cx-W*.15, y:cy-H*.68, w:clampW(130), h:54, isIcon:false },
+  { labelPT:"Estivemos aqui!",        labelEN:"We were here!",          key:"arquivo",   x:cx-W*.15, y:cy-H*.68, w:clampW(130), h:54, isIcon:false },
   { labelPT:"Sobre",                  labelEN:"About",                  key:"about",     x:cx+W*.28, y:cy-H*.78, w:clampW(130), h:54, isIcon:false },
   { labelPT:"Email",                  labelEN:"Email",                  key:"email",     x:cx-W*.10, y:cy-H*.92, w:60,          h:60, isIcon:true, iconSVG:mailIconSVG,  url:"mailto:bardacoletivo@gmail.com" },
   { labelPT:"Instagram",              labelEN:"Instagram",              key:"instagram", x:cx+W*.10, y:cy-H*.95, w:60,          h:60, isIcon:true, iconSVG:instaIconSVG, url:"https://instagram.com/bardacoletivo" }
