@@ -323,11 +323,11 @@ html, body{
 <script>
 /* ── REFS ── */
 const siteWrap        = document.getElementById("site-wrap");
-const overlay         = document.getElementById("overlay");
-const content         = document.getElementById("content");
+const overlay          = document.getElementById("overlay");
+const content          = document.getElementById("content");
 const closeBtn        = document.getElementById("close");
 const worldEl         = document.getElementById("world");
-const langBtn         = document.getElementById("langToggle");
+const langBtn        = document.getElementById("langToggle");
 const hamburger       = document.getElementById("hamburger");
 const navMenu         = document.getElementById("navMenu");
 const navOverlay      = document.getElementById("navOverlay");
@@ -373,30 +373,10 @@ setupCursorHovers();
 
 /* ── TYPED.JS ── */
 const typedStringsPT = [
-  "Sempre em construção",
-  "Imagens como ferramentas para a transformação coletiva",
-  "A fotografia que habita os territórios esquecidos",
-  "Onde a memória encontra o presente",
-  "Arte participativa como ato de resistência",
-  "Construir comunidade através da imagem",
-  "O olhar que transforma o que toca",
-  "Experimentar o visível para revelar o invisível",
-  "Colaboração como forma de conhecimento",
-  "Práticas artísticas enraizadas no território",
-  "A imagem como linguagem partilhada"
+  "Em construção"
 ];
 const typedStringsEN = [
-  "Always in construction",
-  "Images as tools for collective transformation",
-  "Photography that inhabits forgotten territories",
-  "Where memory meets the present",
-  "Participatory art as an act of resistance",
-  "Building community through the image",
-  "A gaze that transforms everything it touches",
-  "Experimenting with the visible to reveal the invisible",
-  "Collaboration as a form of knowledge",
-  "Artistic practices rooted in territory",
-  "The image as a shared language"
+  "In construction"
 ];
 
 let typedInstance = null;
@@ -459,19 +439,14 @@ const projectData = {
     metaPT:"Exposição coletiva · ACERT, Tondela · 2023–2025",
     metaEN:"Collective exhibition · ACERT, Tondela · 2023–2025",
     description:`
-      <div class="lang-pt">
-        <p>Todas as pessoas vivem vidas diferentes, mas há coisas que fazem parte da experiência coletiva que partilhamos como seres humanos: uma delas é a experiência de navegação no world exterior.</p>
-        <p>De manhã, quando trocamos de roupa para sair de casa, durante quanto tempo sentimos a roupa na nossa pele? Ao sair de casa, quanto tempo demoramos até deixarmos de sentir o desconforto da temperatura? E o ruído dos automóveis na calçada? Quanto desse ruído desaparece quando encontramos alguém conhecido na rua e ficamos a conversar?</p>
-        <p>O corpo e a mente humana estabelecem diversas ferramentas para nos podermos guiar nessa navegação. A exposição, partindo do conceito científico de adaptação sensorial — uma ferramenta que equilibra a sensibilidade dos estímulos que recebemos — é uma passagem que convoca os visitantes a reflectir sobre os sentidos alargando os domínios da percepção.</p>
-        <p>É na ligação entre o público e o privado que surge a concepção da "Membrana", expandindo as formas de ver para refletir sobre as conexões entre as pessoas. Ao atravessar essa membrana entre o público e o privado, a exposição revela interstícios invisíveis que formam a base da construção do ser social e dos territórios em que vivemos.</p>
-        <p>Através de dispositivos que exploram a cor, o movimento e a interface entre os sentidos e a realidade, a exposição apresenta uma abstração e desconstrução do quotidiano, expondo camadas mais profundas da compreensão da realidade.</p>
-      </div>
-      <div class="lang-en">
-        <p>All people live different lives, but there are things that are part of the collective experience we share as human beings: one of them is the experience of navigating the external world.</p>
-        <p>In the morning, when we change clothes to leave home, how long do we feel the clothes on our skin? When leaving home, how long does it take until we stop feeling the discomfort of the temperature? And the noise of cars on the sidewalk? How much of that noise disappears when we encounter someone we know on the street and start talking?</p>
-        <p>The human body and mind establish various tools for us to navigate this journey. The exhibition, starting from the scientific concept of sensory adaptation — a tool that balances the sensitivity of the stimuli we receive — is a passage that calls visitors to reflect on the senses, expanding the domains of perception.</p>
-        <p>It is in the connection between the public and the private that the conception of the "Membrane" arises, expanding the ways of seeing to reflect on the connections between people. By crossing this membrane between the public and the private, the exhibition reveals invisible interstices that form the basis of the construction of social beings and the territories in which we live.</p>
-        <p>Through devices that explore color, movement, and the interface between senses and reality, the exhibition presents an abstraction and deconstruction of the everyday, exposing deeper layers of understanding reality.</p>
+      <div>
+        <p>À medida que as interfaces se tornam o lugar recorrente da experiência quotidiana, impõe-se a urgência de reencontrar formas de relação com o mundo que sejam mais atentas, empáticas e porosas. A ubiquidade da mediação digital, ao condensar os gestos num toque e a presença num fluxo de dados, tende a reduzir a vida a uma versão operativa, esvaziando-a de fricção, de espera, de escuta. Contra esse alheamento, que dissocia o corpo do ambiente, importa reativar os sentidos como vias de conhecimento e de relação. Mais do que tudo, importa pensar o mundo não como um conjunto de dados a processar, mas como lugar tangível.</p>
+        <p>A partir da figura da membrana, as obras em exposição evocam processos de adaptação sensorial que os corpos desenvolvem na sua relação com o mundo. As membranas regulam trocas de substâncias e de energia entre interior e exterior. São permeáveis, não asseguram a distância; antes permitem a infiltração e a contaminação. Por isso mesmo, contrastam com o modo de operar da interface, que tende a preservar a separação entre corpos, funcionando como superfície de visualização e de tradução.</p>
+        <p>Em exposição, multiplicam-se os suportes de impressão de imagem que se desviam da convencional impressão fotográfica, cedendo lugar a materiais que, pela sua própria natureza, sugerem a ideia de membrana. A importância da matéria é tanto maior quanto se omitem, na folha de sala, os títulos das peças, destacando-se o material: vinil dicróico, látex, tecido de poliéster, acetato...entre outras transparências e películas.</p>
+        <p>No seu conjunto, configuram um aparato que convoca os sentidos. Ainda que diante de imagens — muitas delas fotográficas, associadas quase sempre a um referente externo, passado, “real” — não se impõe aqui a ideia de representação, mas antes a de presença. Exemplar, nesse sentido, é a peça em vinil dicróico, que funciona quase como um sumário de intenções porque a sua propriedade de mudar de cor consoante a posição do observador ativa, de forma imediata, a consciência de si no espaço — ver torna-se, aqui, também um modo de se perceber enquanto corpo situado.</p>
+        <p>O corpo, de resto, surge exposto: ora pela simples nudez; ora através da ampliação extrema da objetiva, que revela texturas, secreções, superfícies húmidas — elementos frequentemente remetidos para o domínio da repulsa ou da vergonha. Tornam-se visíveis as membranas sensoriais que regulam o contacto com o mundo: a córnea, a mucosa nasal, a superfície da língua. Tecidos vivos e frágeis. Pontos de contágio, mas também de ancoragem: sinais de uma vida inscrita no espaço cartesiano e longe da simulação à distância.</p>
+        <p>O visitante é convocado a reconhecer, nesses materiais, o corpo enquanto superfície de contacto: lugar de trocas, de exposição e de risco. Contra a leveza do virtual, Membrana sugere um reposicionamento: devolver ao corpo a sua gravidade e reinstalá-lo na espessura do presente, onde a relação com o outro e com o ambiente passa pela partilha de uma vulnerabilidade comum.</p>
+        <p style="margin-top: 24px; font-weight: 500; text-align: right; color: var(--blue);">Vera Carmo</p>
       </div>`,
     images: Array.from({length:11}, (_,i) => `images/membrana/${i+1}.jpg`)
   },
@@ -537,13 +512,17 @@ const projectData = {
         <p>A dedicated space for collective sharing through lectures, experimental workshops, and hands-on events organized by Barda Collective or with our active participation.</p>
         <p>We believe in activating public space and peripheral communities through meeting moments focused on image pedagogy, critical thinking, and direct visual experimentation with the territory's participants.</p>
       </div>`,
-    images: [] /* Adicionar caminhos de imagens de palestras/oficinas se as tiverem, ex: `images/arquivo/1.jpg` */
+    images: []
   },
   about:{
     titlePT:"BARDA", titleEN:"BARDA", metaPT:"", metaEN:"",
     description:`
-      <div class="lang-pt"><p>O Colectivo Barda enfatiza as artes visuais como meio de transformação e capacitação de comunidades periféricas, usando a imagem como ferramenta de intervention e questionamento, promovendo a criação de sinergias entre comunidade e território através de diálogos experimentais. Barda é uma manifestation de vontade colaborativa que tomou a forma de um coletivo.</p></div>
-      <div class="lang-en"><p>Barda Collective emphasizes visual arts as a means of transformation and empowerment for peripheral communities, using imagery as a tool for intervention and questioning, promoting the creation of synergies between community and territory through experimental dialogues. Barda is a manifestation of collaborative will that has taken the form of a collective.</p></div>
+      <div class="lang-pt">
+        <p>Barda é uma manifestação de vontade colaborativa que ganhou a forma de coletivo, enfatiza as artes visuais como meio de transformação e instrumento de empoderamento para comunidades periféricas, utiliza a imagem como ferramenta de intervenção e questionamento, promovendo a criação de sinergias entre comunidade e território através de diálogos experimentais.</p>
+      </div>
+      <div class="lang-en">
+        <p>Barda is a manifestation of collaborative will that has taken the form of a collective, emphasizes visual arts as a means of transformation and empowerment for peripheral communities, uses imagery as a tool for intervention and questioning, promoting the creation of synergies between community and territory through experimental dialogues.</p>
+      </div>
       <div class="bios">
         <div style="margin-bottom:28px;"><h3 class="lang-pt">Quem é o Barda?</h3><h3 class="lang-en">Who is Barda?</h3></div>
         <div class="bio"><p class="bio-name">Ana Luísa Rego</p><p><span class="lang-pt">Nasceu em Cinfães (1974), vive no Porto. Iniciou o seu percurso na fotografia ainda na era analógica. Na sua prática, documenta temas inspirados em questões sociais, culturais e científicas através de uma abordagem interdisciplinar e colaborativa.</span><span class="lang-en">Born in Cinfães (1974), lives in Porto. Started her journey in photography in the analog era. In her practice, she documents themes inspired by social, cultural, and scientific issues through an interdisciplinary and collaborative approach.</span></p></div>
@@ -556,8 +535,8 @@ const projectData = {
         <div class="bio"><p class="bio-name">Juliana Maar</p><p><span class="lang-pt">Nasceu em 1981. Utiliza o corpo e o autorretrato como principais veículos de expressão. Neo-rural na Serra do Açor há seis anos.</span><span class="lang-en">Born in 1981. Uses the body and self-portraiture as her main vehicles of expression. Neo-rural in Serra do Açor for six years.</span></p></div>
         <div class="bio"><p class="bio-name">Marco Duarte</p><p><span class="lang-pt">Fotógrafo documental freelancer que aborda questões sociais nos seus projetos visuais. Co-fundador do coletivo Barda em 2022.</span><span class="lang-en">Freelance documentary photographer addressing social issues in his visual projects. Co-founder of the Barda collective in 2022.</span></p></div>
       </div>`,
-    images:[]
-  }
+    images: Array.from({length:11}, (_,i) => `images/membrana/${i+1}.jpg`)
+  },
 };
 
 /* ── CAROUSEL ── */
@@ -670,17 +649,17 @@ Composite.add(world, [
 function clampW(w){ return Math.min(w, Math.floor(W * 0.78)); }
 
 const mailIconSVG = `<svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.144C21.69 2.28 24 3.434 24 5.457z"/></svg>`;
-const instaIconSVG = `<svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>`;
+const instaIconSVG = `<svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>`;
 
 const items = [
   { labelPT:"Membrana",               labelEN:"Membrana",               key:"membrana",  x:cx-W*.20, y:cy-H*.55, w:clampW(190), h:54, isIcon:false },
-  { labelPT:"Porvir",                 labelEN:"Porvir",                 key:"porvir",    x:cx+W*.04, y:cy-H*.70, w:clampW(140), h:54, isIcon:false },
+  { labelPT:"Porvir",                  labelEN:"Porvir",                  key:"porvir",    x:cx+W*.04, y:cy-H*.70, w:clampW(140), h:54, isIcon:false },
   { labelPT:"Imagens Verdes",         labelEN:"Imagens Verdes",         key:"imagens",   x:cx+W*.20, y:cy-H*.62, w:clampW(240), h:54, isIcon:false },
   { labelPT:"Casa de Falar Baixinho", labelEN:"Casa de Falar Baixinho", key:"casa",      x:cx-W*.04, y:cy-H*.85, w:clampW(320), h:54, isIcon:false },
-  { labelPT:"Estivemos aqui!",        labelEN:"We were here!",          key:"arquivo",   x:cx-W*.15, y:cy-H*.68, w:clampW(130), h:54, isIcon:false },
+  { labelPT:"Estivemos aqui!",        labelEN:"We were here!",          key:"arquivo",   x:cx-W*.15, y:cy-H*.68, w:clampW(210), h:54, isIcon:false },
   { labelPT:"Sobre",                  labelEN:"About",                  key:"about",     x:cx+W*.28, y:cy-H*.78, w:clampW(130), h:54, isIcon:false },
   { labelPT:"Email",                  labelEN:"Email",                  key:"email",     x:cx-W*.10, y:cy-H*.92, w:60,          h:60, isIcon:true, iconSVG:mailIconSVG,  url:"mailto:bardacoletivo@gmail.com" },
-  { labelPT:"Instagram",              labelEN:"Instagram",              key:"instagram", x:cx+W*.10, y:cy-H*.95, w:60,          h:60, isIcon:true, iconSVG:instaIconSVG, url:"https://instagram.com/bardacoletivo" }
+  { labelPT:"Instagram",               labelEN:"Instagram",               key:"instagram", x:cx+W*.10, y:cy-H*.95, w:60,          h:60, isIcon:true, iconSVG:instaIconSVG, url:"https://instagram.com/bardacoletivo" }
 ];
 
 for (let i = items.length - 1; i > 0; i--) {
