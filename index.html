@@ -80,7 +80,7 @@ html, body{
 
 /* ── STATEMENT ── */
 .statement{
-  position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+  position:fixed; top:40%; left:50%; transform:translate(-50%,-50%);
   width:min(640px,82vw); text-align:center;
   font-family:'Space Grotesk',sans-serif; font-size:22px; line-height:1.35;
   z-index:1; pointer-events:none;
@@ -314,6 +314,7 @@ html, body{
   <button class="nav-project-btn" data-key="porvir">Porvir</button>
   <button class="nav-project-btn" data-key="imagens">Imagens Verdes</button>
   <button class="nav-project-btn" data-key="casa">A Casa de Falar Baixinho</button>
+  <button class="nav-project-btn" data-key="acoes">Ações</button>
 </nav>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
@@ -459,7 +460,7 @@ const projectData = {
     metaEN:"Collective exhibition · ACERT, Tondela · 2023–2025",
     description:`
       <div class="lang-pt">
-        <p>Todas as pessoas vivem vidas diferentes, mas há coisas que fazem parte da experiência coletiva que partilhamos como seres humanos: uma delas é a experiência de navegação no mundo exterior.</p>
+        <p>Todas as pessoas vivem vidas diferentes, mas há coisas que fazem parte da experiência coletiva que partilhamos como seres humanos: uma delas é a experiência de navegação no world exterior.</p>
         <p>De manhã, quando trocamos de roupa para sair de casa, durante quanto tempo sentimos a roupa na nossa pele? Ao sair de casa, quanto tempo demoramos até deixarmos de sentir o desconforto da temperatura? E o ruído dos automóveis na calçada? Quanto desse ruído desaparece quando encontramos alguém conhecido na rua e ficamos a conversar?</p>
         <p>O corpo e a mente humana estabelecem diversas ferramentas para nos podermos guiar nessa navegação. A exposição, partindo do conceito científico de adaptação sensorial — uma ferramenta que equilibra a sensibilidade dos estímulos que recebemos — é uma passagem que convoca os visitantes a reflectir sobre os sentidos alargando os domínios da percepção.</p>
         <p>É na ligação entre o público e o privado que surge a concepção da "Membrana", expandindo as formas de ver para refletir sobre as conexões entre as pessoas. Ao atravessar essa membrana entre o público e o privado, a exposição revela interstícios invisíveis que formam a base da construção do ser social e dos territórios em que vivemos.</p>
@@ -522,6 +523,21 @@ const projectData = {
         <p>Drawing from real events during the Opening Week of 2018, the collective explores encounters, exchanges and gestures inscribed in the memory of the community gathered around the festival. Each image in A casa de falar baixinho evokes specific episodes, calling forth affects, practices and moments that, although absent from formal documentation, left their mark on bodies and became embedded in the memory of each edition.</p>
       </div>`,
     images: Array.from({length:12}, (_,i) => `images/casafalarbaixinho/${i+1}.jpg`)
+  },
+  acoes:{
+    titlePT:"Ações", titleEN:"Actions",
+    metaPT:"Oficinas, palestras e eventos públicos",
+    metaEN:"Workshops, lectures and public events",
+    description:`
+      <div class="lang-pt">
+        <p>Espaço dedicado à partilha coletiva através de palestras, oficinas experimentais e eventos práticos dinamizados pelo Colectivo Barda ou com a nossa participação ativa.</p>
+        <p>Acreditamos na ativação do espaço público e das comunidades periféricas através de momentos de encontro focados na pedagogia da imagem, pensamento crítico e experimentação visual direta com os participantes do território.</p>
+      </div>
+      <div class="lang-en">
+        <p>A dedicated space for collective sharing through lectures, experimental workshops, and hands-on events organized by Barda Collective or with our active participation.</p>
+        <p>We believe in activating public space and peripheral communities through meeting moments focused on image pedagogy, critical thinking, and direct visual experimentation with the territory's participants.</p>
+      </div>`,
+    images: [] /* Adicionar caminhos de imagens de palestras/oficinas se as tiverem, ex: `images/acoes/1.jpg` */
   },
   about:{
     titlePT:"BARDA", titleEN:"BARDA", metaPT:"", metaEN:"",
@@ -661,6 +677,7 @@ const items = [
   { labelPT:"Porvir",                  labelEN:"Porvir",                  key:"porvir",    x:cx+W*.04, y:cy-H*.70, w:clampW(140), h:54, isIcon:false },
   { labelPT:"Imagens Verdes",         labelEN:"Imagens Verdes",         key:"imagens",   x:cx+W*.20, y:cy-H*.62, w:clampW(240), h:54, isIcon:false },
   { labelPT:"Casa de Falar Baixinho", labelEN:"Casa de Falar Baixinho", key:"casa",      x:cx-W*.04, y:cy-H*.85, w:clampW(320), h:54, isIcon:false },
+  { labelPT:"Ações",                  labelEN:"Actions",                  key:"acoes",     x:cx-W*.15, y:cy-H*.68, w:clampW(130), h:54, isIcon:false },
   { labelPT:"Sobre",                  labelEN:"About",                  key:"about",     x:cx+W*.28, y:cy-H*.78, w:clampW(130), h:54, isIcon:false },
   { labelPT:"Email",                  labelEN:"Email",                  key:"email",     x:cx-W*.10, y:cy-H*.92, w:60,          h:60, isIcon:true, iconSVG:mailIconSVG,  url:"mailto:bardacoletivo@gmail.com" },
   { labelPT:"Instagram",              labelEN:"Instagram",              key:"instagram", x:cx+W*.10, y:cy-H*.95, w:60,          h:60, isIcon:true, iconSVG:instaIconSVG, url:"https://instagram.com/bardacoletivo" }
@@ -692,7 +709,6 @@ items.forEach((item, index) => {
     item.el.innerHTML = item.iconSVG;
     item.el.title = item.labelPT;
   } else {
-    // Adiciona a classe especial invertida se for o botão 'Sobre/About'
     if(item.key === "about") {
       item.el.className = "physics-button featured-about";
     } else {
