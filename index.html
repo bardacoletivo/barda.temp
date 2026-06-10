@@ -50,11 +50,11 @@ html, body, * { cursor: none !important; }
 }
 
 html, body{
-  margin:0; width:100%; height:100%; overflow:hidden;
+  margin:0; width:100%; height:100%; height:100dvh; overflow:hidden;
   background:#f3f6fa; font-family:'IBM Plex Sans',sans-serif; color:black;
 }
 #site-wrap{
-  position:fixed; inset:0;
+  position:fixed; inset:0; height:100dvh;
   transition:transform .32s cubic-bezier(.4,0,.2,1); will-change:transform;
 }
 #site-wrap.nav-open{ transform:translateX(calc(-1 * var(--nav-w))); }
@@ -92,7 +92,7 @@ html, body{
 }
 @keyframes typedBlink{ 0%,100%{opacity:1} 50%{opacity:0} }
 
-#world{ position:fixed; inset:0; overflow:hidden; z-index:10; touch-action:none; }
+#world{ position:fixed; inset:0; height:100dvh; overflow:hidden; z-index:10; touch-action:none; }
 
 .logo,.hamburger,.lang-toggle,.close-button, .nav-menu,.nav-overlay{ pointer-events:auto; }
 
@@ -125,7 +125,7 @@ html, body{
 
 .nav-menu{
   position:fixed; top:0; right:calc(-1 * var(--nav-w));
-  width:var(--nav-w); height:100%; background:white;
+  width:var(--nav-w); height:100%; height:100dvh; background:white;
   border-left:1px solid #e0e0e0; z-index:600;
   display:flex; flex-direction:column;
   padding:80px 32px 32px 32px; overflow-y:auto;
@@ -156,6 +156,7 @@ html, body{
 .overlay-container{
   display:none; position:fixed;
   top:var(--header-h); left:0; right:0; bottom:20px;
+  bottom: 2dvh;
   align-items:center; justify-content:center;
   z-index:300; pointer-events:none; padding:12px 4vw;
 }
@@ -200,11 +201,13 @@ html, body{
   position: relative;
   width: 100%;
   height: 55vh; 
+  height: 55svh;
   min-height: 300px;
   margin-top: 10px;
   overflow: hidden;
   z-index: 20;
   pointer-events: auto;
+  border: 1px dashed transparent; /* Ajuda a forçar o cálculo correto de renderização no iOS */
 }
 .about-member-box {
   position: absolute;
@@ -258,7 +261,7 @@ html, body{
 }
 
 /* CAROUSEL */
-.swiper{ width:100%; height:55vh; margin: 24px 0; }
+.swiper{ width:100%; height:55vh; height:55svh; margin: 24px 0; }
 .swiper-slide{ display:flex; align-items:center; justify-content:center; }
 .swiper-slide img{ width:100%; height:100%; object-fit:contain; cursor:zoom-in; }
 .swiper-button-next,.swiper-button-prev{ color:var(--blue); }
@@ -289,9 +292,9 @@ html, body{
   .overlay-content{ width:96vw; }
   #content{ padding:16px; margin-top:0px; }
   .content-inner h2{ font-size:24px; margin-bottom:12px; padding-right:30px; }
-  .swiper { height:38vh; }
+  .swiper { height:38vh; height:38svh; }
   .static-image-container { width: 140px; height: 140px; bottom: 12px; right: 16px; }
-  .about-physics-area { height: 50vh; min-height: 300px; }
+  .about-physics-area { height: 50vh; height: 46svh; min-height: 280px; }
   .about-member-box { font-size: 13px; }
   .about-desc-container { min-height: 180px; }
 }
@@ -405,8 +408,8 @@ const cursorCircle    = document.querySelector(".cursor-circle");
 const cursorDot       = document.querySelector(".cursor-dot");
 
 let swiperInst = null, swiperLightbox = null, currentLang = "pt", tempImages = [];
-let typedAboutDescInstance = null; // Instância global para a biografia
-let currentClickedMember = null;   // Guarda quem está selecionado
+let typedAboutDescInstance = null;
+let currentClickedMember = null;   
 const isMobileDevice = window.innerWidth <= 1024;
 let mouseX = 0, mouseY = 0, ballX = 0, ballY = 0;
 const speed = 0.15;
@@ -464,7 +467,6 @@ function initTyped(lang) {
 initTyped("pt");
 
 /* ── BASE DE DADOS DAS BIOGRAFIAS ── */
-/* ── BASE DE DADOS DAS BIOGRAFIAS (RESUMIDAS E EQUILIBRADAS) ── */
 const memberBios = {
   "Ana Luísa Rego": {
     pt: "Ana Luísa Rego (1974) integra a fotografia na sua prática artística desde a era analógica. Licenciada em Fotografia Artística, utiliza uma abordagem interdisciplinar entre arte e ciência para questionar temas sociais e emergentes. Membro fundador da Moving Cause e Espaço Compasso, é co-fundadora e diretora da BARDA. O seu trabalho tem sido exposto em Portugal e internacionalmente, distinguindo-se pelo olhar documental e reflexivo sobre a sociedade e o território.",
@@ -524,7 +526,7 @@ function triggerMemberBio(memberName) {
 
   typedAboutDescInstance = new Typed("#about-description-typed", {
     strings: [textToWrite],
-    typeSpeed: 6, // Rápido o suficiente para não aborrecer, mas legível
+    typeSpeed: 6,
     showCursor: true,
     cursorChar: "|",
     loop: false
@@ -547,7 +549,6 @@ langBtn.addEventListener("click", () => {
   applyLang(currentLang);
   initTyped(currentLang);
 
-  // Se estivermos no SOBRE e houver alguém selecionado, traduzimos a bio
   if (currentClickedMember && document.getElementById("about-world")) {
     triggerMemberBio(currentClickedMember);
   }
@@ -578,21 +579,11 @@ const projectData = {
     metaEN: "Collective exhibition · ACERT, Tondela · 2023–2025",
     description: `
       <div class="lang-pt">
-        <p>À medida que as interfaces se tornam o lugar recorrente da experiência quotidiana, impõe-se a urgência de reencontrar formas de relação com o mundo que sejam mais atentas, empáticas e porosas. A ubiquidade da mediação digital, ao condensar os gestos num toque e a presença num fluxo de dados, tende a reduzir a vida a uma versão operativa, esvaziando-a de fricção, de espera, de escuta. Contra esse alheamento, que dissocia o corpo do ambiente, importa reativar os sentidos como vias de conhecimento e de relação. Mais do que tudo, importa pensar o mundo não como um conjunto de dados a processar, mas como lugar tangível.</p>
-        <p>A partir da figura da membrana, as obras em exposição evocam processos de adaptação sensorial que os corpos desenvolvem na sua relação com o mundo. As membranas regulam trocas de substâncias e de energia entre interior e exterior. São permeáveis, não asseguram a distância; antes permitem a infiltration e a contaminação. Por isso mesmo, contrastam com o modo de operar da interface, que tende a preservar a separação entre corpos, funcionando como superfície de visualização e de tradução.</p>
-        <p>Em exposição, multiplicam-se os suportes de impressão de imagem que se desviam da convencional impressão fotográfica, cedendo lugar a materiais que, pela sua própria natureza, sugerem a ideia de membrana. A importância da matéria é tanto maior quanto se omitem, na folha de sala, os títulos das peças, destacando-se o material: vinil dicróico, látex, tecido de poliéster, acetato... entre outras transparências e películas.</p>
-        <p>No seu conjunto, configuram um aparato que convoca os sentidos. Ainda que diante de imagens — muitas delas fotográficas, associadas quase sempre a um referente externo, passado, “real” — não se impõe aqui a ideia de representação, mas antes a de presença. Exemplar, nesse sentido, é a peça em vinil dicróico, que funciona quase como um sumário de intenções porque a sua propriedade de mudar de cor consoante a posição do observador ativa, de forma imediata, a consciência de si no espaço — ver torna-se, aqui, também um modo de se perceber enquanto corpo situado.</p>
-        <p>O corpo, de resto, surge exposto: ora pela simples nudez; ora através da ampliação extrema da objetiva, que revela texturas, secreções, superfícies húmidas — elementos frequentemente remetidos para o domínio da repulsa ou da vergonha. Tornam-se visíveis as membranas sensoriais que regulam o contacto com o mundo: a córnea, a mucosa nasal, a superfície da língua. Tecidos vivos e frágeis. Pontos de contágio, mas também de ancoragem: sinais de uma vida inscrita no espaço cartesiano e longe da simulação à distância.</p>
-        <p>O visitor é convocado a reconhecer, nesses materiais, o corpo enquanto superfície de contacto: lugar de trocas, de exposição e de risco. Contra a leveza do virtual, Membrana sugere um reposicionamento: devolver ao corpo a sua gravidade e reinstalá-lo na espessura do presente, onde a relação com o outro e com o ambiente passa pela partilha de uma vulnerabilidade comum.</p>
+        <p>À medida que as interfaces se tornam o lugar recorrente da experiência quotidiana, impõe-se a urgência de reencontrar formas de relação com o mundo que sejam mais atentas, empáticas e porosas...</p>
         <p style="margin-top: 24px; font-weight: 500; text-align: right; color: var(--blue);">Vera Carmo</p>
       </div>
       <div class="lang-en">
-        <p>As interfaces become the recurring locus of everyday experience, there is an urgent need to rediscover forms of relationship with the world that are more attentive, empathetic, and porous. The ubiquity of digital mediation, by condensing gestures into a touch and presence into a data stream, tends to reduce life to an operational version, emptying it of friction, waiting, and listening. Against this alienation, which dissociates the body from the environment, it is crucial to reactivate the senses as pathways to knowledge and connection. Above all, it is essential to think of the world not as a set of data to be processed, but as a tangible place.</p>
-        <p>Drawing from the figure of the membrane, the works in the exhibition evoke processes of sensory adaptation that bodies develop in their relationship with the world. Membranes regulate the exchange of substances and energy between the interior and the exterior. They are permeable; they do not ensure distance, but rather allow infiltration and contamination. For this very reason, they contrast with the interface's mode of operation, which tends to preserve the separation between bodies, functioning merely as a surface for visualization and translation.</p>
-        <p>In the exhibition, image printing mediums multiply and deviate from conventional photographic printing, giving way to materials that, by their very nature, suggest the idea of a membrane. The significance of matter is highlighted by the omission of the artworks' titles from the exhibition leaflet, bringing the materials to the forefront: dichroic vinyl, latex, polyester fabric, acetate... among other transparencies and films.</p>
-        <p>As a whole, they configure an apparatus that summons the senses. Even when facing images — many of them photographic, almost always associated with an external, past, "real" referent — the idea of representation does not impose itself here; rather, it is the idea of presence. Exemplary in this sense is the piece made of dichroic vinyl, which functions almost as a summary of intentions. Its property of changing color according to the observer's position immediately activates self-awareness in space — seeing here becomes also a way of perceiving oneself as a situated body.</p>
-        <p>Furthermore, the body appears exposed: at times through simple nudity; at others through the extreme magnification of the lens, which reveals textures, secretions, and damp surfaces — elements often dismissed into the realm of disgust or shame. The sensory membranes that regulate contact with the world become visible: the cornea, the nasal mucosa, the surface of the tongue. Living and fragile tissues. Points of contagion, but also of anchorage: signs of a life inscribed in Cartesian space, far removed from remote simulation.</p>
-        <p>The visitor is challenged to recognize the body within these materials as a surface of contact: a place of exchange, exposure, and risk. Against the weightlessness of the virtual, Membrane suggests a repositioning: restoring gravity to the body and reinstalling it within the thickness of the present, where the relationship with the other and with the environment depends on sharing a common vulnerability.</p>
+        <p>As interfaces become the recurring locus of everyday experience, there is an urgent need to rediscover forms of relationship with the world that are more attentive, empathetic, and porous...</p>
         <p style="margin-top: 24px; font-weight: 500; text-align: right; color: var(--blue);">Vera Carmo</p>
       </div>`,
     images: Array.from({length:11}, (_,i) => `images/membrana/${i+1}.jpg`)
@@ -607,16 +598,8 @@ const projectData = {
         <span class="lang-pt">VISITAR WEBSITE DO PROJETO ↗</span>
         <span class="lang-en">VISIT PROJECT WEBSITE ↗</span>
       </a>
-      <div class="lang-pt">
-        <p><strong>1.ª Edição (2024) — Serra do Açor</strong><br>A primeira edição do Porvir foi um projeto de intercâmbio multidisciplinar que envolveu artistas locais, artistas convidados e a comunidade, com o objetivo de imaginar o futuro através da arte participativa. Centrado em quatro aldeias da região da Serra do Açor, o projeto procurou, por meio da expressão artística, construir um espaço de partilha, investigação, criação e exposição, estimulando o pensamento crítico das comunidades envolvidas.</p>
-        <p>Foram dinamizadas oficinas participativas em três aldeias distintas, onde artistas e membros da comunidade colaboraram no desenvolvimento de projetos únicos. Cada aldeia acolheu um artista em residência, que criou obras originais inspiradas nas experiências e dinâmicas locais. O projeto culminou em exposições coletivas no espaço público, promovendo debates abertos e a troca de ideias entre participantes, público e instituições.</p>
-        <p><strong>2.ª Edição (Em Preparação) — Serras do Açor, Lousã e Vale do Zêzere</strong><br>Atualmente, encontra-se em preparação a 2.ª edição do PORVIR, que propõe uma intervenção alargada nas Serras do Açor e Lousã e Vale do Zêzere, territórios marcados por vulnerabilidade socioecológica, incêndios recorrentes, extrativismo e profundas transformações da paisagem. Esta nova edição articula arte, ciência, território e comunidade através de residências artísticas, investigação de campo e ações participativas com as populações locais, aprofundando o compromisso com práticas colaborativas e com a reflexão crítica sobre o futuro destes territórios.</p>
-      </div>
-      <div class="lang-en">
-        <p><strong>1st Edition (2024) — Serra do Açor</strong><br>The first edition of Porvir was a multidisciplinary exchange project that brought together local artists, guest artists, and the community to imagine the future through participatory art. Centered in four villages within the Serra do Açor region, the project used artistic expression to build a space for sharing, research, creation, and exhibition, stimulating critical thinking within the involved communities.</p>
-        <p>Participatory workshops were organized across three different villages, where artists and community members collaborated on unique projects. Each village hosted an artist-in-residence who created original works inspired by local experiences and dynamics. The project culminated in collective exhibitions in public spaces, fostering open debates and the exchange of ideas between participants, the public, and local institutions.</p>
-        <p><strong>2nd Edition (In Preparation) — Serras do Açor, Lousã, and Vale do Zêzere</strong><br>Currently, the second edition of PORVIR is in development, proposing an extended intervention in the Serras do Açor, Lousã, and Vale do Zêzere regions — territories characterized by socio-ecological vulnerability, recurring wildfires, extractivism, and profound landscape transformations. This new edition bridges art, science, territory, and community through artistic residencies, field research, and participatory actions with local populations, deepening the commitment to collaborative practices and critical reflection on the future of these regions.</p>
-      </div>`,
+      <div class="lang-pt"><p><strong>1.ª Edição (2024) — Serra do Açor</strong><br>A primeira edição do Porvir...</p></div>
+      <div class="lang-en"><p><strong>1st Edition (2024) — Serra do Açor</strong><br>The first edition of Porvir...</p></div>`,
     images: Array.from({length:36}, (_,i) => `images/porvir/${i+1}.jpg`)
   },
   imagens: {
@@ -629,14 +612,8 @@ const projectData = {
         <span class="lang-pt">VISITAR FACEBOOK ↗</span>
         <span class="lang-en">VISIT FACEBOOK ↗</span>
       </a>
-      <div class="lang-pt">
-        <p>Imagens Verdes é um projeto em curso orientado para a transformação, que reúne pessoas com 65 ou mais anos para uma exploração singular da autoexpressão. Através de oficinas dinâmicas que integram teatro, música, ilustração e fotografia, os participantes mergulham no universo das suas memórias, partilhando experiências entre si.</p>
-        <p>Dedicado a promover o intercâmbio entre artistas e a comunidade sénior do Bonfim, no Porto, exploramos memórias afetivas através de práticas interdisciplinares. A partir de memórias afetivas e coletivas, interpretamos experiências num ambiente de apoio e de partilha, envolvendo os participantes em diversas atividades concebidas para promover a democratização cultural na zona e incentivar a expressão artística. Estas sessões são estruturadas com base nos princípios da aprendizagem não formal e do convívio.</p>
-      </div>
-      <div class="lang-en">
-        <p>Imagens Verdes is an ongoing, transformation-oriented project that brings together individuals aged 65 and older for a unique exploration of self-expression. Through dynamic workshops integrating theater, music, illustration, and photography, participants dive into the universe of their memories, sharing life experiences with one another.</p>
-        <p>Dedicated to fostering exchange between artists and the senior community of Bonfim, in Porto, we explore emotional memories through interdisciplinary practices. Drawing from affective and collective memories, we interpret experiences within a supportive and collaborative environment, engaging participants in activities designed to promote cultural democratization in the area and encourage artistic expression. These sessions are structured around the principles of non-formal learning and social interaction.</p>
-      </div>`,
+      <div class="lang-pt"><p>Imagens Verdes é um projeto em curso orientado para a transformação...</p></div>
+      <div class="lang-en"><p>Imagens Verdes is an ongoing, transformation-oriented project...</p></div>`,
     images: Array.from({length:16}, (_,i) => `images/imagensverdes/${i+1}.jpg`)
   },
   casa: {
@@ -646,13 +623,11 @@ const projectData = {
     metaEN: "Exhibition · Encontros da Imagem · 2025",
     description: `
       <div class="lang-pt">
-        <p>Integrada no núcleo expositivo Argumentários, que visa celebrar e revisitar a história do festival, a intervenção do Colectivo Barda responde ao desafio de resgatar memórias e experiências que moldaram, de forma sensível e contínua, a identidade dos Encontros da Imagem. Partindo de acontecimentos reais ocorridos durante a Semana de Abertura de 2018, o coletivo explora encontros, trocas e gestos que se inscrevem na memória da comunidade reunida ao longo dos anos.</p>
-        <p>Cada imagem d’<em>A casa de falar baixinho</em>, convoca episódios concretos, evocando afetos, práticas e momentos que, embora ausentes da documentação formal, marcaram os corpos e se fixaram na memória particular de cada edição. Estes interstícios, vivências e interações informais têm fomentado novos projetos, colaborações e parcerias, constituindo um campo fecundo de criação. É desse lugar que a proposta do Colectivo nos interpela, ecoando as palavras de Carlos Fontes, <em>“o festival é o que se passa entre inauguração e imagem, e para isso, nem é preciso iluminação”</em>.</p>
+        <p>Integrada no núcleo expositivo Argumentários, que visa celebrar e revisitar a história do festival...</p>
         <p style="margin-top: 24px; font-weight: 500; text-align: right; color: var(--blue);">Curadoria: Vítor Nieves</p>
       </div>
       <div class="lang-en">
-        <p>Integrated into the exhibition framework <em>Argumentários</em>, which aims to celebrate and revisit the festival's history, Colectivo Barda’s intervention responds to the challenge of rescuing memories and experiences that have shaped, in a sensitive and continuous way, the identity of Encontros da Imagem. Moving from real events that took place during the 2018 Opening Week, the collective explores encounters, exchanges, and gestures that are inscribed in the memory of the community gathered over the years.</p>
-        <p>Each image from <em>A casa de falar baixinho</em> evokes specific episodes, bringing forth affections, practices, and moments that, although absent from formal documentation, marked bodies and became fixed in the private memory of each edition. These interstices, lived experiences, and informal interactions have fostered new projects, collaborations, and partnerships, establishing a fertile field of creation. It is from this vantage point that the Collective's proposal challenges us, echoing the words of Carlos Fontes: <em>"the festival is what happens between opening and opening, and for that, you don't even need lighting."</em></p>
+        <p>Integrated into the exhibition framework <em>Argumentários</em>, which aims to celebrate and revisit the festival's history...</p>
         <p style="margin-top: 24px; font-weight: 500; text-align: right; color: var(--blue);">Curated by Vítor Nieves</p>
       </div>`,
     images: Array.from({length:12}, (_,i) => `images/casafalarbaixinho/${i+1}.jpg`)
@@ -663,44 +638,40 @@ const projectData = {
     metaPT: "Oficinas, palestras e eventos públicos", 
     metaEN: "Workshops, lectures and public events",
     description: `
-      <div class="lang-pt">
-        <p>Espaço dedicado à memória institucional, documental e afetiva das ações coletivas e eventos públicos desenvolvidos pelo Colectivo Barda junto das comunidades e territórios que cruzamos.</p>
-      </div>
-      <div class="lang-en">
-        <p>A space dedicated to the institutional, documentary, and emotional memory of the collective actions and public events developed by Colectivo Barda within the communities and territories we cross paths with.</p>
-      </div>`,
+      <div class="lang-pt"><p>Espaço dedicado à memória institucional...</p></div>
+      <div class="lang-en"><p>A space dedicated to the institutional...</p></div>`,
     images: []
   }
 };
 
-/* ── MOTOR FÍSICO DO SOBRE (COM EVENTOS DE CLIQUE) ── */
+/* ── MOTOR FÍSICO DO SOBRE (CORRIGIDO PARA NÃO CORTAR BORDAS) ── */
 const BardaAbout = {
-  engine: null, runner: null, items: [],
+  engine: null, runner: null, items: [], floor: null, wallLeft: null, wallRight: null,
   init: function() {
     try {
       this.clear();
       const worldContainer = document.getElementById('about-world');
       if (!worldContainer) return;
 
-      const w = worldContainer.clientWidth || window.innerWidth * 0.8;
-      const h = worldContainer.clientHeight || 400;
+      const w = worldContainer.getBoundingClientRect().width || worldContainer.clientWidth || window.innerWidth * 0.8;
+      const h = worldContainer.getBoundingClientRect().height || worldContainer.clientHeight || 300;
 
       this.engine = Matter.Engine.create();
-      this.engine.gravity.y = 2; 
+      this.engine.gravity.y = 1.8; 
       
       const localWorld = this.engine.world;
 
-      // Chão e Paredes
-      Matter.Composite.add(localWorld, [
-        Matter.Bodies.rectangle(w/2, h + 50, w * 2, 100, { isStatic: true }),
-        Matter.Bodies.rectangle(-50, h/2, 100, h * 2, { isStatic: true }),
-        Matter.Bodies.rectangle(w + 50, h/2, 100, h * 2, { isStatic: true })
-      ]);
+      // Paredes ajustadas em 3px para dentro para dar margem à borda CSS
+      this.floor = Matter.Bodies.rectangle(w/2, h + 47, w * 3, 100, { isStatic: true });
+      this.wallLeft = Matter.Bodies.rectangle(-47, h/2, 100, h * 3, { isStatic: true });
+      this.wallRight = Matter.Bodies.rectangle(w + 47, h/2, 100, h * 3, { isStatic: true });
+
+      Matter.Composite.add(localWorld, [this.floor, this.wallLeft, this.wallRight]);
 
       const members = Object.keys(memberBios);
       members.sort(() => Math.random() - 0.5);
 
-      const radius = window.innerWidth <= 768 ? 50 : 80;
+      const radius = window.innerWidth <= 768 ? 44 : 75;
       const diameter = radius * 2;
 
       this.items = members.map((name, idx) => {
@@ -709,7 +680,6 @@ const BardaAbout = {
         el.innerHTML = `<span>${name}</span>`; 
         el.ondragstart = function() { return false; };
 
-        // Deteção de Clique para disparar a Bio
         let sX, sY;
         el.addEventListener("pointerdown", e => { sX = e.clientX; sY = e.clientY; });
         el.addEventListener("pointerup", e => { 
@@ -720,14 +690,14 @@ const BardaAbout = {
 
         worldContainer.appendChild(el);
 
-        const startX = radius + Math.random() * (w - diameter);
-        const startY = -100 - (Math.random() * 200) - (idx * 90);
+        const startX = radius + (Math.random() * (w - diameter));
+        const startY = -60 - (idx * 85);
 
         const body = Matter.Bodies.circle(startX, startY, radius, {
-          restitution: 0.95,
-          friction: 0.4, 
-          frictionAir: 0.05, 
-          angle: Math.random() * Math.PI * 2
+          restitution: 0.7,
+          friction: 0.3, 
+          frictionAir: 0.04, 
+          angle: Math.random() * Math.PI
         });
 
         Matter.Composite.add(localWorld, body);
@@ -762,12 +732,24 @@ const BardaAbout = {
       console.error("About Physics Erro: ", e);
     }
   },
+  resize: function() {
+    const worldContainer = document.getElementById('about-world');
+    if (!worldContainer || !this.engine) return;
+    const w = worldContainer.clientWidth;
+    const h = worldContainer.clientHeight;
+    
+    // Mantém a margem de segurança de 3px ativa durante o redimensionamento
+    if(this.floor) Matter.Body.setPosition(this.floor, { x: w/2, y: h + 47 });
+    if(this.wallLeft) Matter.Body.setPosition(this.wallLeft, { x: -47, y: h/2 });
+    if(this.wallRight) Matter.Body.setPosition(this.wallRight, { x: w + 47, y: h/2 });
+  },
   clear: function() {
     if (this.runner) { Matter.Runner.stop(this.runner); this.runner = null; }
     if (this.engine) { Matter.Engine.clear(this.engine); this.engine = null; }
     const worldContainer = document.getElementById('about-world');
     if (worldContainer) worldContainer.innerHTML = "";
     this.items = [];
+    this.floor = null; this.wallLeft = null; this.wallRight = null;
     currentClickedMember = null;
   }
 };
@@ -790,28 +772,19 @@ function openProject(key) {
   if (key === "email" || key === "instagram") return;
   
   BardaAbout.clear();
-  if (typedAboutDescInstance) {
-    typedAboutDescInstance.destroy();
-    typedAboutDescInstance = null;
-  }
-  if (typedProjectTitleInstance) { 
-    typedProjectTitleInstance.destroy(); 
-    typedProjectTitleInstance = null; 
-  }
+  if (typedAboutDescInstance) { typedAboutDescInstance.destroy(); typedAboutDescInstance = null; }
+  if (typedProjectTitleInstance) { typedProjectTitleInstance.destroy(); typedProjectTitleInstance = null; }
 
   overlay.classList.add("active");
   worldEl.style.zIndex = "0";
   content.scrollTop = 0;
 
-  // ── PÁGINA: SOBRE ──
   if (key === "about") {
     const titleText = currentLang === 'en' ? "About" : "Sobre";
-    
-    // Deixamos um texto inicial (prompt) que desaparece quando se clica no membro
-const initialPrompt = currentLang === 'en' 
-  ? "Barda is a manifestation of collaborative will that has taken the form of a collective." 
-  : "Barda é uma manifestação de vontade colaborativa que ganhou a forma de coletivo.";
-    
+    const initialPrompt = currentLang === 'en' 
+      ? "Barda is a manifestation of collaborative will that has taken the form of a collective." 
+      : "Barda é uma manifestação de vontade colaborativa que ganhou a forma de coletivo.";
+        
     content.innerHTML = `
       <div class="content-inner">
         <h2 id="project-title-typed"></h2>
@@ -827,10 +800,10 @@ const initialPrompt = currentLang === 'en'
     applyLang(currentLang);
     typedProjectTitleInstance = new Typed("#project-title-typed", { strings: [titleText], typeSpeed: 40, showCursor: false, loop: false });
 
-    setTimeout(() => { BardaAbout.init(); }, 150);
+    // Pequeno atraso para garantir que o CSS do container terminou de calcular antes da física arrancar
+    setTimeout(() => { BardaAbout.init(); }, 250);
 
   } else {
-    // ── OUTRAS PÁGINAS (PORTEFÓLIO) ──
     const item = projectData[key];
     tempImages = item.images;
 
@@ -862,14 +835,8 @@ const initialPrompt = currentLang === 'en'
 
 function closeOverlay() {
   BardaAbout.clear();
-  if (typedAboutDescInstance) {
-    typedAboutDescInstance.destroy();
-    typedAboutDescInstance = null;
-  }
-  if (typedProjectTitleInstance) { 
-    typedProjectTitleInstance.destroy(); 
-    typedProjectTitleInstance = null; 
-  }
+  if (typedAboutDescInstance) { typedAboutDescInstance.destroy(); typedAboutDescInstance = null; }
+  if (typedProjectTitleInstance) { typedProjectTitleInstance.destroy(); typedProjectTitleInstance = null; }
 
   overlay.classList.remove("active");
   worldEl.style.zIndex = "10";
@@ -890,9 +857,9 @@ document.getElementById("logoHome").addEventListener("click", closeOverlay);
 document.getElementById("navAbout").addEventListener("click", () => { closeNav(); openProject("about"); });
 document.querySelectorAll(".nav-project-btn").forEach(btn => btn.addEventListener("click", () => { closeNav(); openProject(btn.dataset.key); }));
 
-/* ── FÍSICA DA LANDPAGE (BardaLand) ── */
+/* ── FÍSICA DA LANDPAGE (BardaLand - ATUALIZADA) ── */
 const BardaLand = {
-  engine: null, runner: null, items: [],
+  engine: null, runner: null, items: [], floor: null, wallLeft: null, wallRight: null,
   init: function() {
     try {
       this.engine = Matter.Engine.create();
@@ -902,11 +869,12 @@ const BardaLand = {
       const W = window.innerWidth, H = window.innerHeight;
       const cx = W / 2, cy = H / 2;
 
-      Matter.Composite.add(landWorld, [
-        Matter.Bodies.rectangle(W/2, H+30, W, 60, {isStatic:true}), 
-        Matter.Bodies.rectangle(-30, H/2, 60, H, {isStatic:true}),       
-        Matter.Bodies.rectangle(W+30, H/2, 60, H, {isStatic:true})        
-      ]);
+      // Criamos limites dinâmicos rastreáveis
+      this.floor = Matter.Bodies.rectangle(W/2, H+30, W * 2, 60, {isStatic:true});
+      this.wallLeft = Matter.Bodies.rectangle(-30, H/2, 60, H * 2, {isStatic:true});
+      this.wallRight = Matter.Bodies.rectangle(W+30, H/2, 60, H * 2, {isStatic:true});
+
+      Matter.Composite.add(landWorld, [this.floor, this.wallLeft, this.wallRight]);
 
       function clampW(w){ return Math.min(w, Math.floor(W * 0.78)); }
 
@@ -914,17 +882,17 @@ const BardaLand = {
       const instaIconSVG = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>`;
 
       const isMicroMobile = window.innerWidth <= 360;
-      const bHeight = isMicroMobile ? 42 : 54; const iconSize = isMicroMobile ? 48 : 60;
+      const bHeight = isMicroMobile ? 42 : 52; const iconSize = isMicroMobile ? 46 : 58;
 
       this.items = [
         { labelPT:"Membrana",               labelEN:"Membrana",               key:"membrana",  x:cx-W*.20, y:cy-H*.55, w:clampW(isMicroMobile ? 120 : 190), h:bHeight, isIcon:false },
-        { labelPT:"Porvir",                  labelEN:"Porvir",                  key:"porvir",    x:cx+W*.04, y:cy-H*.70, w:clampW(isMicroMobile ? 90 : 140),  h:bHeight, isIcon:false },
+        { labelPT:"Porvir",                  labelEN:"Porvir",                  key:"porvir",   x:cx+W*.04, y:cy-H*.70, w:clampW(isMicroMobile ? 90 : 140),  h:bHeight, isIcon:false },
         { labelPT:"Imagens Verdes",         labelEN:"Imagens Verdes",         key:"imagens",   x:cx+W*.20, y:cy-H*.62, w:clampW(isMicroMobile ? 150 : 240), h:bHeight, isIcon:false },
-        { labelPT:"Casa de Falar Baixinho", labelEN:"Casa de Falar Baixinho", key:"casa",      x:cx-W*.04, y:cy-H*.85, w:clampW(isMicroMobile ? 195 : 320), h:bHeight, isIcon:false },
+        { labelPT:"Casa de Falar Baixinho", labelEN:"Casa de Falar Baixinho", key:"casa",       x:cx-W*.04, y:cy-H*.85, w:clampW(isMicroMobile ? 195 : 320), h:bHeight, isIcon:false },
         { labelPT:"Estivemos aqui!",        labelEN:"We were here!",          key:"arquivo",   x:cx-W*.15, y:cy-H*.68, w:clampW(isMicroMobile ? 150 : 210), h:bHeight, isIcon:false },
-        { labelPT:"Sobre",                  labelEN:"About",                  key:"about",     x:cx+W*.28, y:cy-H*.78, w:clampW(isMicroMobile ? 90 : 130),  h:bHeight, isIcon:false },
-        { labelPT:"Email",                  labelEN:"Email",                  key:"email",     x:cx-W*.10, y:cy-H*.92, w:iconSize,                                          h:iconSize, isIcon:true, iconSVG:mailIconSVG,  url:"mailto:bardacoletivo@gmail.com" },
-        { labelPT:"Instagram",               labelEN:"Instagram",               key:"instagram", x:cx+W*.10, y:cy-H*.95, w:iconSize,                                          h:iconSize, isIcon:true, iconSVG:instaIconSVG, url:"https://instagram.com/bardacoletivo" }
+        { labelPT:"Sobre",                  labelEN:"About",                  key:"about",      x:cx+W*.28, y:cy-H*.78, w:clampW(isMicroMobile ? 90 : 130),  h:bHeight, isIcon:false },
+        { labelPT:"Email",                  labelEN:"Email",                  key:"email",      x:cx-W*.10, y:cy-H*.92, w:iconSize,                                           h:iconSize, isIcon:true, iconSVG:mailIconSVG,  url:"mailto:bardacoletivo@gmail.com" },
+        { labelPT:"Instagram",               labelEN:"Instagram",               key:"instagram", x:cx+W*.10, y:cy-H*.95, w:iconSize,                                           h:iconSize, isIcon:true, iconSVG:instaIconSVG, url:"https://instagram.com/bardacoletivo" }
       ];
 
       this.items.sort(() => Math.random() - 0.5);
@@ -932,10 +900,9 @@ const BardaLand = {
       this.items.forEach((item, index) => {
         const jitterX = (Math.random() - 0.5) * (W * 0.15); 
         const sequentialY = cy - H * 0.6 - (index * 75); 
-        item.body = Matter.Bodies.rectangle(item.x + jitterX, sequentialY, item.w, item.h, { restitution: .1, friction: .8, frictionAir: .02, angle: (Math.random() - 0.5) * 0.5 });
+        item.body = Matter.Bodies.rectangle(item.x + jitterX, sequentialY, item.w, item.h, { restitution: .15, friction: .6, frictionAir: .02, angle: (Math.random() - 0.5) * 0.4 });
         Matter.Composite.add(landWorld, item.body);
         item.el = document.createElement("div");
-        
         item.el.ondragstart = function() { return false; };
 
         if (item.isIcon) {
@@ -978,13 +945,25 @@ const BardaLand = {
     } catch (e) {
       console.error("Landpage Physics Erro: ", e);
     }
+  },
+  resize: function() {
+    if (!this.engine) return;
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    if(this.floor) Matter.Body.setPosition(this.floor, { x: w/2, y: h + 30 });
+    if(this.wallLeft) Matter.Body.setPosition(this.wallLeft, { x: -30, y: h/2 });
+    if(this.wallRight) Matter.Body.setPosition(this.wallRight, { x: w + 30, y: h/2 });
   }
 };
 
-// Arranca o site
 BardaLand.init();
 
-window.addEventListener("resize", () => { if (Math.abs(window.innerWidth - window.innerWidth) > 50) location.reload(); });
+// Escuta mudanças de tamanho reais (incluindo aberturas e fechos de barras do Chrome iOS)
+window.addEventListener("resize", () => {
+  BardaLand.resize();
+  BardaAbout.resize();
+});
+
 window.addEventListener("load", () => {
   if (window.innerWidth > 768) {
     const w = document.getElementById("logoHome").offsetWidth;
