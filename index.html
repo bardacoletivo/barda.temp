@@ -200,10 +200,8 @@ html, body{
   position: relative;
   width: 100%;
   height: 55vh; 
-  min-height: 400px;
-  margin-top: 30px;
-  border-top: 1px solid #e0e0e0;
-  /* Retirada a borda extra que causava a "linha fina" */
+  min-height: 300px;
+  margin-top: 10px;
   overflow: hidden;
   z-index: 20;
   pointer-events: auto;
@@ -214,14 +212,14 @@ html, body{
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 10px;
+  padding: 8px;
   border: 1px solid black;
   background: white;
+  border-radius: 50%;
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 20px; /* Letra maior no desktop */
-  line-height: 1.15;
+  font-size: 16px;
+  line-height: 1.1;
   
-  /* Proteções estritas contra o "Fantasma" e seleção acidental */
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -232,12 +230,8 @@ html, body{
   z-index: 30;
   cursor: grab;
 }
-.about-member-box:active {
-  cursor: grabbing;
-}
-.about-member-box:hover {
-  background: var(--blue); color: white; border-color: var(--blue);
-}
+.about-member-box:active { cursor: grabbing; }
+.about-member-box:hover { background: var(--blue); color: white; border-color: var(--blue); }
 
 .static-image-container { 
   position: absolute; bottom: 20px; right: 24px;
@@ -246,6 +240,22 @@ html, body{
   z-index: 1; pointer-events: none; opacity: 0.12;
 }
 .static-image-container img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+
+/* Placeholder dinâmico das Biografias */
+.about-desc-container {
+  min-height: 140px; 
+  margin-bottom: 20px;
+  pointer-events: auto;
+}
+#about-description-typed {
+  font-size: 16px;
+  line-height: 1.65;
+}
+#about-description-typed strong {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  color: var(--blue);
+}
 
 /* CAROUSEL */
 .swiper{ width:100%; height:55vh; margin: 24px 0; }
@@ -281,8 +291,9 @@ html, body{
   .content-inner h2{ font-size:24px; margin-bottom:12px; padding-right:30px; }
   .swiper { height:38vh; }
   .static-image-container { width: 140px; height: 140px; bottom: 12px; right: 16px; }
-  .about-physics-area { height: 45vh; min-height: 300px; }
-  .about-member-box { font-size: 15px; } /* Ajuste da letra para mobile */
+  .about-physics-area { height: 50vh; min-height: 300px; }
+  .about-member-box { font-size: 13px; }
+  .about-desc-container { min-height: 180px; }
 }
 
 @media(max-width:360px){
@@ -297,6 +308,7 @@ html, body{
   .content-inner h2 { font-size: 19px; }
   .content-inner p { font-size: 13px; line-height: 1.45; }
   .static-image-container { width: 100px; height: 100px; }
+  .about-desc-container { min-height: 220px; }
 }
 </style>
 </head>
@@ -393,6 +405,8 @@ const cursorCircle    = document.querySelector(".cursor-circle");
 const cursorDot       = document.querySelector(".cursor-dot");
 
 let swiperInst = null, swiperLightbox = null, currentLang = "pt", tempImages = [];
+let typedAboutDescInstance = null; // Instância global para a biografia
+let currentClickedMember = null;   // Guarda quem está selecionado
 const isMobileDevice = window.innerWidth <= 1024;
 let mouseX = 0, mouseY = 0, ballX = 0, ballY = 0;
 const speed = 0.15;
@@ -421,7 +435,7 @@ function setupCursorHovers() {
 }
 setupCursorHovers();
 
-/* ── TYPED.JS ── */
+/* ── TYPED.JS LANDPAGE ── */
 const typedStringsPT = [
   "Sempre em construção",
   "Barda é uma manifestação de vontade colaborativa que ganhou a forma de coletivo",
@@ -449,6 +463,74 @@ function initTyped(lang) {
 }
 initTyped("pt");
 
+/* ── BASE DE DADOS DAS BIOGRAFIAS ── */
+/* ── BASE DE DADOS DAS BIOGRAFIAS (RESUMIDAS E EQUILIBRADAS) ── */
+const memberBios = {
+  "Ana Luísa Rego": {
+    pt: "Ana Luísa Rego (1974) integra a fotografia na sua prática artística desde a era analógica. Licenciada em Fotografia Artística, utiliza uma abordagem interdisciplinar entre arte e ciência para questionar temas sociais e emergentes. Membro fundador da Moving Cause e Espaço Compasso, é co-fundadora e diretora da BARDA. O seu trabalho tem sido exposto em Portugal e internacionalmente, distinguindo-se pelo olhar documental e reflexivo sobre a sociedade e o território.",
+    en: "Ana Luísa Rego (1974) has integrated photography into her practice since the analog era. With a degree in Artistic Photography, she uses an interdisciplinary approach between art and science to question social and emerging issues. A founding member of Moving Cause and Espaço Compasso, she is a co-founder and director of BARDA. Her work has been exhibited in Portugal and internationally, distinguished by her documentary and reflective gaze on society and territory."
+  },
+  "Carlos Trancoso": {
+    pt: "Carlos Trancoso (1989) é arquiteto e artista visual, explorando as interseções entre natureza, tecnologia e som. Através da fotografia, instalação e vídeo, investiga a materialidade e o arquivo. Membro da Futures Photography, expõe regularmente em festivais como a Bienal de Fotografia do Porto. É membro fundador da BARDA, onde assume a direção artística e produção. Em 2025 publicou o seu primeiro fotolivro, 'How to build a Telescope', explorando a experimentação visual em contextos colaborativos.",
+    en: "Carlos Trancoso (1989) is an architect and visual artist exploring the intersections of nature, technology, and sound. Through photography, installation, and video, he investigates materiality and archives. A member of Futures Photography, he exhibits regularly at festivals such as the Porto Photography Biennial. He is a founding member of BARDA, where he takes on artistic direction and production. In 2025, he published his first photobook, 'How to build a Telescope', exploring visual experimentation in collaborative contexts."
+  },
+  "Diana Sá": {
+    pt: "Diana Sá (1985) iniciou o seu percurso na fotografia em 2016, aprofundando a prática no IPCI. Com um trabalho centrado em projetos de longa duração, dedica-se à exploração do território, do quotidiano e da efémera condição do humano. Participou em residências artísticas e recebeu menções honrosas da FNAC na área da fotografia. Tem exposto regularmente o seu trabalho em contextos coletivos em Portugal e no estrangeiro, mantendo uma abordagem sensível e estruturada sobre a paisagem e a observação social.",
+    en: "Diana Sá (1985) began her photographic journey in 2016, deepening her practice at IPCI. With work focused on long-term projects, she dedicates herself to exploring territory, daily life, and the ephemeral human condition. She has participated in artistic residencies and received honorable mentions from FNAC in photography. She has regularly exhibited her work in collective contexts in Portugal and abroad, maintaining a sensitive and structured approach to landscape and social observation."
+  },
+  "Guida Marques": {
+    pt: "Guida Marques (1986) vive na Serra do Açor, onde funde a arquitetura com a performance e a instalação. O seu trabalho centra-se na relação entre corpo, lugar e memória. Ativista política e ambiental, dedica-se à reconstrução tradicional e à agricultura. Tem colaborado em projetos europeus e na Bienal de Veneza, além de criar formações em performance. Co-fundadora da TRUST Collective e do coletivo BARDA, articula a sua prática artística com uma forte intervenção comunitária e de defesa do território.",
+    en: "Guida Marques (1986) lives in Serra do Açor, where she merges architecture with performance and installation. Her work focuses on the relationship between body, place, and memory. A political and environmental activist, she is dedicated to traditional reconstruction and organic farming. She has collaborated on European projects and at the Venice Architecture Biennial, while also creating performance training. Co-founder of TRUST Collective and the BARDA collective, she articulates her artistic practice with strong community and territorial defense intervention."
+  },
+  "Hernâni Sousa": {
+    pt: "Hernâni Sousa (1982) é mestre em Ciência da Informação e Fotografia Artística. O seu trabalho fotográfico investiga a intimidade e o território, cruzando a técnica com o pensamento semiótico e filosófico. Interessa-se pelas idiossincrasias humanas e pelos mecanismos de significação da imagem. Com um percurso marcado pela curiosidade intelectual, desenvolve projetos que questionam a adequação e a política das coisas, mantendo uma prática reflexiva que combina a observação do quotidiano com a análise dos mecanismos da imagem.",
+    en: "Hernâni Sousa (1982) holds a Master's in Information Science and Artistic Photography. His photographic work investigates intimacy and territory, crossing technique with semiotic and philosophical thought. He is interested in human idiosyncrasies and the mechanisms of image signification. Marked by intellectual curiosity, he develops projects that question the adequacy and politics of things, maintaining a reflective practice that combines the observation of daily life with the analysis of image mechanisms."
+  },
+  "Inês Fernandes": {
+    pt: "Inês Fernandes (1996) é fotógrafa e designer, focada em temas sociais e ambientais em contextos rurais. Formada em Novas Tecnologias da Comunicação e Fotografia Artística, utiliza a imagem como ferramenta de investigação da corporalidade e da psique humana. Co-fundou a BARDA em 2022, onde assume a gestão cultural e coordenação de projetos comunitários. O seu trabalho tem sido apresentado internacionalmente em publicações e festivais como os Encontros da Imagem, combinando a sua prática autoral com projetos de intervenção artística.",
+    en: "Inês Fernandes (1996) is a photographer and designer focused on social and environmental themes in rural contexts. Trained in New Communication Technologies and Artistic Photography, she uses imagery as a tool to investigate corporality and the human psyche. She co-founded BARDA in 2022, where she takes on cultural management and coordination of community projects. Her work has been presented internationally in publications and festivals such as Encontros da Imagem, combining her personal practice with artistic intervention projects."
+  },
+  "Ivan Da Silva": {
+    pt: "Ivan da Silva (1989) é artista visual e educador, especializado em processos fotográficos históricos como a cianotipia. Mestre em Design da Imagem, a sua prática cruza investigação, criação artística e mediação cultural. Tem gerido projetos comunitários como o 'Imagens Verdes' e facilitado residências artísticas. É membro fundador da BARDA, contribuindo com uma visão pedagógica que articula a literacia visual com a participação comunitária. O seu trabalho investiga criticamente as fronteiras entre a imagem, o território e a pedagogia.",
+    en: "Ivan da Silva (1989) is a visual artist and educator specializing in historical photographic processes like cyanotype. With a Master's in Image Design, his practice crosses research, artistic creation, and cultural mediation. He has managed community projects like 'Imagens Verdes' and facilitated artistic residencies. He is a founding member of BARDA, contributing with a pedagogical vision that articulates visual literacy with community participation. His work critically investigates the boundaries between image, territory, and pedagogy."
+  },
+  "Juliana Maar": {
+    pt: "Juliana Maar (1981) utiliza o corpo e o autorretrato como veículos centrais da sua expressão artística. Com um percurso inicialmente autodidata, formalizou a sua prática no Mestrado em Fotografia Artística do IPCI. Tem colaborado em diversas publicações independentes e edições de autor. Residente na Serra do Açor, a sua prática é profundamente influenciada pelo território neo-rural que habita. O seu trabalho reflete sobre a identidade e a distorção, através de uma visão introspectiva que explora a presença física e a sua relação com o espaço.",
+    en: "Juliana Maar (1981) uses the body and self-portrait as central vehicles of her artistic expression. Initially self-taught, she formalized her practice in the Master's in Artistic Photography at IPCI. She has collaborated on various independent publications and author editions. A resident of Serra do Açor, her practice is deeply influenced by the neo-rural territory she inhabits. Her work reflects on identity and distortion through an introspective vision that explores physical presence and its relationship with space."
+  },
+  "Marco Duarte": {
+    pt: "Marco Duarte (1978) é fotógrafo documental, cujo trabalho se dedica a capturar realidades sociais. Com passagem pelo Jornal Público, colabora frequentemente com meios de comunicação social. Em 2021, participou no projeto de participação comunitária 'Alquimia'. Membro do coletivo BARDA desde a sua fundação, tem integrado exposições coletivas e autorais, como 'a casa de falar baixinho' (2025). A sua prática caracteriza-se por um olhar documental atento às dinâmicas humanas e sociais, traduzido em projetos colaborativos e participativos.",
+    en: "Marco Duarte (1978) is a documentary photographer whose work is dedicated to capturing social realities. Having worked at the Público newspaper, he frequently collaborates with media outlets. In 2021, he participated in the community participation project 'Alquimia'. A member of the BARDA collective since its founding, he has participated in collective and solo exhibitions such as 'a casa de falar baixinho' (2025). His practice is characterized by a documentary gaze attentive to human and social dynamics, translated into collaborative and participatory projects."
+  }
+};
+
+/* ── FUNÇÃO QUE ESCREVE A BIOGRAFIA NO SOBRE ── */
+function triggerMemberBio(memberName) {
+  if (typedAboutDescInstance) {
+    typedAboutDescInstance.destroy();
+    typedAboutDescInstance = null;
+  }
+  
+  currentClickedMember = memberName;
+  const bio = memberBios[memberName];
+  
+  const ptText = bio ? bio.pt : "Biografia não encontrada.";
+  const enText = bio ? bio.en : "Biography not found.";
+  
+  const textToWrite = `<strong>${memberName}</strong><br>` + (currentLang === 'en' ? enText : ptText);
+  
+  const targetEl = document.getElementById("about-description-typed");
+  if (!targetEl) return;
+
+  typedAboutDescInstance = new Typed("#about-description-typed", {
+    strings: [textToWrite],
+    typeSpeed: 6, // Rápido o suficiente para não aborrecer, mas legível
+    showCursor: true,
+    cursorChar: "|",
+    loop: false
+  });
+}
+
 /* ── SWITCH IDIOMA ── */
 function applyLang(lang) {
   const isEN = lang === "en";
@@ -464,6 +546,11 @@ langBtn.addEventListener("click", () => {
   langBtn.textContent = currentLang === "pt" ? "EN" : "PT";
   applyLang(currentLang);
   initTyped(currentLang);
+
+  // Se estivermos no SOBRE e houver alguém selecionado, traduzimos a bio
+  if (currentClickedMember && document.getElementById("about-world")) {
+    triggerMemberBio(currentClickedMember);
+  }
 });
 
 /* ── LIGHTBOX ── */
@@ -484,34 +571,109 @@ lightboxClose.addEventListener("click", () => {
 
 /* ── DADOS DOS PROJETOS GERAIS ── */
 const projectData = {
-  membrana:{
-    titlePT:"Membrana", titleEN:"Membrana", metaPT:"Exposição coletiva · ACERT, Tondela · 2023–2025", metaEN:"Collective exhibition · ACERT, Tondela · 2023–2025",
-    description:`<div class="lang-pt"><p>À medida que as interfaces se tornam o lugar recorrente da experiência quotidiana, impõe-se a urgência de reencontrar formas de relação com o mundo que sejam mais atentas, empáticas e porosas...</p><p style="margin-top: 24px; font-weight: 500; text-align: right; color: var(--blue);">Vera Carmo</p></div><div class="lang-en"><p>As interfaces become the recurring place of everyday experience, there is an urgent need to rediscover ways of relating to the world...</p><p style="margin-top: 24px; font-weight: 500; text-align: right; color: var(--blue);">Vera Carmo</p></div>`,
+  membrana: {
+    titlePT: "Membrana", 
+    titleEN: "Membrane", 
+    metaPT: "Exposição coletiva · ACERT, Tondela · 2023–2025", 
+    metaEN: "Collective exhibition · ACERT, Tondela · 2023–2025",
+    description: `
+      <div class="lang-pt">
+        <p>À medida que as interfaces se tornam o lugar recorrente da experiência quotidiana, impõe-se a urgência de reencontrar formas de relação com o mundo que sejam mais atentas, empáticas e porosas. A ubiquidade da mediação digital, ao condensar os gestos num toque e a presença num fluxo de dados, tende a reduzir a vida a uma versão operativa, esvaziando-a de fricção, de espera, de escuta. Contra esse alheamento, que dissocia o corpo do ambiente, importa reativar os sentidos como vias de conhecimento e de relação. Mais do que tudo, importa pensar o mundo não como um conjunto de dados a processar, mas como lugar tangível.</p>
+        <p>A partir da figura da membrana, as obras em exposição evocam processos de adaptação sensorial que os corpos desenvolvem na sua relação com o mundo. As membranas regulam trocas de substâncias e de energia entre interior e exterior. São permeáveis, não asseguram a distância; antes permitem a infiltration e a contaminação. Por isso mesmo, contrastam com o modo de operar da interface, que tende a preservar a separação entre corpos, funcionando como superfície de visualização e de tradução.</p>
+        <p>Em exposição, multiplicam-se os suportes de impressão de imagem que se desviam da convencional impressão fotográfica, cedendo lugar a materiais que, pela sua própria natureza, sugerem a ideia de membrana. A importância da matéria é tanto maior quanto se omitem, na folha de sala, os títulos das peças, destacando-se o material: vinil dicróico, látex, tecido de poliéster, acetato... entre outras transparências e películas.</p>
+        <p>No seu conjunto, configuram um aparato que convoca os sentidos. Ainda que diante de imagens — muitas delas fotográficas, associadas quase sempre a um referente externo, passado, “real” — não se impõe aqui a ideia de representação, mas antes a de presença. Exemplar, nesse sentido, é a peça em vinil dicróico, que funciona quase como um sumário de intenções porque a sua propriedade de mudar de cor consoante a posição do observador ativa, de forma imediata, a consciência de si no espaço — ver torna-se, aqui, também um modo de se perceber enquanto corpo situado.</p>
+        <p>O corpo, de resto, surge exposto: ora pela simples nudez; ora através da ampliação extrema da objetiva, que revela texturas, secreções, superfícies húmidas — elementos frequentemente remetidos para o domínio da repulsa ou da vergonha. Tornam-se visíveis as membranas sensoriais que regulam o contacto com o mundo: a córnea, a mucosa nasal, a superfície da língua. Tecidos vivos e frágeis. Pontos de contágio, mas também de ancoragem: sinais de uma vida inscrita no espaço cartesiano e longe da simulação à distância.</p>
+        <p>O visitor é convocado a reconhecer, nesses materiais, o corpo enquanto superfície de contacto: lugar de trocas, de exposição e de risco. Contra a leveza do virtual, Membrana sugere um reposicionamento: devolver ao corpo a sua gravidade e reinstalá-lo na espessura do presente, onde a relação com o outro e com o ambiente passa pela partilha de uma vulnerabilidade comum.</p>
+        <p style="margin-top: 24px; font-weight: 500; text-align: right; color: var(--blue);">Vera Carmo</p>
+      </div>
+      <div class="lang-en">
+        <p>As interfaces become the recurring locus of everyday experience, there is an urgent need to rediscover forms of relationship with the world that are more attentive, empathetic, and porous. The ubiquity of digital mediation, by condensing gestures into a touch and presence into a data stream, tends to reduce life to an operational version, emptying it of friction, waiting, and listening. Against this alienation, which dissociates the body from the environment, it is crucial to reactivate the senses as pathways to knowledge and connection. Above all, it is essential to think of the world not as a set of data to be processed, but as a tangible place.</p>
+        <p>Drawing from the figure of the membrane, the works in the exhibition evoke processes of sensory adaptation that bodies develop in their relationship with the world. Membranes regulate the exchange of substances and energy between the interior and the exterior. They are permeable; they do not ensure distance, but rather allow infiltration and contamination. For this very reason, they contrast with the interface's mode of operation, which tends to preserve the separation between bodies, functioning merely as a surface for visualization and translation.</p>
+        <p>In the exhibition, image printing mediums multiply and deviate from conventional photographic printing, giving way to materials that, by their very nature, suggest the idea of a membrane. The significance of matter is highlighted by the omission of the artworks' titles from the exhibition leaflet, bringing the materials to the forefront: dichroic vinyl, latex, polyester fabric, acetate... among other transparencies and films.</p>
+        <p>As a whole, they configure an apparatus that summons the senses. Even when facing images — many of them photographic, almost always associated with an external, past, "real" referent — the idea of representation does not impose itself here; rather, it is the idea of presence. Exemplary in this sense is the piece made of dichroic vinyl, which functions almost as a summary of intentions. Its property of changing color according to the observer's position immediately activates self-awareness in space — seeing here becomes also a way of perceiving oneself as a situated body.</p>
+        <p>Furthermore, the body appears exposed: at times through simple nudity; at others through the extreme magnification of the lens, which reveals textures, secretions, and damp surfaces — elements often dismissed into the realm of disgust or shame. The sensory membranes that regulate contact with the world become visible: the cornea, the nasal mucosa, the surface of the tongue. Living and fragile tissues. Points of contagion, but also of anchorage: signs of a life inscribed in Cartesian space, far removed from remote simulation.</p>
+        <p>The visitor is challenged to recognize the body within these materials as a surface of contact: a place of exchange, exposure, and risk. Against the weightlessness of the virtual, Membrane suggests a repositioning: restoring gravity to the body and reinstalling it within the thickness of the present, where the relationship with the other and with the environment depends on sharing a common vulnerability.</p>
+        <p style="margin-top: 24px; font-weight: 500; text-align: right; color: var(--blue);">Vera Carmo</p>
+      </div>`,
     images: Array.from({length:11}, (_,i) => `images/membrana/${i+1}.jpg`)
   },
-  porvir:{
-    titlePT:"Porvir", titleEN:"Porvir", metaPT:"Projeto de arte participativa · Serra do Açor · 2024", metaEN:"Participatory art project · Serra do Açor · 2024",
-    description:`<a href="https://porvir.com.pt" target="_blank" class="btn-visit"><span class="lang-pt">VISITAR WEBSITE DO PROJETO ↗</span><span class="lang-en">VISIT PROJECT WEBSITE ↗</span></a><div class="lang-pt"><p>Porvir é um projeto de intercâmbio multidisciplinar...</p></div><div class="lang-en"><p>Porvir is a multidisciplinary exchange project...</p></div>`,
+  porvir: {
+    titlePT: "Porvir", 
+    titleEN: "Porvir", 
+    metaPT: "Projeto de arte participativa · Serra do Açor · 2024–Presente", 
+    metaEN: "Participatory art project · Serra do Açor · 2024–Present",
+    description: `
+      <a href="https://porvir.com.pt" target="_blank" class="btn-visit">
+        <span class="lang-pt">VISITAR WEBSITE DO PROJETO ↗</span>
+        <span class="lang-en">VISIT PROJECT WEBSITE ↗</span>
+      </a>
+      <div class="lang-pt">
+        <p><strong>1.ª Edição (2024) — Serra do Açor</strong><br>A primeira edição do Porvir foi um projeto de intercâmbio multidisciplinar que envolveu artistas locais, artistas convidados e a comunidade, com o objetivo de imaginar o futuro através da arte participativa. Centrado em quatro aldeias da região da Serra do Açor, o projeto procurou, por meio da expressão artística, construir um espaço de partilha, investigação, criação e exposição, estimulando o pensamento crítico das comunidades envolvidas.</p>
+        <p>Foram dinamizadas oficinas participativas em três aldeias distintas, onde artistas e membros da comunidade colaboraram no desenvolvimento de projetos únicos. Cada aldeia acolheu um artista em residência, que criou obras originais inspiradas nas experiências e dinâmicas locais. O projeto culminou em exposições coletivas no espaço público, promovendo debates abertos e a troca de ideias entre participantes, público e instituições.</p>
+        <p><strong>2.ª Edição (Em Preparação) — Serras do Açor, Lousã e Vale do Zêzere</strong><br>Atualmente, encontra-se em preparação a 2.ª edição do PORVIR, que propõe uma intervenção alargada nas Serras do Açor e Lousã e Vale do Zêzere, territórios marcados por vulnerabilidade socioecológica, incêndios recorrentes, extrativismo e profundas transformações da paisagem. Esta nova edição articula arte, ciência, território e comunidade através de residências artísticas, investigação de campo e ações participativas com as populações locais, aprofundando o compromisso com práticas colaborativas e com a reflexão crítica sobre o futuro destes territórios.</p>
+      </div>
+      <div class="lang-en">
+        <p><strong>1st Edition (2024) — Serra do Açor</strong><br>The first edition of Porvir was a multidisciplinary exchange project that brought together local artists, guest artists, and the community to imagine the future through participatory art. Centered in four villages within the Serra do Açor region, the project used artistic expression to build a space for sharing, research, creation, and exhibition, stimulating critical thinking within the involved communities.</p>
+        <p>Participatory workshops were organized across three different villages, where artists and community members collaborated on unique projects. Each village hosted an artist-in-residence who created original works inspired by local experiences and dynamics. The project culminated in collective exhibitions in public spaces, fostering open debates and the exchange of ideas between participants, the public, and local institutions.</p>
+        <p><strong>2nd Edition (In Preparation) — Serras do Açor, Lousã, and Vale do Zêzere</strong><br>Currently, the second edition of PORVIR is in development, proposing an extended intervention in the Serras do Açor, Lousã, and Vale do Zêzere regions — territories characterized by socio-ecological vulnerability, recurring wildfires, extractivism, and profound landscape transformations. This new edition bridges art, science, territory, and community through artistic residencies, field research, and participatory actions with local populations, deepening the commitment to collaborative practices and critical reflection on the future of these regions.</p>
+      </div>`,
     images: Array.from({length:36}, (_,i) => `images/porvir/${i+1}.jpg`)
   },
-  imagens:{
-    titlePT:"Imagens Verdes", titleEN:"Imagens Verdes", metaPT:"Oficinas de expressão artística · Porto · 2023–2025", metaEN:"Artistic expression workshops · Porto · 2023–2025",
-    description:`<div class="lang-pt"><p>Imagens Verdes é um projeto contínuo de transformação...</p></div><div class="lang-en"><p>Imagens Verdes is an ongoing project...</p></div>`,
+  imagens: {
+    titlePT: "Imagens Verdes", 
+    titleEN: "Imagens Verdes", 
+    metaPT: "Oficinas de expressão artística · Porto · 2023–2025", 
+    metaEN: "Artistic expression workshops · Porto · 2023–2025",
+    description: `
+      <a href="https://www.facebook.com/people/Imagens-Verdes/100087677897256/" target="_blank" class="btn-visit">
+        <span class="lang-pt">VISITAR FACEBOOK ↗</span>
+        <span class="lang-en">VISIT FACEBOOK ↗</span>
+      </a>
+      <div class="lang-pt">
+        <p>Imagens Verdes é um projeto em curso orientado para a transformação, que reúne pessoas com 65 ou mais anos para uma exploração singular da autoexpressão. Através de oficinas dinâmicas que integram teatro, música, ilustração e fotografia, os participantes mergulham no universo das suas memórias, partilhando experiências entre si.</p>
+        <p>Dedicado a promover o intercâmbio entre artistas e a comunidade sénior do Bonfim, no Porto, exploramos memórias afetivas através de práticas interdisciplinares. A partir de memórias afetivas e coletivas, interpretamos experiências num ambiente de apoio e de partilha, envolvendo os participantes em diversas atividades concebidas para promover a democratização cultural na zona e incentivar a expressão artística. Estas sessões são estruturadas com base nos princípios da aprendizagem não formal e do convívio.</p>
+      </div>
+      <div class="lang-en">
+        <p>Imagens Verdes is an ongoing, transformation-oriented project that brings together individuals aged 65 and older for a unique exploration of self-expression. Through dynamic workshops integrating theater, music, illustration, and photography, participants dive into the universe of their memories, sharing life experiences with one another.</p>
+        <p>Dedicated to fostering exchange between artists and the senior community of Bonfim, in Porto, we explore emotional memories through interdisciplinary practices. Drawing from affective and collective memories, we interpret experiences within a supportive and collaborative environment, engaging participants in activities designed to promote cultural democratization in the area and encourage artistic expression. These sessions are structured around the principles of non-formal learning and social interaction.</p>
+      </div>`,
     images: Array.from({length:16}, (_,i) => `images/imagensverdes/${i+1}.jpg`)
   },
-  casa:{
-    titlePT:"A Casa de Falar Baixinho", titleEN:"A Casa de Falar Baixinho", metaPT:"Exposição · Encontros da Imagem · 2025", metaEN:"Exhibition · Encontros da Imagem · 2025",
-    description:`<div class="lang-pt"><p>Integrada no núcleo expositivo Argumentários...</p></div><div class="lang-en"><p>Integrated into the exhibition core Argumentários...</p></div>`,
+  casa: {
+    titlePT: "A Casa de Falar Baixinho", 
+    titleEN: "A Casa de Falar Baixinho", 
+    metaPT: "Exposição · Encontros da Imagem · 2025", 
+    metaEN: "Exhibition · Encontros da Imagem · 2025",
+    description: `
+      <div class="lang-pt">
+        <p>Integrada no núcleo expositivo Argumentários, que visa celebrar e revisitar a história do festival, a intervenção do Colectivo Barda responde ao desafio de resgatar memórias e experiências que moldaram, de forma sensível e contínua, a identidade dos Encontros da Imagem. Partindo de acontecimentos reais ocorridos durante a Semana de Abertura de 2018, o coletivo explora encontros, trocas e gestos que se inscrevem na memória da comunidade reunida ao longo dos anos.</p>
+        <p>Cada imagem d’<em>A casa de falar baixinho</em>, convoca episódios concretos, evocando afetos, práticas e momentos que, embora ausentes da documentação formal, marcaram os corpos e se fixaram na memória particular de cada edição. Estes interstícios, vivências e interações informais têm fomentado novos projetos, colaborações e parcerias, constituindo um campo fecundo de criação. É desse lugar que a proposta do Colectivo nos interpela, ecoando as palavras de Carlos Fontes, <em>“o festival é o que se passa entre inauguração e imagem, e para isso, nem é preciso iluminação”</em>.</p>
+        <p style="margin-top: 24px; font-weight: 500; text-align: right; color: var(--blue);">Curadoria: Vítor Nieves</p>
+      </div>
+      <div class="lang-en">
+        <p>Integrated into the exhibition framework <em>Argumentários</em>, which aims to celebrate and revisit the festival's history, Colectivo Barda’s intervention responds to the challenge of rescuing memories and experiences that have shaped, in a sensitive and continuous way, the identity of Encontros da Imagem. Moving from real events that took place during the 2018 Opening Week, the collective explores encounters, exchanges, and gestures that are inscribed in the memory of the community gathered over the years.</p>
+        <p>Each image from <em>A casa de falar baixinho</em> evokes specific episodes, bringing forth affections, practices, and moments that, although absent from formal documentation, marked bodies and became fixed in the private memory of each edition. These interstices, lived experiences, and informal interactions have fostered new projects, collaborations, and partnerships, establishing a fertile field of creation. It is from this vantage point that the Collective's proposal challenges us, echoing the words of Carlos Fontes: <em>"the festival is what happens between opening and opening, and for that, you don't even need lighting."</em></p>
+        <p style="margin-top: 24px; font-weight: 500; text-align: right; color: var(--blue);">Curated by Vítor Nieves</p>
+      </div>`,
     images: Array.from({length:12}, (_,i) => `images/casafalarbaixinho/${i+1}.jpg`)
   },
-  arquivo:{
-    titlePT:"Estivemos aqui!", titleEN:"We were here!", metaPT:"Oficinas, palestras e eventos públicos", metaEN:"Workshops, lectures and public events",
-    description:`<div class="lang-pt"><p>Espaço dedicado à partilha coletiva...</p></div>`,
+  arquivo: {
+    titlePT: "Estivemos aqui!", 
+    titleEN: "We were here!", 
+    metaPT: "Oficinas, palestras e eventos públicos", 
+    metaEN: "Workshops, lectures and public events",
+    description: `
+      <div class="lang-pt">
+        <p>Espaço dedicado à memória institucional, documental e afetiva das ações coletivas e eventos públicos desenvolvidos pelo Colectivo Barda junto das comunidades e territórios que cruzamos.</p>
+      </div>
+      <div class="lang-en">
+        <p>A space dedicated to the institutional, documentary, and emotional memory of the collective actions and public events developed by Colectivo Barda within the communities and territories we cross paths with.</p>
+      </div>`,
     images: []
   }
 };
 
-/* ── MOTOR FÍSICO DO SOBRE (QUADRADOS E ANTIDRAG) ── */
+/* ── MOTOR FÍSICO DO SOBRE (COM EVENTOS DE CLIQUE) ── */
 const BardaAbout = {
   engine: null, runner: null, items: [],
   init: function() {
@@ -524,7 +686,8 @@ const BardaAbout = {
       const h = worldContainer.clientHeight || 400;
 
       this.engine = Matter.Engine.create();
-      this.engine.gravity.y = 1.1;
+      this.engine.gravity.y = 2; 
+      
       const localWorld = this.engine.world;
 
       // Chão e Paredes
@@ -534,35 +697,41 @@ const BardaAbout = {
         Matter.Bodies.rectangle(w + 50, h/2, 100, h * 2, { isStatic: true })
       ]);
 
-      const members = [
-        "Ana Luísa Rego", "Carlos Trancoso", "Diana Sá", 
-        "Guida Marques", "Hernâni Sousa", "Inês Fernandes", 
-        "Ivan Da Silva", "Juliana Maar", "Marco Duarte"
-      ];
+      const members = Object.keys(memberBios);
       members.sort(() => Math.random() - 0.5);
 
-      // Define o tamanho fixo (Quadrado) consoante o dispositivo
-      const boxSize = window.innerWidth <= 768 ? 100 : 140;
+      const radius = window.innerWidth <= 768 ? 50 : 80;
+      const diameter = radius * 2;
 
       this.items = members.map((name, idx) => {
         const el = document.createElement('div');
         el.className = 'about-member-box';
-        el.innerHTML = `<span>${name}</span>`; // O span ajuda no wrap e alinhamento
-        
-        // Proteção extra via JS contra o "Fantasma" do drag de browser
+        el.innerHTML = `<span>${name}</span>`; 
         el.ondragstart = function() { return false; };
-        
+
+        // Deteção de Clique para disparar a Bio
+        let sX, sY;
+        el.addEventListener("pointerdown", e => { sX = e.clientX; sY = e.clientY; });
+        el.addEventListener("pointerup", e => { 
+          if (Math.hypot(e.clientX-sX, e.clientY-sY) < 8) {
+            triggerMemberBio(name);
+          }
+        });
+
         worldContainer.appendChild(el);
 
-        const startX = (w / 2) + (Math.random() - 0.5) * 100;
-        const startY = -120 - (idx * 80); // Maior espaçamento vertical para não colidirem logo
+        const startX = radius + Math.random() * (w - diameter);
+        const startY = -100 - (Math.random() * 200) - (idx * 90);
 
-        const body = Matter.Bodies.rectangle(startX, startY, boxSize, boxSize, {
-          restitution: 0.15, friction: 0.8, frictionAir: 0.02, angle: (Math.random() - 0.5) * 0.4
+        const body = Matter.Bodies.circle(startX, startY, radius, {
+          restitution: 0.95,
+          friction: 0.4, 
+          frictionAir: 0.05, 
+          angle: Math.random() * Math.PI * 2
         });
 
         Matter.Composite.add(localWorld, body);
-        return { el, body, w: boxSize, h: boxSize };
+        return { el, body, r: radius };
       });
 
       const mouse = Matter.Mouse.create(worldContainer);
@@ -578,10 +747,11 @@ const BardaAbout = {
       (function loop() {
         if (!self.engine) return;
         self.items.forEach(item => {
-          item.el.style.width = item.w + "px";
-          item.el.style.height = item.h + "px";
-          item.el.style.left = (item.body.position.x - item.w/2) + "px";
-          item.el.style.top  = (item.body.position.y - item.h/2) + "px";
+          const d = item.r * 2;
+          item.el.style.width = d + "px";
+          item.el.style.height = d + "px";
+          item.el.style.left = (item.body.position.x - item.r) + "px";
+          item.el.style.top  = (item.body.position.y - item.r) + "px";
           item.el.style.transform = `rotate(${item.body.angle}rad)`;
         });
         requestAnimationFrame(loop);
@@ -598,6 +768,7 @@ const BardaAbout = {
     const worldContainer = document.getElementById('about-world');
     if (worldContainer) worldContainer.innerHTML = "";
     this.items = [];
+    currentClickedMember = null;
   }
 };
 
@@ -617,21 +788,36 @@ function initSwiper() {
 
 function openProject(key) {
   if (key === "email" || key === "instagram") return;
-  BardaAbout.clear(); // Limpa sempre antes de abrir outro
+  
+  BardaAbout.clear();
+  if (typedAboutDescInstance) {
+    typedAboutDescInstance.destroy();
+    typedAboutDescInstance = null;
+  }
+  if (typedProjectTitleInstance) { 
+    typedProjectTitleInstance.destroy(); 
+    typedProjectTitleInstance = null; 
+  }
+
   overlay.classList.add("active");
   worldEl.style.zIndex = "0";
   content.scrollTop = 0;
 
-  if (typedProjectTitleInstance) { typedProjectTitleInstance.destroy(); typedProjectTitleInstance = null; }
-
-  // ── INJEÇÃO COM O TEXTO E FÍSICA NO SOBRE ──
+  // ── PÁGINA: SOBRE ──
   if (key === "about") {
     const titleText = currentLang === 'en' ? "About" : "Sobre";
+    
+    // Deixamos um texto inicial (prompt) que desaparece quando se clica no membro
+const initialPrompt = currentLang === 'en' 
+  ? "Barda is a manifestation of collaborative will that has taken the form of a collective." 
+  : "Barda é uma manifestação de vontade colaborativa que ganhou a forma de coletivo.";
+    
     content.innerHTML = `
       <div class="content-inner">
         <h2 id="project-title-typed"></h2>
-        <div class="lang-pt"><p>Barda é uma manifestação de vontade colaborativa que ganhou a forma de coletivo, enfatiza as artes visuais como meio de transformação e instrumento de empoderamento para comunidades periféricas, utiliza a imagem como ferramenta de intervenção e questionamento, promovendo a criação de sinergias entre comunidade e território através de diálogos experimentais.</p></div>
-        <div class="lang-en" style="${currentLang === 'en' ? 'display:block' : 'display:none'}"><p>Barda is a manifestation of collaborative will that has taken the form of a collective, emphasizes visual arts as a means of transformation and empowerment for peripheral communities, uses imagery as a tool for intervention and questioning, promoting the creation of synergies between community and territory through experimental dialogues.</p></div>
+        <div class="about-desc-container">
+          <span id="about-description-typed" style="color:#666;">${initialPrompt}</span>
+        </div>
       </div>
       <div class="about-physics-area" id="about-world">
         <div class="static-image-container"><img src="images/logo-barda.png"></div>
@@ -644,6 +830,7 @@ function openProject(key) {
     setTimeout(() => { BardaAbout.init(); }, 150);
 
   } else {
+    // ── OUTRAS PÁGINAS (PORTEFÓLIO) ──
     const item = projectData[key];
     tempImages = item.images;
 
@@ -675,12 +862,20 @@ function openProject(key) {
 
 function closeOverlay() {
   BardaAbout.clear();
+  if (typedAboutDescInstance) {
+    typedAboutDescInstance.destroy();
+    typedAboutDescInstance = null;
+  }
+  if (typedProjectTitleInstance) { 
+    typedProjectTitleInstance.destroy(); 
+    typedProjectTitleInstance = null; 
+  }
+
   overlay.classList.remove("active");
   worldEl.style.zIndex = "10";
   content.innerHTML = "";
   cursorContainer.classList.remove('plus');
   if (swiperInst) { swiperInst.destroy(); swiperInst = null; }
-  if (typedProjectTitleInstance) { typedProjectTitleInstance.destroy(); typedProjectTitleInstance = null; }
 }
 
 /* ── NAV EVENTOS ── */
@@ -741,7 +936,6 @@ const BardaLand = {
         Matter.Composite.add(landWorld, item.body);
         item.el = document.createElement("div");
         
-        // Bloquear drag nativo nos botões principais também
         item.el.ondragstart = function() { return false; };
 
         if (item.isIcon) {
